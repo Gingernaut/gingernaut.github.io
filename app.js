@@ -1,5 +1,3 @@
-/*
-
 $(document).ready(function () {
     $('a[href^="#"]').on('click', function (e) {
         e.preventDefault();
@@ -12,5 +10,3 @@ $(document).ready(function () {
         }, 1400, 'swing');
     });
 });
-
-*/

@@ -14,60 +14,60 @@ particlesJS.load('particles-js', 'particles.json', function() {
 particlesJS('particles-js',
   
   {
-      "particles": {
-          "number": {
+      "particles": {
+          "number": {
               "value": 80,
-              "density": {
+              "density": {
                   "enable": true,
-                  "value_area": 1200
-              }
+                  "value_area": 1200
+              }
           },
-          "color": {
-              "value": "#ffffff"
+          "color": {
+              "value": "#ffffff"
           },
-          "shape": {
+          "shape": {
               "type": "circle",
-              "stroke": {
+              "stroke": {
                   "width": 0,
-                  "color": "#000000"
+                  "color": "#000000"
               },
-              "polygon": {
-                  "nb_sides": 7
+              "polygon": {
+                  "nb_sides": 7
               },
-              "image": {
+              "image": {
                   "src": "img/github.svg",
                   "width": 100,
-                  "height": 100
-              }
+                  "height": 100
+              }
           },
-          "opacity": {
+          "opacity": {
               "value": 0.561194221302933,
               "random": false,
-              "anim": {
+              "anim": {
                   "enable": false,
                   "speed": 1,
                   "opacity_min": 0.1,
-                  "sync": false
-              }
+                  "sync": false
+              }
           },
-          "size": {
+          "size": {
               "value": 3,
               "random": true,
-              "anim": {
+              "anim": {
                   "enable": false,
                   "speed": 40,
                   "size_min": 0.1,
-                  "sync": false
-              }
+                  "sync": false
+              }
           },
-          "line_linked": {
+          "line_linked": {
               "enable": true,
               "distance": 150,
               "color": "#ffffff",
               "opacity": 0.4,
-              "width": 1
+              "width": 1
           },
-          "move": {
+          "move": {
               "enable": true,
               "speed": 9.620472365193136,
               "direction": "none",
@@ -75,51 +75,51 @@ particlesJS('particles-js',
               "straight": false,
               "out_mode": "out",
               "bounce": false,
-              "attract": {
+              "attract": {
                   "enable": false,
                   "rotateX": 600,
-                  "rotateY": 1200
-              }
-          }
+                  "rotateY": 1200
+              }
+          }
       },
-      "interactivity": {
+      "interactivity": {
           "detect_on": "canvas",
-          "events": {
-              "onhover": {
+          "events": {
+              "onhover": {
                   "enable": false,
-                  "mode": "repulse"
+                  "mode": "repulse"
               },
-              "onclick": {
+              "onclick": {
                   "enable": false,
-                  "mode": "push"
+                  "mode": "push"
               },
-              "resize": true
+              "resize": true
           },
-          "modes": {
-              "grab": {
+          "modes": {
+              "grab": {
                   "distance": 400,
-                  "line_linked": {
-                      "opacity": 1
-                  }
+                  "line_linked": {
+                      "opacity": 1
+                  }
               },
-              "bubble": {
+              "bubble": {
                   "distance": 400,
                   "size": 40,
                   "duration": 2,
                   "opacity": 8,
-                  "speed": 3
+                  "speed": 3
               },
-              "repulse": {
+              "repulse": {
                   "distance": 200,
-                  "duration": 0.4
+                  "duration": 0.4
               },
-              "push": {
-                  "particles_nb": 4
+              "push": {
+                  "particles_nb": 4
               },
-              "remove": {
-                  "particles_nb": 2
-              }
-          }
+              "remove": {
+                  "particles_nb": 2
+              }
+          }
       },
       "retina_detect": true
   }

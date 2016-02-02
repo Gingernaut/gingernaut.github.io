@@ -202,6 +202,7 @@ html,body {
     background-image:url('../Pictures/skiholder.jpg');*/
     transition: height 0s,width 0;
 }
+
 /*
 #phone_button {
     width: 7.4vh;
@@ -599,11 +600,8 @@ figure.effect-sarah .date {
     text-align: right;
     float: right;
 /**********  Contact Form             **************/
-    #contactpagemin-height: 80%;
-}
-
 /**********  Scrollbar                **************/
-body::-webkit-scrollbar,#transcript-scrollbox::-webkit-scrollbar,ul::-webkit-scrollbar,ol::-webkit-scrollbar {
+    body: :-webkit-scrollbar,#transcript-scrollbox::-webkit-scrollbar,ul::-webkit-scrollbar,ol::-webkit-scrollbar {;
     width: 10px !important;
     height: 10px !important;
     background: #e1e1e1 !important;

@@ -1,4 +1,4 @@
-/*****************       Navbar animation    *******************/
+/*****************       Navbar animation    ***************/
 var site_top = $("#site_wrapper").offset().top;
 $(document).scroll(function() {
     if ($(this).scrollTop() > site_top) {
@@ -18,6 +18,19 @@ $(document).scroll(function() {
             "margin-top": "10px"
         });
     }
+});
+/*****************      Smooth Scroll    *******************/
+$(document).ready(function() {
+    $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        var target = this.hash;
+        var $target = $(target);
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+        }, 900, 'swing', function() {
+            window.location.hash = target;
+        });
+    });
 });
 /*****************       Phone Button    *******************/
 /*

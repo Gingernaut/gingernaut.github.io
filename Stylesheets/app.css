@@ -10,6 +10,7 @@ html,body {
 }
 
 * {
+    -webkit-transition: 1s all ease;
     transition: 1s all ease;
 }
 
@@ -165,7 +166,9 @@ html,body {
     margin: 3vh;
     margin-top: 6vh;
     display: inline;
+    -webkit-transform: perspective(900px) rotateY(15deg);
     transform: perspective(900px) rotateY(15deg);
+    -webkit-transition: -webkit-transform 1.5s ease-in-out,margin 1.5s ease-in-out;
     transition: transform 1.5s ease-in-out,margin 1.5s ease-in-out;
 }
 
@@ -200,6 +203,7 @@ html,body {
     background-repeat: no-repeat;
     background-size: cover;
     background-image:url('../Pictures/skiholder.jpg');*/
+    -webkit-transition: height 0s,width 0;
     transition: height 0s,width 0;
 }
 
@@ -231,8 +235,13 @@ html,body {
     margin-top: 4vh;
     max-height: 100%;
     max-width: 100%;
+    border: 1px solid #F5F8FA;
 }
 
+
+#profile_circle:hover {
+    border: 1px solid #06D6A0;
+}
 .description {
     margin-left: 1.75vh;
     float: left;
@@ -256,6 +265,7 @@ html,body {
     height: 1px;
     margin-left: auto;
     margin-right: auto;
+    -webkit-transition: 1s all ease;
     transition: 1s all ease;
     max-height: 100%;
     max-width: 100%;
@@ -365,6 +375,8 @@ a:visited {
     width: 200px;
     position: relative;
     top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
@@ -599,9 +611,28 @@ figure.effect-sarah .date {
     margin-right: 7px;
     text-align: right;
     float: right;
-/**********  Contact Form             **************/
+}
+
+/**********  Footer                   **************/
+#footerpage {
+    min-height: 50px;
+    height: 50px;
+    width: 100%;
+    background-color: #1D1E1E;
+}
+
+#footerpage p {
+    color: #d3d3d3;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin-left: 1%;
+}
+
 /**********  Scrollbar                **************/
-    body: :-webkit-scrollbar,#transcript-scrollbox::-webkit-scrollbar,ul::-webkit-scrollbar,ol::-webkit-scrollbar {;
+body::-webkit-scrollbar,#transcript-scrollbox::-webkit-scrollbar,ul::-webkit-scrollbar,ol::-webkit-scrollbar {
     width: 10px !important;
     height: 10px !important;
     background: #e1e1e1 !important;

@@ -170,7 +170,6 @@ html,body {
     transform: perspective(900px) rotateY(15deg);*/
     -webkit-transition: -webkit-transform 1.5s ease-in-out,margin 1.5s ease-in-out;
     transition: transform 1.5s ease-in-out,margin 1.5s ease-in-out;
-    border: 2px dashed blue;
 }
 
 #phone {
@@ -178,7 +177,6 @@ html,body {
     max-width: 100%;
     position: absolute;
     left: 0;
-    border: 1px solid purple;
 }
 
 #phone_content {
@@ -187,7 +185,6 @@ html,body {
     z-index: 10;
     margin-top: 18.1%;
     max-height: 100%;
-    border: 1px solid blue;
 }
 
 #inner_phone_content {
@@ -207,7 +204,6 @@ html,body {
     background-image:url('../Pictures/skiholder.jpg');*/
     -webkit-transition: height 0s,width 0;
     transition: height 0s,width 0;
-    border: 1px solid red;
 }
 
 /*

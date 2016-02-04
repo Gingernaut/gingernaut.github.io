@@ -166,8 +166,8 @@ html,body {
     margin: 3vh;
     margin-top: 6vh;
     display: inline;
-/*    -webkit-transform: perspective(900px) rotateY(15deg);
-    transform: perspective(900px) rotateY(15deg);*/
+    -webkit-transform: perspective(900px) rotateY(15deg);
+    transform: perspective(900px) rotateY(15deg);
     -webkit-transition: -webkit-transform 1.5s ease-in-out,margin 1.5s ease-in-out;
     transition: transform 1.5s ease-in-out,margin 1.5s ease-in-out;
 }

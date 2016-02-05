@@ -237,10 +237,10 @@ html,body {
     border: 1px solid #F5F8FA;
 }
 
-
 #profile_circle:hover {
     border: 1px solid #06D6A0;
 }
+
 .description {
     margin-left: 1.75vh;
     float: left;
@@ -448,15 +448,8 @@ a:visited {
 .child {
     height: 320px;
     border: 1px solid #fff;
-/*    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;*/
     margin: 1%;
-/*    max-width: 400px;
-    min-width: 400px;
-    width: 30%;*/
-    width:400px;
+    width: 400px;
     margin-top: 10px;
     background-color: #000;
     -webkit-transition: .5s all ease;

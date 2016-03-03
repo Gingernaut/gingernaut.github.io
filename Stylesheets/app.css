@@ -197,13 +197,13 @@ html,body {
     border-radius: 3px;
     padding-top: .5%;
     text-align: left;
+    -webkit-transition: height 0s,width 0;
+    transition: height 0s,width 0;
 /*background-color:#ffb2b2;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-image:url('../Pictures/skiholder.jpg');*/
-    -webkit-transition: height 0s,width 0;
-    transition: height 0s,width 0;
 }
 
 /*
@@ -691,8 +691,6 @@ body::-webkit-scrollbar-corner,#transcript-scrollbox::-webkit-scrollbar-corner,u
 
 @media screen and (max-width: 500px) {
     .child {
-        max-width: 100%;
-        min-width: 100%;
         width: 100%;
         margin-left: 0;
         margin-right: 0;

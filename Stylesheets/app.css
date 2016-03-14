@@ -609,8 +609,8 @@ figure.effect-sarah .date {
 
 /**********  Footer                   **************/
 #footerpage {
-    min-height: 50px;
-    height: 50px;
+    min-height: 55px;
+    height: 55px;
     width: 100%;
     background-color: #1D1E1E;
 }
@@ -623,6 +623,14 @@ figure.effect-sarah .date {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     margin-left: 1%;
+}
+
+#sourcecode {
+    color: #d3d3d3;
+    position: relative;
+    float:right;
+    margin-right:10px;
+    margin-top:6px;
 }
 
 /**********  Scrollbar                **************/

@@ -29,6 +29,15 @@ html,body {
     width: auto;
 }
 
+
+::selection {
+    background-color: #FFDD33;
+    color: #222222;
+}
+::-moz-selection {
+    background-color: #FFDD33;
+    color: #222222;
+}
 /**********  Nav Bar          **************/
 #navbar {
     height: 65px;

@@ -19,8 +19,8 @@ html,body {
     min-height: 100%;
     width: auto;
     position: inherit;
-    /*background-position: center;
-    background-repeat: no-repeat;*/
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
     
 }
@@ -123,7 +123,7 @@ html,body {
 
 /**********  Landing Page           **************/
 #landingpage {
-    background-image: url(../Pictures/wallpaper.jpg) no-repeat center center;
+    background-image: url(../Pictures/wallpaper.jpg);
     height: 100%;
     background-color: gray;
 /*    background-attachment: fixed;*/

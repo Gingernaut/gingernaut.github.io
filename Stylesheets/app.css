@@ -19,9 +19,10 @@ html,body {
     min-height: 100%;
     width: auto;
     position: inherit;
-    background-position: center;
-    background-repeat: no-repeat;
+    /*background-position: center;
+    background-repeat: no-repeat;*/
     background-size: cover;
+    
 }
 
 .margin_offset {
@@ -122,7 +123,7 @@ html,body {
 
 /**********  Landing Page           **************/
 #landingpage {
-    background-image: url(../Pictures/wallpaper.jpg);
+    background-image: url(../Pictures/wallpaper.jpg) no-repeat center center;
     height: 100%;
     background-color: gray;
 /*    background-attachment: fixed;*/

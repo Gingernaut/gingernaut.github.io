@@ -14,17 +14,17 @@
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    perspective: 100px;
-  }
+    perspective: 105px;
 
-  .parallax__group {
+
+    .plax_group {
     position: relative;
     height: 100vh;
     transform-style: preserve-3d;
     margin-left:auto;margin-right:auto;
   }
 
-  .parallax__layer {
+  .plax_layer {
     position: absolute;
     top: 0;
     left: 0;
@@ -34,8 +34,6 @@
 
 .baselayer {
     transform: translateZ(0);
-        background-color:grey;
-
   }
 
 .backlayer {
@@ -49,9 +47,39 @@
 .frontlayer {
     transform: translateZ(90px) scale(0.1);
   }
+  }
+
+  .scrim {
+ @extend .plax_layer;
+    background-color: rgba(48,63,90,.3);
+}
+
+#landing {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#openingtext {
+  z-index: 10;
+  text-align: center;
+  color:white;
+
+  h1 {
+    font-size:4em;
+  }
+
+  p {
+    font-size: 2em;
+  }
+}
 
 
-.scrim {
- @extend .parallax__layer;
- background-color: rgba(30,30,30,.5);
+#about {
+  background-color:white;
+}
+
+#work {
+  background-color: grey;
 }

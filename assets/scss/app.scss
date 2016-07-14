@@ -15,8 +15,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     perspective: 105px;
-
-
     .plax_group {
     position: relative;
     height: 100vh;
@@ -38,7 +36,7 @@
 
 .backlayer {
     transform: translateZ(-85px) scale(1.85);
-    background-image: url("../images/wallpaper.jpg");
+    background-image: url("../images/wallpaper.png");
     background-position: center center;
     background-size: cover;
   }
@@ -83,3 +81,12 @@
 #work {
   background-color: grey;
 }
+
+
+
+
+
+
+
+
+

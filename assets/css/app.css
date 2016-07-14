@@ -28,7 +28,7 @@ html, body {
     transform: translateZ(0); }
   .parallax .backlayer {
     transform: translateZ(-85px) scale(1.85);
-    background-image: url("../images/wallpaper.jpg");
+    background-image: url("../images/wallpaper.png");
     background-position: center center;
     background-size: cover; }
   .parallax .frontlayer {

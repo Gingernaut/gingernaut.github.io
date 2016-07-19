@@ -36,19 +36,27 @@ html, body {
   align-items: center;
   background-image: url("../images/wallpaper.jpg"); }
 
+.scrim {
+  background-color: rgba(187, 77, 62, 0.95); }
+
 #openingtext {
   z-index: 10;
   text-align: center;
-  color: white; }
+  color: white;
+  font-family: 'Raleway', sans-serif; }
   #openingtext h1 {
-    font-size: 4em; }
+    font-size: 4.5em;
+    font-weight: 100; }
   #openingtext p {
-    font-size: 2em; }
+    font-size: 1.5em;
+    font-weight: 100; }
 
 #about {
-  background-color: white; }
+  background-color: #FFFAFA; }
 
 footer {
-  height: 30vh; }
+  height: 30vh;
+  background-color: #353535;
+  color: #FFFAFA; }
 
 /*# sourceMappingURL=app.css.map */

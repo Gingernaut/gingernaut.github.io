@@ -1,6 +1,8 @@
-$blue: #0957EB;
+$green: #85BC9D;
 $grey: #353535;
 $orange: #BB4D3E;
+$offwhite: #FFFAFA;
+$lightblue: #6495ED;
 
 html, body {
     overflow: hidden;
@@ -46,11 +48,6 @@ html, body {
     }
 
 }
-.scrim {
-    @extend .plax_layer;
-    //background-color: rgba(,1);
-}
-
 #landing {
     display: flex;
     justify-content: center;
@@ -58,23 +55,34 @@ html, body {
     background-image: url("../images/wallpaper.jpg");
 }
 
+.scrim {
+    @extend .plax_layer;
+    background-color: rgba($orange,.95);
+}
+
+
 #openingtext {
     z-index: 10;
     text-align: center;
     color: white;
+font-family: 'Raleway', sans-serif;
 
     h1 {
-        font-size: 4em;
+        font-size: 4.5em;
+            font-weight: 100;
     }
     p {
-        font-size: 2em;
+        font-size: 1.5em;
+        font-weight: 100;
     }
 
 }
 #about {
-    background-color: white;
+    background-color: $offwhite;
 }
 
 footer {
     height: 30vh;
+    background-color:$grey;
+    color:$offwhite;
 }

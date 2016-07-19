@@ -1,92 +1,80 @@
+$blue: #0957EB;
+$grey: #353535;
+$orange: #BB4D3E;
 
-/*Vendor prefixes when done*/
-  html,body {
+html, body {
     overflow: hidden;
-    margin:0;
-    padding:0;
-  }
-
+    margin: 0;
+    padding: 0;
+}
 
 #sitewrapper {
-  min-height:100vh;
-}
-  .parallax {
+    min-height: 100vh;
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    perspective: 105px;
+    perspective: 205px;
+
     .plax_group {
-    position: relative;
-    height: 100vh;
-    transform-style: preserve-3d;
-    margin-left:auto;margin-right:auto;
-  }
+        position: relative;
+        height: 100vh;
+        transform-style: preserve-3d;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-  .plax_layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+    .plax_layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-position: center center;
+        background-size: cover;
+    }
 
-.baselayer {
-    transform: translateZ(0);
-  }
+    .baselayer {
+        transform: translateZ(0);
+    }
 
-.backlayer {
-    transform: translateZ(-85px) scale(1.85);
-    background-image: url("../images/wallpaper.png");
-    background-position: center center;
-    background-size: cover;
-  }
+    .backlayer {
+        transform: translateZ(-85px) scale(1.425);
+    }
 
+    .frontlayer {
+        transform: translateZ(90px) scale(0.5609);
+    }
 
-.frontlayer {
-    transform: translateZ(90px) scale(0.1);
-  }
-  }
-
-  .scrim {
- @extend .plax_layer;
-    background-color: rgba(48,63,90,.3);
+}
+.scrim {
+    @extend .plax_layer;
+    //background-color: rgba(,1);
 }
 
 #landing {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/wallpaper.jpg");
 }
 
 #openingtext {
-  z-index: 10;
-  text-align: center;
-  color:white;
+    z-index: 10;
+    text-align: center;
+    color: white;
 
-  h1 {
-    font-size:4em;
-  }
+    h1 {
+        font-size: 4em;
+    }
+    p {
+        font-size: 2em;
+    }
 
-  p {
-    font-size: 2em;
-  }
 }
-
-
 #about {
-  background-color:white;
+    background-color: white;
 }
 
-#work {
-  background-color: grey;
+footer {
+    height: 30vh;
 }
-
-
-
-
-
-
-
-
-

@@ -1,46 +1,40 @@
-/*Vendor prefixes when done*/
 html, body {
   overflow: hidden;
   margin: 0;
   padding: 0; }
 
 #sitewrapper {
-  min-height: 100vh; }
-
-.parallax {
+  min-height: 100vh;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  perspective: 105px; }
-  .parallax .plax_group {
+  perspective: 205px; }
+  #sitewrapper .plax_group {
     position: relative;
     height: 100vh;
     transform-style: preserve-3d;
     margin-left: auto;
     margin-right: auto; }
-  .parallax .plax_layer, .parallax .scrim {
+  #sitewrapper .plax_layer, #sitewrapper .scrim {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0; }
-  .parallax .baselayer {
-    transform: translateZ(0); }
-  .parallax .backlayer {
-    transform: translateZ(-85px) scale(1.85);
-    background-image: url("../images/wallpaper.png");
+    bottom: 0;
     background-position: center center;
     background-size: cover; }
-  .parallax .frontlayer {
-    transform: translateZ(90px) scale(0.1); }
-
-.scrim {
-  background-color: rgba(48, 63, 90, 0.3); }
+  #sitewrapper .baselayer {
+    transform: translateZ(0); }
+  #sitewrapper .backlayer {
+    transform: translateZ(-85px) scale(1.425); }
+  #sitewrapper .frontlayer {
+    transform: translateZ(90px) scale(0.5609); }
 
 #landing {
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  background-image: url("../images/wallpaper.jpg"); }
 
 #openingtext {
   z-index: 10;
@@ -54,7 +48,7 @@ html, body {
 #about {
   background-color: white; }
 
-#work {
-  background-color: grey; }
+footer {
+  height: 30vh; }
 
 /*# sourceMappingURL=app.css.map */

@@ -4,7 +4,8 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #203248; }
+  background-color: #203248;
+  line-height: 1.5; }
 
 #sitewrapper {
   margin: 0;
@@ -34,32 +35,34 @@ section {
     font-size: 3em; }
 
 /* About page */
-#about {
-  display: flex; }
-
-.workblock {
+.halfsection {
   height: auto;
   min-height: 100vh;
   width: 50%; }
 
-#left #aboutcontent {
-  padding: 4em;
-  display: flex;
-  flex-direction: column; }
-#left #profilepic {
-  border-radius: 50%;
-  height: 300px;
-  width: 300px;
-  align-self: center; }
-#left #subtext {
-  text-align: center;
-  color: #8e8e8e; }
+#left {
+  color: #383838; }
+  #left #aboutcontent {
+    padding: 4em;
+    display: flex;
+    flex-direction: column; }
+  #left #profilepic {
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+    align-self: center; }
+  #left #subtext {
+    text-align: center;
+    color: #8e8e8e; }
 
 /* Work page */
 #work {
   background-color: #F2F2F2; }
 
 /* Contact page */
+#contact {
+  min-height: 70vh; }
+
 /* Footer section */
 footer {
   height: 30vh;
@@ -72,7 +75,7 @@ footer {
   #about {
     flex-direction: column; }
 
-  .workblock {
+  .halfsection {
     width: 100%; } }
 
 /*# sourceMappingURL=app.css.map */

@@ -1,12 +1,12 @@
 /*  Color variables for the site */
 
-$offwhite: #F2F2F2;
-$white: #FFFFFF;
-$lightblue: #6495ED;
-$blue: #203248;
-$darkblue: #182535;
-$darktext: #383838;
-$greytext: #8e8e8e;
+$offwhite:      #F2F2F2;
+$white:         #FFFFFF;
+$lightblue:     #6495ED;
+$blue:          #203248;
+$darkblue:      #182535;
+$darktext:      #383838;
+$greytext:      #8e8e8e;
 
 /*  General page layout */
 
@@ -15,6 +15,7 @@ html, body {
     padding: 0;
     min-height: 100vh;
     background-color: $blue;
+    line-height: 1.5
 }
 
 #sitewrapper {
@@ -54,16 +55,16 @@ section {
 /* About page */
 
 #about {
-display: flex;
 }
 
-.workblock {
+.halfsection {
     height:auto;
     min-height: 100vh;
     width:50%;
 }
 
 #left {
+    color:$darktext;
 
     #aboutcontent {
         padding:4em;
@@ -82,8 +83,6 @@ display: flex;
         text-align: center;
         color:$greytext;
     }
-
-
 }
 
 /* Work page */
@@ -95,7 +94,7 @@ display: flex;
 /* Contact page */
 
 #contact {
-    
+    min-height: 70vh;
 }
 
 /* Footer section */
@@ -116,13 +115,9 @@ footer {
 
     #about{
         flex-direction: column;
-
     }
 
-    .workblock {
+    .halfsection {
         width: 100%;
     }
-
-    
-
 }

@@ -1,88 +1,128 @@
-$green: #85BC9D;
-$grey: #353535;
-$orange: #BB4D3E;
-$offwhite: #FFFAFA;
+/*  Color variables for the site */
+
+$offwhite: #F2F2F2;
+$white: #FFFFFF;
 $lightblue: #6495ED;
+$blue: #203248;
+$darkblue: #182535;
+$darktext: #383838;
+$greytext: #8e8e8e;
+
+/*  General page layout */
 
 html, body {
-    overflow: hidden;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    background-color: $blue;
 }
 
 #sitewrapper {
-    min-height: 100vh;
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    perspective: 205px;
-
-    .plax_group {
-        position: relative;
-        height: 100vh;
-        transform-style: preserve-3d;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .plax_layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-position: center center;
-        background-size: cover;
-    }
-
-    .baselayer {
-        transform: translateZ(0);
-    }
-
-    .backlayer {
-        transform: translateZ(-85px) scale(1.425);
-    }
-
-    .frontlayer {
-        transform: translateZ(90px) scale(0.5609);
-    }
-
-}
-#landing {
+    margin: 0;
+    padding: 0;
+    height:100%;
+    width:100%;
     display: flex;
+    flex-direction: column;
+}
+
+section {
+    height:auto;
+    min-height: 100vh;
+    display: flex;
+    background-color: $white;
+}
+
+/*  Landing page */
+
+#landing {
     justify-content: center;
     align-items: center;
-    background-image: url("../images/wallpaper.jpg");
+    background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)),url(../images/wallpaper.jpg);
+    background-position: center center;
+    background-size: cover;
 }
 
-.scrim {
-    @extend .plax_layer;
-    background-color: rgba($orange,.95);
-}
-
-
-#openingtext {
-    z-index: 10;
+#landingtextcenter {
     text-align: center;
-    color: white;
-font-family: 'Raleway', sans-serif;
 
     h1 {
-        font-size: 4.5em;
-            font-weight: 100;
+        font-size: 3em;
     }
-    p {
-        font-size: 1.5em;
-        font-weight: 100;
+}
+
+/* About page */
+
+#about {
+display: flex;
+}
+
+.workblock {
+    height:auto;
+    min-height: 100vh;
+    width:50%;
+}
+
+#left {
+
+    #aboutcontent {
+        padding:4em;
+        display: flex;
+        flex-direction: column;
     }
 
+    #profilepic {
+        border-radius: 50%;
+        height:300px;
+        width: 300px;
+        align-self: center;
+    }
+
+    #subtext {
+        text-align: center;
+        color:$greytext;
+    }
+
+
 }
-#about {
+
+/* Work page */
+
+#work {
     background-color: $offwhite;
 }
 
+/* Contact page */
+
+#contact {
+    
+}
+
+/* Footer section */
+
 footer {
-    height: 30vh;
-    background-color:$grey;
+    height:30vh;
+    width: 100%;
+    background-color: $darkblue;
     color:$offwhite;
+}
+
+
+
+/*  Media queries */
+
+
+@media (max-width: 1000px) {
+
+    #about{
+        flex-direction: column;
+
+    }
+
+    .workblock {
+        width: 100%;
+    }
+
+    
+
 }

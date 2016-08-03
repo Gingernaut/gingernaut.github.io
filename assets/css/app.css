@@ -1,62 +1,78 @@
+/*  Color variables for the site */
+/*  General page layout */
 html, body {
-  overflow: hidden;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  min-height: 100vh;
+  background-color: #203248; }
 
 #sitewrapper {
-  min-height: 100vh;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  perspective: 205px; }
-  #sitewrapper .plax_group {
-    position: relative;
-    height: 100vh;
-    transform-style: preserve-3d;
-    margin-left: auto;
-    margin-right: auto; }
-  #sitewrapper .plax_layer, #sitewrapper .scrim {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-position: center center;
-    background-size: cover; }
-  #sitewrapper .baselayer {
-    transform: translateZ(0); }
-  #sitewrapper .backlayer {
-    transform: translateZ(-85px) scale(1.425); }
-  #sitewrapper .frontlayer {
-    transform: translateZ(90px) scale(0.5609); }
-
-#landing {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
+  flex-direction: column; }
+
+section {
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  background-color: #FFFFFF; }
+
+/*  Landing page */
+#landing {
   justify-content: center;
   align-items: center;
-  background-image: url("../images/wallpaper.jpg"); }
+  background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url(../images/wallpaper.jpg);
+  background-position: center center;
+  background-size: cover; }
 
-.scrim {
-  background-color: rgba(187, 77, 62, 0.95); }
+#landingtextcenter {
+  text-align: center; }
+  #landingtextcenter h1 {
+    font-size: 3em; }
 
-#openingtext {
-  z-index: 10;
-  text-align: center;
-  color: white;
-  font-family: 'Raleway', sans-serif; }
-  #openingtext h1 {
-    font-size: 4.5em;
-    font-weight: 100; }
-  #openingtext p {
-    font-size: 1.5em;
-    font-weight: 100; }
-
+/* About page */
 #about {
-  background-color: #FFFAFA; }
+  display: flex; }
 
+.workblock {
+  height: auto;
+  min-height: 100vh;
+  width: 50%; }
+
+#left #aboutcontent {
+  padding: 4em;
+  display: flex;
+  flex-direction: column; }
+#left #profilepic {
+  border-radius: 50%;
+  height: 300px;
+  width: 300px;
+  align-self: center; }
+#left #subtext {
+  text-align: center;
+  color: #8e8e8e; }
+
+/* Work page */
+#work {
+  background-color: #F2F2F2; }
+
+/* Contact page */
+/* Footer section */
 footer {
   height: 30vh;
-  background-color: #353535;
-  color: #FFFAFA; }
+  width: 100%;
+  background-color: #182535;
+  color: #F2F2F2; }
+
+/*  Media queries */
+@media (max-width: 1000px) {
+  #about {
+    flex-direction: column; }
+
+  .workblock {
+    width: 100%; } }
 
 /*# sourceMappingURL=app.css.map */

@@ -367,14 +367,20 @@ a:visited {
     width: auto;
     overflow: hidden;
     position: relative;
-    background-color: gray;
-    background-position: center;
-    background-repeat: no-repeat;
+}
+
+#resume_block::before {
+    content: ' ';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: grey;
+    background-image: url('../Pictures/wood_pattern.jpg');
     background-size: cover;
-    background-attachment: fixed;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    background-image: url(../Pictures/wood_pattern.jpg);
+    will-change: transform;
+    z-index: -1;
 }
 
 #resume_svg {

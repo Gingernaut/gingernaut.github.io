@@ -4,8 +4,11 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #203248;
-  line-height: 1.5; }
+  line-height: 1.5;
+  font-family: Raleway; }
+
+* {
+  transition: 0.85s all ease; }
 
 #sitewrapper {
   margin: 0;
@@ -25,9 +28,22 @@ section {
 #landing {
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url(../images/wallpaper.jpg);
-  background-position: center center;
-  background-size: cover; }
+  overflow: hidden;
+  position: relative;
+  background: transparent; }
+  #landing::before {
+    content: ' ';
+    background-color: #203248;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url("../images/wallpaper.jpg") no-repeat center center;
+    background-color: #fff;
+    background-size: cover;
+    will-change: transform;
+    z-index: -1; }
 
 #landingtextcenter {
   text-align: center; }
@@ -39,6 +55,10 @@ section {
   height: auto;
   min-height: 100vh;
   width: 50%; }
+  .halfsection a {
+    color: #182535; }
+  .halfsection a:visited {
+    color: #182535; }
 
 #left {
   color: #383838; }
@@ -48,8 +68,8 @@ section {
     flex-direction: column; }
   #left #profilepic {
     border-radius: 50%;
-    height: 300px;
-    width: 300px;
+    height: 260px;
+    width: 260px;
     align-self: center; }
   #left #subtext {
     text-align: center;
@@ -61,14 +81,8 @@ section {
 
 /* Contact page */
 #contact {
-  min-height: 70vh; }
-
-/* Footer section */
-footer {
-  height: 30vh;
-  width: 100%;
-  background-color: #182535;
-  color: #F2F2F2; }
+  min-height: 75vh;
+  flex-direction: column; }
 
 /*  Media queries */
 @media (max-width: 1000px) {
@@ -77,5 +91,62 @@ footer {
 
   .halfsection {
     width: 100%; } }
+/* Parallax base styles
+        --------------------------------------------- */
+.parallax {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-perspective: 300px;
+  perspective: 300px; }
+
+.parallax_group {
+  position: relative;
+  height: 100vh;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  display: flex; }
+
+.parallax_layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid red;
+  display: flex; }
+
+.parallax_layer--fore {
+  -webkit-transform: translateZ(90px) scale(0.7);
+  transform: translateZ(90px) scale(0.7);
+  z-index: 10; }
+
+.parallax_layer--base {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  z-index: 5; }
+
+.parallax_layer--back {
+  -webkit-transform: translateZ(-300px) scale(2);
+  transform: translateZ(-300px) scale(2);
+  z-index: 1; }
+
+#landinggroup {
+  z-index: 2; }
+
+#group2 {
+  z-index: 6; }
+
+#group3 {
+  z-index: 7; }
+
+footer, #footer_content {
+  height: 30vh;
+  background-color: #182535;
+  color: #FFFFFF; }
+
+#plax_wallpaper {
+  background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url("../images/wallpaper.jpg") no-repeat center center;
+  background-size: cover; }
 
 /*# sourceMappingURL=app.css.map */

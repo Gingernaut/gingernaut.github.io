@@ -1,123 +1,239 @@
 /*  Color variables for the site */
+$offwhite: #F2F2F2;
+$white: #FFFFFF;
+$lightblue: #6495ED;
+$blue: #203248;
+$darkblue: #182535;
+$darktext: #383838;
+$greytext: #8e8e8e;
 
-$offwhite:      #F2F2F2;
-$white:         #FFFFFF;
-$lightblue:     #6495ED;
-$blue:          #203248;
-$darkblue:      #182535;
-$darktext:      #383838;
-$greytext:      #8e8e8e;
 
 /*  General page layout */
-
 html, body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: $blue;
-    line-height: 1.5
+    line-height: 1.5;
+    font-family: Raleway;
+}
+
+* {
+    transition: 0.85s all ease;
 }
 
 #sitewrapper {
     margin: 0;
     padding: 0;
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
 section {
-    height:auto;
+    height: auto;
     min-height: 100vh;
     display: flex;
     background-color: $white;
 }
 
-/*  Landing page */
 
+/*  Landing page */
 #landing {
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)),url(../images/wallpaper.jpg);
-    background-position: center center;
-    background-size: cover;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+    &::before {
+        content: ' ';
+        background-color: $blue;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)), url("../images/wallpaper.jpg") no-repeat center center;
+        background-color: #fff;
+        background-size: cover;
+        will-change: transform;
+        z-index: -1;
+    }
 }
 
 #landingtextcenter {
     text-align: center;
-
     h1 {
         font-size: 3em;
     }
 }
 
-/* About page */
 
+/* About page */
 #about {
 }
-
 .halfsection {
-    height:auto;
+    height: auto;
     min-height: 100vh;
-    width:50%;
+    width: 50%;
+    a {
+        color: $darkblue;
+    }
+    a:visited {
+        color: $darkblue;
+    }
 }
 
 #left {
-    color:$darktext;
-
+    color: $darktext;
     #aboutcontent {
-        padding:4em;
+        padding: 4em;
         display: flex;
         flex-direction: column;
     }
 
     #profilepic {
         border-radius: 50%;
-        height:300px;
-        width: 300px;
+        $hw: 260px;
+        height: $hw;
+        width: $hw;
         align-self: center;
     }
 
     #subtext {
         text-align: center;
-        color:$greytext;
+        color: $greytext;
     }
 }
 
-/* Work page */
 
+/* Work page */
 #work {
     background-color: $offwhite;
 }
 
+
 /* Contact page */
-
 #contact {
-    min-height: 70vh;
+    min-height: 75vh;
+    flex-direction: column;
 }
 
-/* Footer section */
 
-footer {
-    height:30vh;
-    width: 100%;
-    background-color: $darkblue;
-    color:$offwhite;
-}
+// /* Footer section */
+// footer {
+//     height: 25vh;
+//     width: 100%;
+//     background-color: $darkblue;
+//     color: $offwhite;
+//     display: flex;
+//     align-items: flex-end;
+//     justify-content: center;
+
+//     a {
+//         text-decoration: none;
+//         color: $offwhite;
+//     }
+
+//     a:visited {
+//         text-decoration: none;
+//         color: $offwhite;
+//     }
+
+//     a:hover {
+//         text-decoration: none;
+//         color: $offwhite;
+//     }
+
+//     #footcontent {
+//         border: 1px solid $lightblue;
+//         padding: 1em;
+//         width: 80%;
+//         display: flex;
+//     }
+
+//     p {
+//         padding: .5em;
+//     }
+// }
+
 
 
 
 /*  Media queries */
-
-
 @media (max-width: 1000px) {
-
-    #about{
+    #about {
         flex-direction: column;
     }
-
     .halfsection {
         width: 100%;
     }
+}
+
+@supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
+
+
+}
+
+
+
+/* Parallax base styles
+        --------------------------------------------- */
+.parallax {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-perspective: 300px;
+    perspective: 300px;
+}
+.parallax_group {
+    position: relative;
+    height: 100vh;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    display: flex;
+}
+.parallax_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid red;
+    display: flex;
+}
+.parallax_layer--fore {
+    -webkit-transform: translateZ(90px) scale(.7);
+    transform: translateZ(90px) scale(.7);
+    z-index: 10;
+}
+.parallax_layer--base {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    z-index: 5;
+}
+.parallax_layer--back {
+    -webkit-transform: translateZ(-300px) scale(2);
+    transform: translateZ(-300px) scale(2);
+    z-index: 1;
+}
+
+#landinggroup {
+    z-index: 2;
+}
+#group2 {
+    z-index: 6;
+}
+#group3 {
+    z-index: 7;
+}
+footer,#footer_content {
+    height:30vh;
+    background-color: $darkblue;
+    color:$white;
+}
+
+#plax_wallpaper {
+    background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)), url("../images/wallpaper.jpg") no-repeat center center;
+    background-size: cover;
 }

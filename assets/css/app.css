@@ -5,7 +5,8 @@ html, body {
   padding: 0;
   min-height: 100vh;
   line-height: 1.5;
-  font-family: Raleway; }
+  font-family: Raleway;
+  transform-style: preserve-3d; }
 
 * {
   transition: 0.85s all ease; }
@@ -30,7 +31,10 @@ section {
   align-items: center;
   overflow: hidden;
   position: relative;
-  background: transparent; }
+  background: transparent;
+  background: linear-gradient(rgba(50, 50, 70, 0.3), rgba(50, 50, 80, 0.4)), url("../images/wallpaper.jpg") no-repeat center center;
+  background-color: #fff;
+  background-size: cover; }
   #landing::before {
     content: ' ';
     background-color: #203248;
@@ -39,16 +43,20 @@ section {
     height: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url("../images/wallpaper.jpg") no-repeat center center;
+    background: linear-gradient(rgba(50, 50, 70, 0.3), rgba(50, 50, 80, 0.4)), url("../images/wallpaper.jpg") no-repeat center center;
     background-color: #fff;
     background-size: cover;
     will-change: transform;
     z-index: -1; }
 
 #landingtextcenter {
-  text-align: center; }
+  transform-style: preserve-3d;
+  text-align: center;
+  color: #FFFFFF; }
   #landingtextcenter h1 {
-    font-size: 3em; }
+    font-size: 4em; }
+  #landingtextcenter p {
+    font-size: 1.3em; }
 
 /* About page */
 .halfsection {
@@ -84,6 +92,32 @@ section {
   min-height: 75vh;
   flex-direction: column; }
 
+/* Footer section */
+footer {
+  height: 25vh;
+  width: 100%;
+  background-color: #182535;
+  color: #F2F2F2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center; }
+  footer a {
+    text-decoration: none;
+    color: #F2F2F2; }
+  footer a:visited {
+    text-decoration: none;
+    color: #F2F2F2; }
+  footer a:hover {
+    text-decoration: none;
+    color: #F2F2F2; }
+  footer #footcontent {
+    border: 1px solid #6495ED;
+    padding: 1em;
+    width: 80%;
+    display: flex; }
+  footer p {
+    padding: .5em; }
+
 /*  Media queries */
 @media (max-width: 1000px) {
   #about {
@@ -91,62 +125,5 @@ section {
 
   .halfsection {
     width: 100%; } }
-/* Parallax base styles
-        --------------------------------------------- */
-.parallax {
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-perspective: 300px;
-  perspective: 300px; }
-
-.parallax_group {
-  position: relative;
-  height: 100vh;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  display: flex; }
-
-.parallax_layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 1px solid red;
-  display: flex; }
-
-.parallax_layer--fore {
-  -webkit-transform: translateZ(90px) scale(0.7);
-  transform: translateZ(90px) scale(0.7);
-  z-index: 10; }
-
-.parallax_layer--base {
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  z-index: 5; }
-
-.parallax_layer--back {
-  -webkit-transform: translateZ(-300px) scale(2);
-  transform: translateZ(-300px) scale(2);
-  z-index: 1; }
-
-#landinggroup {
-  z-index: 2; }
-
-#group2 {
-  z-index: 6; }
-
-#group3 {
-  z-index: 7; }
-
-footer, #footer_content {
-  height: 30vh;
-  background-color: #182535;
-  color: #FFFFFF; }
-
-#plax_wallpaper {
-  background: linear-gradient(rgba(30, 30, 30, 0), rgba(30, 30, 30, 0)), url("../images/wallpaper.jpg") no-repeat center center;
-  background-size: cover; }
 
 /*# sourceMappingURL=app.css.map */

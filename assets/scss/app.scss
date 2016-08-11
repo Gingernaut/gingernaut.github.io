@@ -15,6 +15,8 @@ html, body {
     min-height: 100vh;
     line-height: 1.5;
     font-family: Raleway;
+    transform-style: preserve-3d;
+
 }
 
 * {
@@ -37,7 +39,6 @@ section {
     background-color: $white;
 }
 
-
 /*  Landing page */
 #landing {
     justify-content: center;
@@ -45,6 +46,17 @@ section {
     overflow: hidden;
     position: relative;
     background: transparent;
+    background: linear-gradient(rgba(50, 50, 70, 0.3), rgba(50,50,80,0.4)), url("../images/wallpaper.jpg") no-repeat center center;
+    background-color: #fff;
+    background-size: cover;
+
+    // transform-style: preserve-3d;
+    // transform: translateZ(0);
+    // transform-style: preserve-3d;
+    // backface-visibility: hidden;
+    // perspective: 1000px;
+    // transform: rotateY(40deg);
+
     &::before {
         content: ' ';
         background-color: $blue;
@@ -53,7 +65,7 @@ section {
         height: 100%;
         top: 0;
         left: 0;
-        background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)), url("../images/wallpaper.jpg") no-repeat center center;
+        background: linear-gradient(rgba(50, 50, 70, 0.3), rgba(50,50,80,0.4)), url("../images/wallpaper.jpg") no-repeat center center;
         background-color: #fff;
         background-size: cover;
         will-change: transform;
@@ -62,10 +74,18 @@ section {
 }
 
 #landingtextcenter {
+    transform-style: preserve-3d;
+
     text-align: center;
+    color:$white;
     h1 {
-        font-size: 3em;
+        font-size: 4em;
     }
+
+    p {
+        font-size:1.3em;
+    }
+
 }
 
 
@@ -110,6 +130,7 @@ section {
 /* Work page */
 #work {
     background-color: $offwhite;
+
 }
 
 
@@ -120,42 +141,42 @@ section {
 }
 
 
-// /* Footer section */
-// footer {
-//     height: 25vh;
-//     width: 100%;
-//     background-color: $darkblue;
-//     color: $offwhite;
-//     display: flex;
-//     align-items: flex-end;
-//     justify-content: center;
+/* Footer section */
+footer {
+    height: 25vh;
+    width: 100%;
+    background-color: $darkblue;
+    color: $offwhite;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 
-//     a {
-//         text-decoration: none;
-//         color: $offwhite;
-//     }
+    a {
+        text-decoration: none;
+        color: $offwhite;
+    }
 
-//     a:visited {
-//         text-decoration: none;
-//         color: $offwhite;
-//     }
+    a:visited {
+        text-decoration: none;
+        color: $offwhite;
+    }
 
-//     a:hover {
-//         text-decoration: none;
-//         color: $offwhite;
-//     }
+    a:hover {
+        text-decoration: none;
+        color: $offwhite;
+    }
 
-//     #footcontent {
-//         border: 1px solid $lightblue;
-//         padding: 1em;
-//         width: 80%;
-//         display: flex;
-//     }
+    #footcontent {
+        border: 1px solid $lightblue;
+        padding: 1em;
+        width: 80%;
+        display: flex;
+    }
 
-//     p {
-//         padding: .5em;
-//     }
-// }
+    p {
+        padding: .5em;
+    }
+}
 
 
 
@@ -168,72 +189,4 @@ section {
     .halfsection {
         width: 100%;
     }
-}
-
-@supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-
-
-}
-
-
-
-/* Parallax base styles
-        --------------------------------------------- */
-.parallax {
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-perspective: 300px;
-    perspective: 300px;
-}
-.parallax_group {
-    position: relative;
-    height: 100vh;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    display: flex;
-}
-.parallax_layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 1px solid red;
-    display: flex;
-}
-.parallax_layer--fore {
-    -webkit-transform: translateZ(90px) scale(.7);
-    transform: translateZ(90px) scale(.7);
-    z-index: 10;
-}
-.parallax_layer--base {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    z-index: 5;
-}
-.parallax_layer--back {
-    -webkit-transform: translateZ(-300px) scale(2);
-    transform: translateZ(-300px) scale(2);
-    z-index: 1;
-}
-
-#landinggroup {
-    z-index: 2;
-}
-#group2 {
-    z-index: 6;
-}
-#group3 {
-    z-index: 7;
-}
-footer,#footer_content {
-    height:30vh;
-    background-color: $darkblue;
-    color:$white;
-}
-
-#plax_wallpaper {
-    background: linear-gradient(rgba(30, 30, 30, 0.0), rgba(30,30,30,0.0)), url("../images/wallpaper.jpg") no-repeat center center;
-    background-size: cover;
 }

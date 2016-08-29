@@ -107,7 +107,7 @@ section {
 #left {
     color: $darktext;
     #aboutcontent {
-        padding: 4em;
+        padding: 2em;
         display: flex;
         flex-direction: column;
     }
@@ -120,10 +120,6 @@ section {
         align-self: center;
     }
 
-    #subtext {
-        text-align: center;
-        color: $greytext;
-    }
 }
 
 

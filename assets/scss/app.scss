@@ -131,8 +131,8 @@ a, a:visited, a:hover {
     stroke-width: 6px;
     fill: transparent;
     stroke: #009FFD;
-    stroke-dasharray: 85 400;
-    stroke-dashoffset: -265;
+    stroke-dasharray: 90 400;
+    stroke-dashoffset: -259;
     transition: 1s all ease;
 }
 
@@ -166,14 +166,13 @@ a, a:visited, a:hover {
     font-size:1.2em;
     display: flex;
     flex-direction: column;
+    padding:50px;
 
 }
 
 
 /* Work page */
 #work {
-
-
 
     .grid {
         position: relative;
@@ -203,7 +202,6 @@ a, a:visited, a:hover {
     .grid figure figcaption {
         padding: 2em;
         color: #fff;
-        text-transform: uppercase;
         font-size: 1.25em;
         backface-visibility: hidden;
     }
@@ -234,7 +232,7 @@ a, a:visited, a:hover {
 
     .grid figure p {
         letter-spacing: 1px;
-        font-size: 68.5%;
+        font-size: 0.8em;
     }
 
 
@@ -314,6 +312,10 @@ a, a:visited, a:hover {
     min-height: 75vh;
     flex-direction: column;
     background-color: $offwhite;
+
+    #form {
+        width:100%;height:75vh;
+    }
 }
 
 

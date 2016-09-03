@@ -62,25 +62,25 @@ a, a:visited, a:hover {
         width:60%;
 
         #landingtext {
-            padding:60px;
+            padding:50px;
             padding-bottom: 0;
 
         }
 
         h4 {
-            margin-top:35vh;
+            margin-top:25vh;
             font-size: 1.5em;
         }
         
         h1 {
-            margin-top: -25px;
+            margin-top: -30px;
             font-size: 4em;
             font-weight: 700;
             color:$pink;
         }
 
         p {
-            font-size:1.25em;
+            font-size:1.15em;
         }
     }
 
@@ -91,7 +91,7 @@ a, a:visited, a:hover {
     }
 
     #landingphoto {
-        height:92.5%;
+        height:91%;
         width: 100%;
         background-image: url('../images/Summit.jpg');
         background-size: cover;
@@ -163,7 +163,7 @@ a, a:visited, a:hover {
 #about {
     min-height: 50vh;
     background-color: $offwhite;
-    font-size:1.2em;
+    font-size:1.15em;
     display: flex;
     flex-direction: column;
     padding:50px;
@@ -184,8 +184,8 @@ a, a:visited, a:hover {
     .grid figure {
         position: relative;
         overflow: hidden;
-        height:400px;
-        width:580px;
+        height:350px;
+        width:500px;
         background: $pink;
         text-align: center;
         cursor: pointer;
@@ -204,6 +204,7 @@ a, a:visited, a:hover {
         color: #fff;
         font-size: 1.25em;
         backface-visibility: hidden;
+        margin-top:-25px;
     }
 
     .grid figure figcaption::before,
@@ -291,7 +292,8 @@ a, a:visited, a:hover {
     }
 
     figure.effect-sarah p {
-        padding: 1em 0;
+        padding: 0.5em 0;
+        padding-bottom:0;
         opacity: 0;
         transition: opacity 0.35s, transform 0.35s;
         transform: translate3d(100%,0,0);

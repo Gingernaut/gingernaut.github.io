@@ -229,7 +229,8 @@ a, a:visited, a:hover {
 }
 #work .grid figure p {
   letter-spacing: 1px;
-  font-size: 0.8em;
+  font-size: 0.6em;
+  line-height: 1.2;
 }
 #work figure.effect-sarah {
   background: #FF5A5F;

@@ -65,6 +65,9 @@ a, a:visited, a:hover {
         #landingtext {
             padding:50px;
             padding-bottom: 0;
+            position: fixed;
+            max-width:50vw;
+            z-index:1;
 
         }
 
@@ -162,6 +165,7 @@ a, a:visited, a:hover {
 
 /* About page */
 #about {
+    z-index: 2;
     min-height: 50vh;
     background-color: $offwhite;
     font-size:1.15em;
@@ -176,6 +180,8 @@ a, a:visited, a:hover {
 
 /* Work page */
 #work {
+        z-index: 2;
+
     #parent {
     margin-top: 1%;
     margin-left: auto;
@@ -337,6 +343,7 @@ a, a:visited, a:hover {
 
 /* Contact page */
 #contact {
+    z-index: 2;
     min-height: 70vh;
     flex-direction: column;
     background-color: $offwhite;
@@ -351,6 +358,8 @@ a, a:visited, a:hover {
 
 /* Footer section */
 footer {
+        z-index: 2;
+
     height: 25vh;
     width: 100%;
     color: $offwhite;

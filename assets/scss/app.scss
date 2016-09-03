@@ -14,6 +14,7 @@ html, body {
     line-height: 1.6;
     font-family: Raleway;
     transform-style: preserve-3d;
+    overflow-x: hidden;
 }
 
 * {
@@ -218,7 +219,6 @@ a, a:visited, a:hover {
         width:400px;
         background: $pink;
         text-align: center;
-        cursor: pointer;
     }
 
     .grid figure img {
@@ -383,9 +383,6 @@ footer {
         flex-direction: column;
     }
 
-    a, a:visited, a:hover {
-    }
-
     #left {
         transition:0.2s all ease;
         color: $white !important; // figure out how to get rid of important;
@@ -425,6 +422,18 @@ footer {
     }
 
     #landing {
-        padding:20px;
+        padding:0;
     }
+
+    #landingtext h1, #landingtext p {
+        padding:5px;
+    }
+
+    #landingtext h4 {
+        margin-top:15vh !important;
+    }
+
+    #about {
+        padding-left:1vw;
+    } 
 }

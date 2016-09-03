@@ -125,7 +125,8 @@ a, a:visited, a:hover {
   font-size: 1.15em;
   display: flex;
   flex-direction: column;
-  padding: 50px; }
+  padding-left: 15vw;
+  justify-content: center; }
 
 /* Work page */
 #work #parent {
@@ -284,6 +285,9 @@ footer {
     display: none; }
 
   #text a {
-    color: #FFFFFF; } }
+    color: #FFFFFF; }
+
+  #about {
+    padding-left: 2vw; } }
 
 /*# sourceMappingURL=app.css.map */

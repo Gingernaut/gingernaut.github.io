@@ -166,7 +166,8 @@ a, a:visited, a:hover {
     font-size:1.15em;
     display: flex;
     flex-direction: column;
-    padding:50px;
+    padding-left:15vw;
+    justify-content: center;
 
 }
 
@@ -398,5 +399,14 @@ footer {
 
     #text a {
         color:$white;
+    }
+
+    #about {
+        padding-left:2vw;
     }   
+}
+
+@media (max-width: 500px) {
+
+
 }

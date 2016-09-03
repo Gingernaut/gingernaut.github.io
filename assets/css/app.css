@@ -140,6 +140,11 @@ a, a:visited, a:hover {
   height: 95%;
   align-items: center;
   justify-content: center; }
+#work .sectiontitle {
+  color: #FF5A5F;
+  text-align: center;
+  align-self: center;
+  width: 100%; }
 #work .child {
   margin: 1%;
   margin-top: 10px;
@@ -238,10 +243,13 @@ a, a:visited, a:hover {
 #contact {
   min-height: 75vh;
   flex-direction: column;
-  background-color: #F2F2F2; }
+  background-color: #F2F2F2;
+  display: flex;
+  align-items: center;
+  color: #FF5A5F; }
   #contact #form {
     width: 100%;
-    height: 75vh; }
+    height: 60vh; }
 
 /* Footer section */
 footer {
@@ -289,5 +297,12 @@ footer {
 
   #about {
     padding-left: 2vw; } }
+@media (max-width: 600px) {
+  #buttons {
+    width: 20%;
+    margin-left: -400px; }
+
+  #landing {
+    padding: 20px; } }
 
 /*# sourceMappingURL=app.css.map */

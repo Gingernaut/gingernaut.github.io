@@ -168,6 +168,8 @@ a, a:visited, a:hover {
     flex-direction: column;
     padding-left:15vw;
     justify-content: center;
+    line-height:1.75;
+    font-size:.95em;
 
 }
 
@@ -212,8 +214,8 @@ a, a:visited, a:hover {
     .grid figure {
         position: relative;
         overflow: hidden;
-        height:320px;
-        width:440px;
+        height:300px;
+        width:400px;
         background: $pink;
         text-align: center;
         cursor: pointer;
@@ -336,7 +338,7 @@ a, a:visited, a:hover {
 
 /* Contact page */
 #contact {
-    min-height: 75vh;
+    min-height: 70vh;
     flex-direction: column;
     background-color: $offwhite;
     display: flex;
@@ -350,7 +352,7 @@ a, a:visited, a:hover {
 
 /* Footer section */
 footer {
-    height: 20vh;
+    height: 25vh;
     width: 100%;
     color: $offwhite;
     display: flex;
@@ -367,7 +369,7 @@ footer {
         padding: 1em;
         width: 80%;
         display: flex;
-        font-size: .95em;
+        font-size: 0.9em;
     }
 
     p {

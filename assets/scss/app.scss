@@ -212,8 +212,8 @@ a, a:visited, a:hover {
     .grid figure {
         position: relative;
         overflow: hidden;
-        height:350px;
-        width:500px;
+        height:320px;
+        width:440px;
         background: $pink;
         text-align: center;
         cursor: pointer;
@@ -350,7 +350,7 @@ a, a:visited, a:hover {
 
 /* Footer section */
 footer {
-    height: 25vh;
+    height: 20vh;
     width: 100%;
     color: $offwhite;
     display: flex;
@@ -367,7 +367,7 @@ footer {
         padding: 1em;
         width: 80%;
         display: flex;
-        font-size: 1.1em;
+        font-size: .95em;
     }
 
     p {

@@ -93,7 +93,7 @@ a, a:visited, a:hover {
     #landingphoto {
         height:91%;
         width: 100%;
-        background-image: url('../images/summit-min.jpg');
+        background-image: url('../images/Summit-min.jpg');
         background-size: cover;
         background-position: center center;
     }
@@ -390,7 +390,7 @@ footer {
         transition:0.2s all ease;
         color: $white !important; // figure out how to get rid of important;
         width: 100% !important;
-        background-image: linear-gradient( rgba(0,0,0,0.6), rgba(0,0,0,0.6)),  url('../images/summit-min.jpg');
+        background-image: linear-gradient( rgba(0,0,0,0.6), rgba(0,0,0,0.6)),  url('../images/Summit-min.jpg');
         background-size: cover;
         background-position: center center;
 

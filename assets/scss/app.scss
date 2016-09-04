@@ -65,10 +65,6 @@ a, a:visited, a:hover {
         #landingtext {
             padding:50px;
             padding-bottom: 0;
-            position: fixed;
-            max-width:50vw;
-            z-index:1;
-
         }
 
         h4 {
@@ -391,6 +387,11 @@ footer {
     
     #landing {
         flex-direction: column;
+    }
+
+    #landingtext {
+        margin: 0 !important;
+        padding:0 !important;
     }
 
     #left {

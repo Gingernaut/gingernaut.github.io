@@ -149,7 +149,7 @@ a, a:visited, a:hover {
 }
 
 .svg-wrapper:hover #shape {
-    stroke-dasharray: 50 0;
+    stroke-dasharray: 50; 
     stroke-width: 5px;
     stroke-dashoffset: 0;
     stroke: $pink;
@@ -161,7 +161,6 @@ a, a:visited, a:hover {
 
 /* About page */
 #about {
-    z-index: 2;
     min-height: 50vh;
     background-color: $offwhite;
     font-size:1.15em;
@@ -172,12 +171,16 @@ a, a:visited, a:hover {
     line-height:1.75;
     font-size:.95em;
 
+    ul {
+        list-style-type: square;
+        list-style-position: outside;
+        list-style-image: none; 
+    }
+
 }
 
 /* Work page */
 #work {
-        z-index: 2;
-
     #parent {
     margin-top: 1%;
     margin-left: auto;
@@ -339,7 +342,6 @@ a, a:visited, a:hover {
 
 /* Contact page */
 #contact {
-    z-index: 2;
     min-height: 70vh;
     flex-direction: column;
     background-color: $offwhite;
@@ -348,15 +350,15 @@ a, a:visited, a:hover {
     color: $pink;
 
     #form {
-        width:100%;height:60vh;
+        width:100%;
+        height:60vh;
+        border:1px solid $pink;
     }
 }
 
 /* Footer section */
 footer {
-        z-index: 2;
-
-    height: 25vh;
+    min-height: 25vh;
     width: 100%;
     color: $offwhite;
     display: flex;
@@ -422,7 +424,9 @@ footer {
 
     #about {
         padding-left:2vw;
-    }   
+    }
+
+
 }
 
 @media (max-width: 600px) {
@@ -445,6 +449,26 @@ footer {
     }
 
     #about {
-        padding-left:1vw;
+        padding-left: 1vw;
+        padding-right:2vw;
     } 
+
+    footer {
+        align-items: flex-start;
+        justify-content: flex-start;
+        align-content:flex-start;
+        margin:0;
+        padding:0;
+        line-height: 1;
+    }
+
+    #footcontent {
+        padding:0;
+        margin:0;
+        width:100%;
+        height:100%;
+        display: flex;
+        flex-direction: column;
+        font-size: 0.9em;
+    }
 }

@@ -342,7 +342,7 @@ a, a:visited, a:hover {
 
 /* Contact page */
 #contact {
-    min-height: 70vh;
+    min-height: 60vh;
     flex-direction: column;
     background-color: $offwhite;
     display: flex;
@@ -351,8 +351,7 @@ a, a:visited, a:hover {
 
     #form {
         width:100%;
-        height:60vh;
-        border:1px solid $pink;
+        height:55vh;
     }
 }
 

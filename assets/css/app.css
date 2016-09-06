@@ -131,8 +131,8 @@ a, a:visited, a:hover {
 }
 
 .svg-wrapper:hover #shape {
-  stroke-dasharray: 50;
-  stroke-width: 5px;
+  stroke-dasharray: 50 0;
+  stroke-width: 3px;
   stroke-dashoffset: 0;
   stroke: #ff5a5f;
 }

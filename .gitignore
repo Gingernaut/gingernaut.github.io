@@ -19,4 +19,4 @@ dist/
 dist
 
 # Keys and protected info
-.env
+.envyarn.lock

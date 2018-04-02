@@ -1,14 +1,12 @@
 <template>
-    <div>
-      <h1>Index</h1>
-    </div>
+  <div>
+    <p>Blog</p>
+  </div>
 </template>
 
 <script>
-
 export default {
   name: 'index',
-  layout: 'blog',
   components: {
   },
   // props: [],
@@ -43,17 +41,9 @@ export default {
   },
   beforeDestroy () {
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
 </style>

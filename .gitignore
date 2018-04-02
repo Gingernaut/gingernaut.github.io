@@ -15,8 +15,5 @@ dist/
 # Nuxt build
 .nuxt
 
-# Nuxt generate
-dist
-
 # Keys and protected info
-.envyarn.lock
+.env

@@ -1,17 +1,24 @@
+
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const glob = require('glob-all')
+const path = require('path')
+
 module.exports = {
   fallback: true,
   /*
   ** Headers of the page
   */
   head: {
-    title: 'Tyler Peterson',
+    title: 'Tyler Peterson personal Website',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'My personal website' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Crimson+Text|Muli' }
     ]
   },
   /*
@@ -20,6 +27,7 @@ module.exports = {
   loading: { color: '#3B8070' },
   modules: [
     'nuxtdown',
+    ['nuxt-sass-resources-loader', '@/assets/_global.scss'],
     ['@nuxtjs/google-analytics', {
       id: 'UA-61123672-4'
     }]
@@ -28,6 +36,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    extractCSS: true,
     /*
     ** Run ESLint on save
     */
@@ -40,6 +49,23 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      if (!isDev) {
+        // Remove unused CSS using purgecss. See https://github.com/FullHuman/purgecss
+        // for more information about purgecss.
+        config.plugins.push(
+          new PurgecssPlugin({
+            paths: glob.sync([
+              path.join(__dirname, './pages/**/*.vue'),
+              path.join(__dirname, './layouts/**/*.vue'),
+              path.join(__dirname, './components/**/*.vue')
+            ]),
+            whitelist: ['html', 'body']
+          })
+        )
+      }
     }
-  }
+  },
+  css: [
+    '@/assets/prism.css'
+  ]
 }

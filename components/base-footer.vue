@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <p>Blog</p>
+  <div >
+    <footer id="primary-footer">
+      
+    </footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'index',
-  layout: 'blog',
+  name: 'base-footer',
   components: {
   },
   // props: [],
@@ -46,5 +47,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+#primary-footer {
+  display: flex;
+  flex-direction: row;
+  // justify-content: flex-end;
+  padding-bottom: 2vh;
+  height:150px;
+  background-color: $grey;
+  color: $off-white;
+}
 
 </style>

@@ -24,7 +24,7 @@ html,body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
+  border: 1px solid blue;
   .fade-enter-active,
   .fade-leave-active {
     transition: all 0.15s ease;

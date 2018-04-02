@@ -293,14 +293,6 @@ a, a:visited, a:hover {
     background: $red;
 }
 
-#sitewrapper {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
 
 section {
     flex:1;

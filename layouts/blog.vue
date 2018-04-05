@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <div id="top-container">
-      <div id="left"></div>
+    <div id="content-wrapper">
+      <div class="side-panel" id="left">
+        <leftSide/>
+      </div>
       <nuxt id="appContent"/>
-      <div id="right"></div>
+      <div class="side-panel" id="right">
+        <rightSide/>
+      </div>
     </div>
     <baseFooter/>
   </div>
@@ -12,11 +16,15 @@
 <script>
 
 import baseFooter from '@/components/base-footer'
+import leftSide from '@/components/left-side'
+import rightSide from '@/components/right-side'
 
 export default {
   name: 'blog',
   components: {
-    baseFooter
+    baseFooter,
+    leftSide,
+    rightSide
   }
 }
 </script>
@@ -35,6 +43,10 @@ html,body {
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
+}
+
+a, a:visited, a:hover {
+  text-decoration: none;
 }
 
 #app {
@@ -57,33 +69,25 @@ html,body {
   }
 }
 
-#top-container {
+#content-wrapper {
   display: flex;
   flex-direction:row;
   flex-grow:1;
 }
 
-#left {
-  flex-grow: 1;
-  transition: 0.5s all ease;
-  min-width:200px;
-  @if ($debug) {
-    outline: 1px solid red;
-  }
-}
-
 #appContent {
-  flex-grow: 2;
-  max-width:800px;
+  flex-grow: 2.5;
+  max-width:1000px;
   @if ($debug) {
-    outline: 1px solid black;
+    outline: 2px solid black;
   }
 }
 
-#right {
+.side-panel {
   flex-grow: 1;
   transition: 0.5s all ease;
   min-width:200px;
+  flex-basis:350px;
   @if ($debug) {
     outline: 1px solid red;
   }
@@ -93,14 +97,26 @@ html,body {
   #appContent {
     flex-grow: 3;
   }
+
+  #right {
+    min-width:165px;
+    flex-basis:0;
+    * {
+      display:none;
+    }
+  }
 }
 
 
 @media (max-width: 800px) {
-  #left, #right {
+  .side-panel, #right {
     flex-grow:0;
     width:0;
     min-width:0;
+    flex-basis:0;
+    * {
+      display:none;
+    }
   }
 }
 </style>

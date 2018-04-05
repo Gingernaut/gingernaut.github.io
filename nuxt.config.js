@@ -17,7 +17,6 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Crimson+Text|Muli' }
     ]
   },
@@ -26,7 +25,7 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   modules: [
-    'nuxtdown',
+    'nuxtent',
     ['nuxt-sass-resources-loader', '@/assets/_global.scss'],
     ['@nuxtjs/google-analytics', {
       id: 'UA-61123672-4'
@@ -66,6 +65,6 @@ module.exports = {
     }
   },
   css: [
-    '@/assets/prism.css'
+    'prismjs/themes/prism-okaidia.css'
   ]
 }

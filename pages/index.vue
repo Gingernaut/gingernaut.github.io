@@ -86,10 +86,6 @@ export default {
   display:flex;
   justify-content: center;
   flex-direction:column;
-
-  a, a:visited, a:hover {
-    text-decoration: none;
-  }
   
   .post-link {
     color: $purple;

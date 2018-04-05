@@ -1,0 +1,113 @@
+---
+title: Creating a personal website with Github Pages
+meta: ['Hello']
+---
+
+## Overview
+
+```javascript
+
+console.log('hello world')
+
+```
+
+When I first wanted to put my own website online, I found 
+
+Let's first do an overview of what we'll actually be setting up in this tutorial.
+
+
+## Github repo
+
+Head on over to github.com and create a new repository. You need to name the repository "yourgithubusername.github.io".
+
+![alt text](/images/static_website_tutorial/github_pages_create.png "Creating a Github Repo")
+
+
+Once you've created the repository on github, we're going to create a git repository on our machine. 
+
+([ New to Git? ](https://www.try.github.io/) Here's a tutorial that will teach you the basics).
+
+```bash
+mkdir personal_website && cd personal_website
+git init
+echo "# My Website" > README.md
+```
+
+If you already have HTML/CSS/JS files to use, you can move them into this folder. Otherwise we'll create them now.
+
+```bash
+touch index.html
+touch app.css
+touch app.js
+```
+
+If you're creating the files for the first time now, you'll need to add some HTML to your index file so you can see it in your browser. Here's a quick template you can use.
+
+
+### Important!
+One thing we need to do to enable a custom domain is create a CNAME file for it with our domain's URL (do not include the www.)
+
+```bash
+echo "mywebsite.com" > CNAME
+
+```
+Now that the code for our site is ready, let's push it to github.
+
+```bash
+git add .
+git add remote origin https://github.com/mygithubusername/mygithubusername.github.io.git
+git commit -m "My first commit."
+git push origin master
+
+```
+
+Refresh the github repository in your browser and you should see your code in the repository.
+![alt text](/images/static_website_tutorial/github_pages_repo_code.png "Code in Github Repo")
+
+## Registering a domain
+
+If you don't already have a domain to use, you can pick one up at [ Namecheap ](https://namecheap.com/) or [ Google Domains ](https://domains.google.com) which will cost ~$12 per year.
+
+If you're a student, you can get a free (for one year) .me domain [ through Namecheap ](https://nc.me/).
+
+
+Once you have a domain to use, we'll omve on to the next step.
+
+
+
+## Connecting CloudFlare
+
+Why use CloudFlare?
+provides benefits such as scrape shield, auto-minifying HTML, CSS, and JS files, a
+
+http://appleplugs.com/
+https://stories.nicer.io/we-launched-our-company-with-a-parody-product-600ffbbe0173#.o5nhoz2aj
+
+
+Head over to [ CloudFlare.com ](https://cloudflare.com/) and sign up for an account. You'll be asked to add your domain and a short video will play while they're scanning your DNS records.
+
+They'll then give you two custom DNS records. Head over to your domain registrar and update your DNS nameservers to the new CloudFlare records. Here's what it looks like on Namecheap:
+
+![alt text](/images/static_website_tutorial/namecheap_dns_settings.png "Namecheap DNS Settings")
+
+Once you've done that, go back to CloudFlare and click on the DNS tab at the top. You'll need to update your DNS records on CloudFlare to point your A records to github using the following IP Addresses:
+
+```
+192.30.252.153
+192.30.252.154
+``` 
+
+Then create a CNAME record aliasing www to yourusername.github.io. That will look like this on CloudFlare.
+
+![alt text](/images/static_website_tutorial/cloudflare_dns_settings.png "Cloudflare DNS Settings")
+
+
+#### Cloudflare settings
+
+To take advantage of CloudFlare there are a few setting's you'll want to change. 
+
+## Wrapping up
+
+Assuming everything went well in your github repository settings you should be able to access your website at your new URL and your github setting's tab should show that your site has been deployed.
+
+![alt text](/images/static_website_tutorial/github_pages_deployed.png "Github Repo settings tab: deployed")

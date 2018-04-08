@@ -1,6 +1,5 @@
 <template>
     <section class="article-wrapper">
-
       <h1 class="post-title"> {{ post.title }} </h1>
       <h2 class="post-date">{{ post.date }}</h2>
       <nuxtent-body class="body-content" :body=" trigger(post.body)" />

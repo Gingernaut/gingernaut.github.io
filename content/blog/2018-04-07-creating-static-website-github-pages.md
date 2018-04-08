@@ -1,6 +1,6 @@
 ---
 title: Creating a personal website with Github Pages
-meta: ['Hello']
+tags: ["Github", "CDN"]
 ---
 
 ## Overview
@@ -15,13 +15,11 @@ When I first wanted to put my own website online, I found
 
 Let's first do an overview of what we'll actually be setting up in this tutorial.
 
+<br/>
 
 ## Github repo
 
 Head on over to github.com and create a new repository. You need to name the repository "yourgithubusername.github.io".
-
-![alt text](/images/static_website_tutorial/github_pages_create.png "Creating a Github Repo")
-
 
 Once you've created the repository on github, we're going to create a git repository on our machine. 
 
@@ -62,14 +60,13 @@ git push origin master
 ```
 
 Refresh the github repository in your browser and you should see your code in the repository.
-![alt text](/images/static_website_tutorial/github_pages_repo_code.png "Code in Github Repo")
+
 
 ## Registering a domain
 
 If you don't already have a domain to use, you can pick one up at [ Namecheap ](https://namecheap.com/) or [ Google Domains ](https://domains.google.com) which will cost ~$12 per year.
 
 If you're a student, you can get a free (for one year) .me domain [ through Namecheap ](https://nc.me/).
-
 
 Once you have a domain to use, we'll omve on to the next step.
 
@@ -88,7 +85,6 @@ Head over to [ CloudFlare.com ](https://cloudflare.com/) and sign up for an acco
 
 They'll then give you two custom DNS records. Head over to your domain registrar and update your DNS nameservers to the new CloudFlare records. Here's what it looks like on Namecheap:
 
-![alt text](/images/static_website_tutorial/namecheap_dns_settings.png "Namecheap DNS Settings")
 
 Once you've done that, go back to CloudFlare and click on the DNS tab at the top. You'll need to update your DNS records on CloudFlare to point your A records to github using the following IP Addresses:
 
@@ -99,7 +95,6 @@ Once you've done that, go back to CloudFlare and click on the DNS tab at the top
 
 Then create a CNAME record aliasing www to yourusername.github.io. That will look like this on CloudFlare.
 
-![alt text](/images/static_website_tutorial/cloudflare_dns_settings.png "Cloudflare DNS Settings")
 
 
 #### Cloudflare settings
@@ -110,4 +105,3 @@ To take advantage of CloudFlare there are a few setting's you'll want to change.
 
 Assuming everything went well in your github repository settings you should be able to access your website at your new URL and your github setting's tab should show that your site has been deployed.
 
-![alt text](/images/static_website_tutorial/github_pages_deployed.png "Github Repo settings tab: deployed")

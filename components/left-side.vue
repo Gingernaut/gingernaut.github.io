@@ -57,7 +57,7 @@ export default {
 #left-wrapper {
   margin-left:auto;
   margin-right:auto;
-  transition: 0.75s all ease;
+  transition: 0.25s all ease;
   font-family: $secondary-font;
   width:80%;
   max-width:400px;

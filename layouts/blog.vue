@@ -78,6 +78,7 @@ a, a:visited, a:hover {
 #appContent {
   flex-grow: 2.5;
   max-width:1000px;
+  width:auto;
   @if ($debug) {
     outline: 2px solid black;
   }

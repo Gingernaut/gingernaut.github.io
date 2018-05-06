@@ -7,7 +7,8 @@
       <div id="short-bio">
         Hi, I'm Tyler. I'm a software engineer at Qualtrics.
       </div>
-      <a href="/about" id="about-link">About me</a>
+      <a href="/about" class="link">About </a>
+      <a href="/contact" class="link">Contact </a>
     </div>
   </div>
 </template>
@@ -101,9 +102,8 @@ export default {
   color:$grey;
 }
 
-#about-link {
-  margin-left:auto;
-  margin-right:auto;
+.link {
+  padding:5px;
   color: $purple;
   font-family: $primary-font;
   font-weight:600;

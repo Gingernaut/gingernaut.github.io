@@ -1,20 +1,14 @@
 ---
 title: Creating a personal website with Github Pages
 tags: ["Github", "CDN"]
+publish: true
 ---
 
 ## Overview
 
-```javascript
-
-console.log('hello world')
-
-```
-
 When I first wanted to put my own website online, I found 
 
-Let's first do an overview of what we'll actually be setting up in this tutorial.
-
+In this blog post we will be setting up a static webpage hosted with Github pages, and using Cloudflare as a CDN and for https.
 <br/>
 
 ## Github repo
@@ -23,7 +17,7 @@ Head on over to github.com and create a new repository. You need to name the rep
 
 Once you've created the repository on github, we're going to create a git repository on our machine. 
 
-([ New to Git? ](https://www.try.github.io/) Here's a tutorial that will teach you the basics).
+New to Git? [Here's a tutorial that will teach you the basics](https://www.try.github.io/)
 
 ```bash
 mkdir personal_website && cd personal_website
@@ -34,9 +28,7 @@ echo "# My Website" > README.md
 If you already have HTML/CSS/JS files to use, you can move them into this folder. Otherwise we'll create them now.
 
 ```bash
-touch index.html
-touch app.css
-touch app.js
+touch index.html app.css app.js
 ```
 
 If you're creating the files for the first time now, you'll need to add some HTML to your index file so you can see it in your browser. Here's a quick template you can use.
@@ -53,7 +45,7 @@ Now that the code for our site is ready, let's push it to github.
 
 ```bash
 git add .
-git add remote origin https://github.com/mygithubusername/mygithubusername.github.io.git
+git add remote origin https://github.com/username/username.github.io.git
 git commit -m "My first commit."
 git push origin master
 
@@ -68,7 +60,7 @@ If you don't already have a domain to use, you can pick one up at [ Namecheap ](
 
 If you're a student, you can get a free (for one year) .me domain [ through Namecheap ](https://nc.me/).
 
-Once you have a domain to use, we'll omve on to the next step.
+Once you have a domain to use, We're going to set it up to.
 
 
 

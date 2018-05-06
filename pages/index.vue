@@ -2,12 +2,18 @@
     <div id="listing-wrapper">
       <h1 id="title">Articles</h1>
       <!-- <div v-for="(count, tag) in tags" :key="count">
-       {{ tag }} {{ count }}
+       {{ tag | capitalize }} {{ count }}
       </div> -->
-      <div v-for="blogPost in articles" :key="blogPost.date"> 
+      <div v-for="blogPost in articles" v-if="blogPost.publish" :key="blogPost.date"> 
         <article class="article-posting">
           <a class="post-link" :href="blogPost.permalink">{{ blogPost.title }}</a>
-          <p class="post-date">{{ blogPost.date }}</p>
+          <h2 class="post-date">{{ blogPost.date }}</h2>
+          <!-- <h6>
+            Tags: 
+            <span class="tagLink" v-for="tag in blogPost.tags" :key="tag">
+              <a href="tag">{{tag | capitalize }} </a>
+            </span>
+          </h6> -->
         </article>
       </div>
     </div>
@@ -18,7 +24,7 @@ export default {
   name: "index",
   layout: "blog",
   components: {},
-  // props: [],
+  props: [],
   // metaInfo: {
   //   title: 'template',
   //   htmlAttrs: {
@@ -46,14 +52,14 @@ export default {
       let allTags = this.articles.map(tag => tag.tags);
       let flattenedTags = [].concat.apply([], allTags);
 
-      return this.getTagCount(flattenedTags)
+      return this.getTagCount(flattenedTags);
     }
   },
   methods: {
     getTagCount(tagArr) {
-      let tagCount = {}
+      let tagCount = {};
       for (let i = 0; i < tagArr.length; i++) {
-        let tag = this.titleCase(tagArr[i])
+        let tag = tagArr[i].toLowerCase();
         if (tagCount.hasOwnProperty(tag)) {
           tagCount[tag] += 1;
         } else {
@@ -61,12 +67,15 @@ export default {
         }
       }
       return tagCount;
-    },
-    titleCase (str) {
-      return str ? str.charAt(0).toUpperCase() + str.substring(1).toLowerCase(): ''
     }
   },
-  filters: {},
+  filters: {
+    capitalize: function(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  },
   beforeUpdate() {},
   updated() {},
   beforeDestroy() {}
@@ -88,7 +97,6 @@ export default {
   font-weight: 700;
   font-size: 1.6em;
   margin-top: 5vh;
-  padding-left: 10px;
 }
 
 .article-posting {
@@ -104,7 +112,6 @@ export default {
     font-weight: 700;
     font-size: 1.3em;
     font-family: $primary-font;
-    padding-left: 10px;
     padding-right: 5px;
   }
 
@@ -112,7 +119,6 @@ export default {
     color: $light-grey;
     font-size: 0.7em;
     font-family: $secondary-font;
-    padding-left: 20px;
   }
 }
 

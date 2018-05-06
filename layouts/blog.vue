@@ -63,10 +63,6 @@ a, a:visited, a:hover {
     border: 2px solid blue;
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: all 0.15s ease;
-  }
 }
 
 #content-wrapper {
@@ -80,7 +76,7 @@ a, a:visited, a:hover {
   max-width:1000px;
   width:auto;
   @if ($debug) {
-    outline: 2px solid black;
+    border: 3px solid green;
   }
 }
 

@@ -55,6 +55,10 @@ export default {
 
 <style lang="scss" scoped>
 
+a, a:visited, a:hover {
+  text-decoration: none;
+}
+
 #left-wrapper {
   margin-left:auto;
   margin-right:auto;
@@ -104,7 +108,7 @@ export default {
 
 .link {
   padding:5px;
-  color: $purple;
+  color: $primary;
   font-family: $primary-font;
   font-weight:600;
   font-size:0.8em;

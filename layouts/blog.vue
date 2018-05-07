@@ -14,24 +14,23 @@
 </template>
 
 <script>
-
-import baseFooter from '@/components/base-footer'
-import leftSide from '@/components/left-side'
-import rightSide from '@/components/right-side'
+import baseFooter from "@/components/base-footer"
+import leftSide from "@/components/left-side"
+import rightSide from "@/components/right-side"
 
 export default {
-  name: 'blog',
+  name: "blog",
   components: {
     baseFooter,
     leftSide,
     rightSide
   }
-}
+};
 </script>
 
 <style lang="scss">
-
-html,body {
+html,
+body {
   margin: 0;
   padding: 0;
   line-height: 1.5;
@@ -40,12 +39,16 @@ html,body {
   overflow-x: hidden;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
 }
 
-a, a:visited, a:hover {
+a,
+a:visited,
+a:hover {
   text-decoration: none;
 }
 
@@ -58,23 +61,22 @@ a, a:visited, a:hover {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  
+
   @if ($debug) {
     border: 2px solid blue;
   }
-
 }
 
 #content-wrapper {
   display: flex;
-  flex-direction:row;
-  flex-grow:1;
+  flex-direction: row;
+  flex-grow: 1;
 }
 
 #appContent {
   flex-grow: 2.5;
-  max-width:1000px;
-  width:auto;
+  max-width: 1000px;
+  width: auto;
   @if ($debug) {
     border: 3px solid green;
   }
@@ -83,8 +85,8 @@ a, a:visited, a:hover {
 .side-panel {
   flex-grow: 1;
   transition: 0.5s all ease;
-  min-width:200px;
-  flex-basis:350px;
+  min-width: 200px;
+  flex-basis: 350px;
   @if ($debug) {
     outline: 1px solid red;
   }
@@ -96,23 +98,23 @@ a, a:visited, a:hover {
   }
 
   #right {
-    min-width:165px;
-    flex-basis:0;
+    min-width: 165px;
+    flex-basis: 0;
     * {
-      display:none;
+      display: none;
     }
   }
 }
 
-
 @media (max-width: 800px) {
-  .side-panel, #right {
-    flex-grow:0;
-    width:0;
-    min-width:0;
-    flex-basis:0;
+  .side-panel,
+  #right {
+    flex-grow: 0;
+    width: 0;
+    min-width: 0;
+    flex-basis: 0;
     * {
-      display:none;
+      display: none;
     }
   }
 }

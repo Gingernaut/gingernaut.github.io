@@ -25,12 +25,11 @@ export default {
   layout: "blog",
   components: {},
   props: [],
-  // metaInfo: {
-  //   title: 'template',
-  //   htmlAttrs: {
-  //     lang: 'en'
-  //   }
-  // },
+  head() {
+    return {
+      title: "Articles"
+    }
+  },
   mixins: [],
   data() {
     return {
@@ -71,9 +70,9 @@ export default {
   },
   filters: {
     capitalize: function(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
+      if (!value) return ""
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
     }
   },
   beforeUpdate() {},
@@ -100,7 +99,7 @@ export default {
 }
 
 .article-posting {
-  border-bottom: 1px solid $orange;
+  border-bottom: 1px solid $secondary;
   min-height: 80px;
   margin-top: 10px;
   display: flex;
@@ -108,7 +107,7 @@ export default {
   flex-direction: column;
 
   .post-link {
-    color: $purple;
+    color: $primary;
     font-weight: 700;
     font-size: 1.3em;
     font-family: $primary-font;

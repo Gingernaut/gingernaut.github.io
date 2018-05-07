@@ -2,6 +2,7 @@
 title: Creating a personal website with Github Pages
 tags: ["Github", "CDN"]
 publish: true
+edit_date: false
 ---
 
 ## Overview
@@ -17,7 +18,7 @@ Head on over to github.com and create a new repository. You need to name the rep
 
 Once you've created the repository on github, we're going to create a git repository on our machine. 
 
-New to Git? [Here's a tutorial that will teach you the basics](https://www.try.github.io/)
+New to Git? [Here's a tutorial that will teach you the basics](https://try.github.io/levels/1/challenges/1)
 
 ```bash
 mkdir personal_website && cd personal_website
@@ -31,15 +32,10 @@ If you already have HTML/CSS/JS files to use, you can move them into this folder
 touch index.html app.css app.js
 ```
 
-If you're creating the files for the first time now, you'll need to add some HTML to your index file so you can see it in your browser. Here's a quick template you can use.
-
-
-### Important!
-One thing we need to do to enable a custom domain is create a CNAME file for it with our domain's URL (do not include the www.)
+Next, create a CNAME file with your domain's URL (do not include the www.)
 
 ```bash
 echo "mywebsite.com" > CNAME
-
 ```
 Now that the code for our site is ready, let's push it to github.
 
@@ -48,7 +44,6 @@ git add .
 git add remote origin https://github.com/username/username.github.io.git
 git commit -m "My first commit."
 git push origin master
-
 ```
 
 Refresh the github repository in your browser and you should see your code in the repository.
@@ -91,9 +86,9 @@ Then create a CNAME record aliasing www to yourusername.github.io. That will loo
 
 #### Cloudflare settings
 
-To take advantage of CloudFlare there are a few setting's you'll want to change. 
+There are a few setting's you'll probably want to change in Cloudflare to improve your website. 
 
 ## Wrapping up
 
-Assuming everything went well in your github repository settings you should be able to access your website at your new URL and your github setting's tab should show that your site has been deployed.
+It might take a few minutes for the DNS changes to propogate, but you should be able to access your website at your new URL and your github setting's tab should show that your site has been deployed.
 

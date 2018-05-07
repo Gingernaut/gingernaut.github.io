@@ -6,14 +6,13 @@
 
 <script>
 export default {
-  name: 'template',
+  name: "template",
   components: {
   },
   // props: [],
-  // metaInfo: {
-  //   title: 'template',
-  //   htmlAttrs: {
-  //     lang: 'en'
+  // head() {
+  //   return {
+  //     title: "Template"
   //   }
   // },
   mixins: [],

@@ -3,7 +3,7 @@
       <h1 class="post-title"> {{ post.title }} </h1>
       <h2 class="post-date" v-if="post.edit_date"><i>Last edited: {{ post.edit_date }}</i></h2>
       <h2 class="post-date" v-else>{{ post.date }}</h2>
-      <nuxtent-body class="body-content" :body=post.body />
+      <nuxtent-body class="body-content" :body="post.body" />
     </article>
 </template>
 
@@ -16,11 +16,16 @@ export default {
     return {
       title: this.post.title,
       meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: "My custom description"
-        }
+      { hid: 'main_description', name: 'description', content: this.genDescription()},
+      { hid: 'twitter_description', name: 'twitter:description', content: this.genDescription() },
+      { hid: 'twitter_url', name: 'twitter:url', content: this.getLink },
+      { hid: 'og_url', name: 'og:url', content: this.getLink },
+      { hid: 'og_title', name: 'og:title', content: this.post.title },
+      { hid: 'og_description', name: 'og:description', content: this.genDescription()},
+      { name: "tags",content: this.post.tags.join(",")},
+      { name: "twitter:url", content: this.getLink() }
+        // { name: 'twitter:image', content: '*****default*****' },
+        // { name: 'og:image', content: '*****default*****' },
       ]
     };
   },
@@ -35,9 +40,19 @@ export default {
       this.$nuxt.$router.replace({ path: "/" })
     }
   },
-  mounted() {},
+  mounted() {
+    console.lo
+  },
   computed: {},
-  methods: {},
+  methods: {
+    genDescription: function() {
+      // strips HTML, first 3 sentences
+      return this.post.body.replace(/<(.|\n)*?>/g, " ").split(". ").slice(0,3).join(". ")
+    },
+    getLink: function () {
+      return "https://tylermarkpeterson.com" + this.$nuxt.$router.history.current.fullPath
+    }
+  },
   filters: {},
   beforeUpdate() {},
   updated() {},
@@ -47,7 +62,7 @@ export default {
 
 <style lang="scss" scoped>
 .article-wrapper {
-  padding:10px;
+  padding: 10px;
 }
 
 .post-title {

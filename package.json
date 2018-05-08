@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "deploy": "push-dir --dir=dist --branch=master --cleanup",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:js": "eslint --ext .js,.vue --fix",
+    "lint:js": "eslint --ext .js,.vue,.json layouts/** components/** middleware/** pages/** plugins/**",
     "lint:css": "stylelint '**/*.{scss}' --syntax scss --fix",
     "precommit": "npm run lint"
   },
@@ -19,7 +19,7 @@
     "@nuxtjs/axios": "^5.3.1",
     "@nuxtjs/google-analytics": "^2.0.2",
     "eslint-plugin-node": "^6.0.1",
-    "nuxt": "^1.0.0",
+    "nuxt": "npm:nuxt-edge",
     "nuxt-sass-resources-loader": "^2.0.0",
     "nuxtent": "^1.4.1",
     "prismjs": "^1.13.0",

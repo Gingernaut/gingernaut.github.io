@@ -16,7 +16,7 @@
           I'm a software developer interested in system architecture, scalability, and full stack development. 
           I currently work at Qualtrics building stream processing systems with Spark, Kafka, Scala, and Python.  
           I live in Seattle, went to school at BYU, and grew up out outside Atlanta.
-          In my free time I enjoy skiing, contributing to open source, and playing the guitar.
+          In my free time I enjoy skiing, working on open source, and playing the guitar.
         </p>
       </div>
     </div>
@@ -32,7 +32,6 @@ export default {
       title: "About",
       meta: [
         {
-          hid: "description",
           name: "description",
           content: "My custom description"
         }
@@ -45,7 +44,9 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  beforeMount() {},
+  beforeMount() {
+    this.$nuxt.$router.replace({ path: "/" })
+  },
   mounted() {},
   computed: {},
   methods: {},

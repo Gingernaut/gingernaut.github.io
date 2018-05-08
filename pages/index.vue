@@ -6,7 +6,7 @@
       </div> -->
       <div v-for="blogPost in articles" v-if="blogPost.publish" :key="blogPost.date"> 
         <article class="article-posting">
-          <a class="post-link" :href="blogPost.permalink">{{ blogPost.title }}</a>
+          <nuxt-link class="post-link" :to="blogPost.permalink">{{ blogPost.title }}</nuxt-link>
           <h2 class="post-date">{{ blogPost.date }}</h2>
           <!-- <h6>
             Tags: 
@@ -27,7 +27,7 @@ export default {
   props: [],
   head() {
     return {
-      title: "Articles"
+      title: "Blog Posts"
     }
   },
   mixins: [],

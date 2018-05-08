@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import baseFooter from "@/components/base-footer"
-import leftSide from "@/components/left-side"
-import rightSide from "@/components/right-side"
+import baseFooter from "@/components/base-footer";
+import leftSide from "@/components/left-side";
+import rightSide from "@/components/right-side";
 
 export default {
   name: "blog",

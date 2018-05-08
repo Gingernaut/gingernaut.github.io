@@ -12,3 +12,11 @@ $primary-font:'Muli', sans-serif;
 $secondary-font: 'Crimson Text', serif;
 
 $debug: false;
+
+.page-enter-active, .page-leave-active {
+  transition: all .3s ease-out;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+  transform-origin: 50% 50%;
+}

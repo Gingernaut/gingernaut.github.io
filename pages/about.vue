@@ -54,7 +54,7 @@ export default {
   beforeUpdate() {},
   updated() {},
   beforeDestroy() {}
-};
+}
 </script>
 
 <style lang="scss" scoped>

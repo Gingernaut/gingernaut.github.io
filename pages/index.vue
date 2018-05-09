@@ -6,8 +6,8 @@
       </div> -->
       <div v-for="blogPost in articles" v-if="blogPost.publish" :key="blogPost.date"> 
         <article class="article-posting">
-          <nuxt-link class="post-link" :to="blogPost.permalink">{{ blogPost.title }}</nuxt-link>
-          <h2 class="post-date">{{ blogPost.date }}</h2>
+          <nuxt-link class="post-link" :to="blogPost.permalink">{{ blogPost.title | capitalize }}</nuxt-link>
+          <h2 class="post-date">{{ blogPost.date | localDate }}</h2>
           <!-- <h6>
             Tags: 
             <span class="tagLink" v-for="tag in blogPost.tags" :key="tag">
@@ -69,11 +69,8 @@ export default {
     }
   },
   filters: {
-    capitalize: function(value) {
-      if (!value) return ""
-      value = value.toString()
-      return value.charAt(0).toUpperCase() + value.slice(1)
-    }
+    capitalize: (inputStr) => inputStr ? inputStr.charAt(0).toUpperCase() + inputStr.slice(1): '',
+    localDate: (postDate) => new Date(Date.parse(postDate)).toLocaleDateString()
   },
   beforeUpdate() {},
   updated() {},

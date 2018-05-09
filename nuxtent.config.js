@@ -1,6 +1,8 @@
 
 const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/index.js')
+const externalLinks = require('markdown-it-link-attributes')
+const emoji = require('markdown-it-emoji')
 loadLanguages(['python', 'bash'])
 
 module.exports = {
@@ -15,9 +17,11 @@ module.exports = {
         'getAll'
       ]
     }]],
-  api: {
-    baseURL: 'http://localhost:3000',
-    browserBaseURL: 'http://tylermarkpeterson.com'
+  api: (isStatic) => {
+    return {
+      baseURL: 'http://localhost:3000',
+      browserBaseURL: isStatic ? 'http://tylermarkpeterson.com' : 'http://localhost:3000'
+    }
   },
   parsers: {
     md: {
@@ -25,7 +29,11 @@ module.exports = {
         config.highlight = (code, lang) => {
           return `<pre class="language-${lang}"><code class="language-${lang}">${Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)}</code></pre>`
         }
-      }
+      },
+      plugins: [
+        emoji,
+        [externalLinks, { target: '_blank', rel: 'noopener' }]
+      ]
     }
   }
 }

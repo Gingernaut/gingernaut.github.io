@@ -1,10 +1,6 @@
-
-const PurgecssPlugin = require('purgecss-webpack-plugin')
-const glob = require('glob-all')
-const path = require('path')
-
 module.exports = {
   fallback: true,
+  subFolders: true,
   /*
   ** Headers of the page
   */
@@ -62,23 +58,12 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      if (!isDev) {
-        // Remove unused CSS using purgecss. See https://github.com/FullHuman/purgecss
-        // for more information about purgecss.
-        config.plugins.push(
-          new PurgecssPlugin({
-            paths: glob.sync([
-              path.join(__dirname, './pages/**/*.vue'),
-              path.join(__dirname, './layouts/**/*.vue'),
-              path.join(__dirname, './components/**/*.vue')
-            ]),
-            whitelist: ['html', 'body']
-          })
-        )
-      }
     }
   },
   css: [
     'prismjs/themes/prism-okaidia.css'
-  ]
+  ],
+  minify: {
+    removeComments: true
+  }
 }

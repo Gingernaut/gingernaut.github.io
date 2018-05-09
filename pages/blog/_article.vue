@@ -1,8 +1,8 @@
 <template>
     <article class="article-wrapper">
       <h1 class="post-title"> {{ post.title }} </h1>
-      <h2 class="post-date" v-if="post.edit_date"><i>Last edited: {{ post.edit_date }}</i></h2>
-      <h2 class="post-date" v-else>{{ post.date }}</h2>
+      <h2 class="post-date" v-if="post.edit_date"><i>Updated {{ post.edit_date | localDate }}</i></h2>
+      <h2 class="post-date" v-else>{{ post.date | localDate }}</h2>
       <nuxtent-body class="body-content" :body="post.body" />
     </article>
 </template>
@@ -22,12 +22,12 @@ export default {
       { hid: 'og_url', name: 'og:url', content: this.getLink },
       { hid: 'og_title', name: 'og:title', content: this.post.title },
       { hid: 'og_description', name: 'og:description', content: this.genDescription()},
-      { name: "tags",content: this.post.tags.join(",")},
+      { name: "tags", content: this.post.tags.join(",")},
       { name: "twitter:url", content: this.getLink() }
         // { name: 'twitter:image', content: '*****default*****' },
         // { name: 'og:image', content: '*****default*****' },
       ]
-    };
+    }
   },
   mixins: [],
   asyncData: async ({ app, route, payload }) => ({
@@ -41,7 +41,6 @@ export default {
     }
   },
   mounted() {
-    console.lo
   },
   computed: {},
   methods: {
@@ -49,11 +48,13 @@ export default {
       // strips HTML, first 3 sentences
       return this.post.body.replace(/<(.|\n)*?>/g, " ").split(". ").slice(0,3).join(". ")
     },
-    getLink: function () {
+    getLink: function() {
       return "https://tylermarkpeterson.com" + this.$nuxt.$router.history.current.fullPath
     }
   },
-  filters: {},
+  filters: {
+    localDate: (postDate) => new Date(Date.parse(postDate)).toLocaleDateString()
+  },
   beforeUpdate() {},
   updated() {},
   beforeDestroy() {}

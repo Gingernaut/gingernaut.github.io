@@ -122,9 +122,12 @@ export default {
 }
 
 @media (max-width: 800px) {
+  #title {
+    margin-left:15px;
+  }
   .post-link {
     margin: 5px;
-    paddding: 0;
+    padding: 0;
   }
 }
 </style>

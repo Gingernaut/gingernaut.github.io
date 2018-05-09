@@ -9,11 +9,10 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "deploy": "push-dir --dir=dist --branch=master --cleanup",
+    "deploy": "./deploy.sh",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:js": "eslint --ext .js,.vue,.json layouts/** components/** middleware/** pages/** plugins/**",
-    "lint:css": "stylelint '**/*.{scss}' --syntax scss --fix",
-    "precommit": "npm run lint"
+    "lint:js": "eslint --ext .js,.vue,.json layouts/** components/** pages/**",
+    "lint:css": "stylelint '**/*.{scss}' --syntax scss --fix"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",

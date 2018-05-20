@@ -45,24 +45,24 @@ export default {
   mounted() {},
   computed: {
     articles: function() {
-      return this.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      return this.posts.sort((a, b) => new Date(b.date) - new Date(a.date))
     },
     tags: function() {
-      let allTags = this.articles.map(tag => tag.tags);
-      let flattenedTags = [].concat.apply([], allTags);
+      let allTags = this.articles.map(tag => tag.tags)
+      let flattenedTags = [].concat.apply([], allTags)
 
       return this.getTagCount(flattenedTags);
     }
   },
   methods: {
     getTagCount(tagArr) {
-      let tagCount = {};
+      let tagCount = {}
       for (let i = 0; i < tagArr.length; i++) {
-        let tag = tagArr[i].toLowerCase();
+        let tag = tagArr[i].toLowerCase()
         if (tagCount.hasOwnProperty(tag)) {
-          tagCount[tag] += 1;
+          tagCount[tag] += 1
         } else {
-          tagCount[tag] = 1;
+          tagCount[tag] = 1
         }
       }
       return tagCount;
@@ -75,7 +75,7 @@ export default {
   beforeUpdate() {},
   updated() {},
   beforeDestroy() {}
-};
+}
 </script>
 
 <style lang="scss" scoped>

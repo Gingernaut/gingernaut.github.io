@@ -11,13 +11,6 @@ export default {
   name: 'base-footer',
   components: {
   },
-  // props: [],
-  // metaInfo: {
-  //   title: 'template',
-  //   htmlAttrs: {
-  //     lang: 'en'
-  //   }
-  // },
   mixins: [],
   data () {
     return {

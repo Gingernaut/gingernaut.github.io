@@ -1,6 +1,5 @@
 <template>
   <div>
-
   </div>
 </template>
 
@@ -9,13 +8,6 @@ export default {
   name: 'right-side',
   components: {
   },
-  // props: [],
-  // metaInfo: {
-  //   title: 'template',
-  //   htmlAttrs: {
-  //     lang: 'en'
-  //   }
-  // },
   mixins: [],
   data () {
     return {

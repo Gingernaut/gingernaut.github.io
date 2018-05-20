@@ -22,8 +22,8 @@ export default {
       { hid: 'og_url', name: 'og:url', content: this.getLink },
       { hid: 'og_title', name: 'og:title', content: this.post.title },
       { hid: 'og_description', name: 'og:description', content: this.genDescription()},
-      { name: "tags", content: this.post.tags.join(",")},
-      { name: "twitter:url", content: this.getLink() }
+      { name: 'tags', content: this.post.tags.join(',')},
+      { name: 'twitter:url', content: this.getLink() }
         // { name: 'twitter:image', content: '*****default*****' },
         // { name: 'og:image', content: '*****default*****' },
       ]
@@ -31,7 +31,7 @@ export default {
   },
   mixins: [],
   asyncData: async ({ app, route, payload }) => ({
-    post: payload || (await app.$content("/blog/").get(route.path))
+    post: payload || (await app.$content('/blog/').get(route.path))
   }),
   beforeCreate() {},
   created() {},
@@ -49,7 +49,7 @@ export default {
       return this.post.body.replace(/<(.|\n)*?>/g, " ").split(". ").slice(0,3).join(". ")
     },
     getLink: function() {
-      return "https://tylermarkpeterson.com" + this.$nuxt.$router.history.current.fullPath
+      return 'https://tylermarkpeterson.com' + this.$nuxt.$router.history.current.fullPath
     }
   },
   filters: {

@@ -40,7 +40,7 @@ export default {
   },
   mixins: [],
   data() {
-    return {};
+    return {}
   },
   beforeCreate() {},
   created() {},

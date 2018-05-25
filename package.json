@@ -21,7 +21,7 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-link-attributes": "^2.1.0",
     "nuxt": "npm:nuxt-edge",
-    "nuxt-sass-resources-loader": "^2.0.0",
+    "nuxt-sass-resources-loader": "^2.0.1",
     "nuxtent": "^1.4.1",
     "prismjs": "^1.13.0"
   },

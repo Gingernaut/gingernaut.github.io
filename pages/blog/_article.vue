@@ -18,8 +18,8 @@ export default {
       meta: [
       { hid: 'main_description', name: 'description', content: this.genDescription()},
       { hid: 'twitter_description', name: 'twitter:description', content: this.genDescription() },
-      { hid: 'twitter_url', name: 'twitter:url', content: this.getLink },
-      { hid: 'og_url', name: 'og:url', content: this.getLink },
+      { hid: 'twitter_url', name: 'twitter:url', content: this.getLink() },
+      { hid: 'og_url', name: 'og:url', content: this.getLink() },
       { hid: 'og_title', name: 'og:title', content: this.post.title },
       { hid: 'og_description', name: 'og:description', content: this.genDescription()},
       { name: 'tags', content: this.post.tags.join(',')},
@@ -30,6 +30,16 @@ export default {
     }
   },
   mixins: [],
+  data() {
+    return {
+      post: {
+        title: null,
+        date:null,
+        edit_date: null,
+        body: null,
+      }
+    }
+  },
   asyncData: async ({ app, route, payload }) => ({
     post: payload || (await app.$content('/blog/').get(route.path))
   }),

@@ -1,7 +1,7 @@
 ---
 title: Creating a personal website with Github Pages
 tags: ["Github", "CDN"]
-publish: true
+publish: false
 edit_date: false
 ---
 

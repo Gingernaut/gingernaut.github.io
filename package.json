@@ -21,7 +21,7 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-link-attributes": "^2.1.0",
     "nuxt": "npm:nuxt-edge",
-    "nuxt-sass-resources-loader": "^2.0.1",
+    "nuxt-sass-resources-loader": "^2.0.2",
     "nuxtent": "^1.4.1",
     "prismjs": "^1.13.0"
   },
@@ -38,7 +38,7 @@
     "eslint-plugin-vue": "^4.0.0",
     "node-sass": "^4.8.3",
     "push-dir": "^0.4.1",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^7.0.3",
     "stylelint": "^9.2.1",
     "stylelint-scss": "^3.0.0"
   }

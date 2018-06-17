@@ -23,7 +23,7 @@
     "nuxt": "npm:nuxt-edge",
     "nuxt-sass-resources-loader": "^2.0.2",
     "nuxtent": "^1.4.1",
-    "prismjs": "^1.13.0"
+    "prismjs": "^1.15.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

@@ -20,7 +20,7 @@ module.exports = {
   api: (isStatic) => {
     return {
       baseURL: 'http://localhost:3000',
-      browserBaseURL: isStatic ? 'http://tylermarkpeterson.com' : 'http://localhost:3000'
+      browserBaseURL: isStatic ? 'https://tylermpeterson.com' : 'http://localhost:3000'
     }
   },
   parsers: {

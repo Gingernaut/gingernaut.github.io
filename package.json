@@ -16,14 +16,13 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
-    "@nuxtjs/google-analytics": "^2.0.2",
     "eslint-plugin-node": "^6.0.1",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-link-attributes": "^2.1.0",
     "nuxt": "npm:nuxt-edge",
     "nuxt-sass-resources-loader": "^2.0.2",
     "nuxtent": "^1.4.1",
-    "prismjs": "^1.13.0"
+    "prismjs": "^1.15.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -31,7 +30,7 @@
     "eslint-config-standard": "^12.0.0-alpha.0",
     "eslint-friendly-formatter": "^4.0.0",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-html": "^4.0.2",
+    "eslint-plugin-html": "^4.0.5",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.0.1",
@@ -39,7 +38,7 @@
     "node-sass": "^4.8.3",
     "push-dir": "^0.4.1",
     "sass-loader": "^7.0.3",
-    "stylelint": "^9.2.1",
-    "stylelint-scss": "^3.0.0"
+    "stylelint": "^9.3.0",
+    "stylelint-scss": "^3.1.3"
   }
 }

@@ -36,10 +36,7 @@ module.exports = {
   loading: { color: '#7e55f3' },
   modules: [
     'nuxtent',
-    ['nuxt-sass-resources-loader', '@/assets/_global.scss'],
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-61123672-4'
-    }]
+    ['nuxt-sass-resources-loader', '@/assets/_global.scss']
   ],
   /*
   ** Build configuration

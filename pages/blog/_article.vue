@@ -1,74 +1,89 @@
 <template>
-    <article class="article-wrapper">
-      <h1 class="post-title"> {{ post.title }} </h1>
-      <h2 class="post-date" v-if="post.edit_date"><i>Updated {{ post.edit_date | localDate }}</i></h2>
-      <h2 class="post-date" v-else>{{ post.date | localDate }}</h2>
-      <nuxtent-body class="body-content" :body="post.body" />
-    </article>
+  <article class="article-wrapper">
+    <h1 class="post-title">
+      {{ post.title }}
+    </h1>
+    <h2
+      class="post-date"
+      v-if="post.edit_date"
+    >
+      <i>Updated {{ post.edit_date | localDate }}</i>
+    </h2>
+    <h2
+      class="post-date"
+      v-else
+    >
+      {{ post.date | localDate }}
+    </h2>
+    <nuxtent-body
+      class="body-content"
+      :body="post.body"
+    />
+  </article>
 </template>
 
 <script>
 export default {
-  name: "my-article",
-  layout: "blog",
+  name: 'MyArticle',
+  layout: 'blog',
   components: {},
-  head() {
+  head () {
     return {
       title: this.post.title,
       meta: [
-      { hid: 'main_description', name: 'description', content: this.genDescription()},
-      { hid: 'twitter_description', name: 'twitter:description', content: this.genDescription() },
-      { hid: 'twitter_url', name: 'twitter:url', content: this.getLink() },
-      { hid: 'og_url', name: 'og:url', content: this.getLink() },
-      { hid: 'og_title', name: 'og:title', content: this.post.title },
-      { hid: 'og_description', name: 'og:description', content: this.genDescription()},
-      { name: 'tags', content: this.post.tags.join(',')},
-      { name: 'twitter:url', content: this.getLink() }
+        { hid: 'main_description', name: 'description', content: this.genDescription() },
+        { hid: 'twitter_description', name: 'twitter:description', content: this.genDescription() },
+        { hid: 'twitter_url', name: 'twitter:url', content: this.getLink() },
+        { hid: 'og_url', name: 'og:url', content: this.getLink() },
+        { hid: 'og_title', name: 'og:title', content: this.post.title },
+        { hid: 'og_description', name: 'og:description', content: this.genDescription() },
+        { name: 'tags', content: this.post.tags.join(',') },
+        { name: 'twitter:url', content: this.getLink() }
         // { name: 'twitter:image', content: '*****default*****' },
         // { name: 'og:image', content: '*****default*****' },
       ]
     }
   },
   mixins: [],
-  data() {
+  data () {
     return {
       post: {
         title: null,
-        date:null,
+        date: null,
         edit_date: null,
-        body: null,
+        body: null
       }
     }
   },
   asyncData: async ({ app, route, payload }) => ({
     post: payload || (await app.$content('/blog/').get(route.path))
   }),
-  beforeCreate() {},
-  created() {},
-  beforeMount() {
+  beforeCreate () {},
+  created () {},
+  beforeMount () {
     if (!this.post.publish) {
-      this.$nuxt.$router.replace({ path: "/" })
+      this.$nuxt.$router.replace({ path: '/' })
     }
   },
-  mounted() {
+  mounted () {
   },
   computed: {},
   methods: {
-    genDescription: function() {
+    genDescription: function () {
       // strips HTML, first 3 sentences
-      return this.post.body.replace(/<(.|\n)*?>/g, " ").split(". ").slice(0,3).join(". ")
+      return this.post.body.replace(/<(.|\n)*?>/g, ' ').split('. ').slice(0, 3).join('. ')
     },
-    getLink: function() {
+    getLink: function () {
       return 'https://tylermarkpeterson.com' + this.$nuxt.$router.history.current.fullPath
     }
   },
   filters: {
     localDate: (postDate) => new Date(Date.parse(postDate)).toLocaleDateString()
   },
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {}
-};
+  beforeUpdate () {},
+  updated () {},
+  beforeDestroy () {}
+}
 </script>
 
 <style lang="scss" scoped>

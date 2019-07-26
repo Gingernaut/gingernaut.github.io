@@ -1,80 +1,92 @@
 <template>
-    <div id="listing-wrapper">
-      <h1 id="title">Articles</h1>
-      <!-- <div v-for="(count, tag) in tags" :key="count">
+  <div id="listing-wrapper">
+    <h1 id="title">
+      Articles
+    </h1>
+    <!-- <div v-for="(count, tag) in tags" :key="count">
        {{ tag | capitalize }} {{ count }}
       </div> -->
-      <div v-for="blogPost in articles" v-if="blogPost.publish" :key="blogPost.date"> 
-        <article class="article-posting">
-          <nuxt-link class="post-link" :to="blogPost.permalink">{{ blogPost.title | capitalize }}</nuxt-link>
-          <h2 class="post-date">{{ blogPost.date | localDate }}</h2>
-          <!-- <h6>
-            Tags: 
+    <div
+      v-for="blogPost in articles"
+      :key="blogPost.date"
+    >
+      <article class="article-posting">
+        <nuxt-link
+          class="post-link"
+          :to="blogPost.permalink"
+        >
+          {{ blogPost.title | capitalize }}
+        </nuxt-link>
+        <h2 class="post-date">
+          {{ blogPost.date | localDate }}
+        </h2>
+        <!-- <h6>
+            Tags:
             <span class="tagLink" v-for="tag in blogPost.tags" :key="tag">
               <a href="tag">{{tag | capitalize }} </a>
             </span>
           </h6> -->
-        </article>
-      </div>
+      </article>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "index",
-  layout: "blog",
+  name: 'Index',
+  layout: 'blog',
   components: {},
   props: [],
-  head() {
+  head () {
     return {
-      title: "Blog Posts"
+      title: 'Blog Posts'
     }
   },
   mixins: [],
-  data() {
+  data () {
     return {
       posts: []
-    };
+    }
   },
   asyncData: async ({ app, route, payload }) => ({
-    posts: payload || (await app.$content("/blog/").get(route.path))
+    posts: payload || (await app.$content('/blog/').get(route.path))
   }),
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
+  beforeCreate () {},
+  created () {},
+  beforeMount () {},
+  mounted () {},
   computed: {
-    articles: function() {
-      return this.posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+    articles: function () {
+      return this.posts.filter(post => post.publish).sort((a, b) => new Date(b.date) - new Date(a.date))
     },
-    tags: function() {
-      let allTags = this.articles.map(tag => tag.tags)
-      let flattenedTags = [].concat.apply([], allTags)
+    tags: function () {
+      const allTags = this.articles.map(tag => tag.tags)
+      const flattenedTags = [].concat.apply([], allTags)
 
-      return this.getTagCount(flattenedTags);
+      return this.getTagCount(flattenedTags)
     }
   },
   methods: {
-    getTagCount(tagArr) {
-      let tagCount = {}
+    getTagCount (tagArr) {
+      const tagCount = {}
       for (let i = 0; i < tagArr.length; i++) {
-        let tag = tagArr[i].toLowerCase()
-        if (tagCount.hasOwnProperty(tag)) {
+        const tag = tagArr[i].toLowerCase()
+        if (Object.prototype.hasOwnProperty.call(tagCount, tag)) {
           tagCount[tag] += 1
         } else {
           tagCount[tag] = 1
         }
       }
-      return tagCount;
+      return tagCount
     }
   },
   filters: {
-    capitalize: (inputStr) => inputStr ? inputStr.charAt(0).toUpperCase() + inputStr.slice(1): '',
+    capitalize: (inputStr) => inputStr ? inputStr.charAt(0).toUpperCase() + inputStr.slice(1) : '',
     localDate: (postDate) => new Date(Date.parse(postDate)).toLocaleDateString()
   },
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {}
+  beforeUpdate () {},
+  updated () {},
+  beforeDestroy () {}
 }
 </script>
 

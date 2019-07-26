@@ -1,11 +1,10 @@
 <template>
-  <div>
-  </div>
+  <div />
 </template>
 
 <script>
 export default {
-  name: 'right-side',
+  name: 'RightSide',
   components: {
   },
   mixins: [],

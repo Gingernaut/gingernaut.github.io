@@ -1,6 +1,6 @@
 <template>
-  <div  id="app">
-    <nuxt id="appContent"/>
+  <div id="app">
+    <nuxt id="appContent" />
   </div>
 </template>
 

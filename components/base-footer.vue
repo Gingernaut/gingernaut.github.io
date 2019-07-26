@@ -1,14 +1,12 @@
 <template>
-  <div >
-    <footer id="primary-footer">
-      
-    </footer>
+  <div>
+    <footer id="primary-footer" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'base-footer',
+  name: 'BaseFooter',
   components: {
   },
   mixins: [],

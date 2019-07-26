@@ -1,31 +1,38 @@
 <template>
   <div id="app">
+    <script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
     <div id="content-wrapper">
-      <div class="side-panel" id="left">
-        <leftSide/>
+      <div
+        class="side-panel"
+        id="left"
+      >
+        <leftSide />
       </div>
-      <nuxt id="appContent"/>
-      <div class="side-panel" id="right">
-        <rightSide/>
+      <nuxt id="appContent" />
+      <div
+        class="side-panel"
+        id="right"
+      >
+        <rightSide />
       </div>
     </div>
-    <baseFooter/>
+    <baseFooter />
   </div>
 </template>
 
 <script>
-import baseFooter from "@/components/base-footer";
-import leftSide from "@/components/left-side";
-import rightSide from "@/components/right-side";
+import baseFooter from '@/components/base-footer'
+import leftSide from '@/components/left-side'
+import rightSide from '@/components/right-side'
 
 export default {
-  name: "blog",
+  name: 'Blog',
   components: {
     baseFooter,
     leftSide,
     rightSide
   }
-};
+}
 </script>
 
 <style lang="scss">

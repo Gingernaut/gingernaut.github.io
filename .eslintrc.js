@@ -34,6 +34,6 @@ module.exports = {
     // var instead of let
     'no-var': 2,
     // string quotes
-    'quotes': ['error', 'single', {'allowTemplateLiterals': true}]
+    'quotes': ['warn', 'single', {'allowTemplateLiterals': true}]
   }
 };

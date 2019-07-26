@@ -26,8 +26,7 @@ module.exports = {
       { name: 'theme-color', content: '#394053' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Crimson+Text|Muli' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   /*

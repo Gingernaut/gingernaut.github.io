@@ -10,7 +10,7 @@ module.exports = {
     // Blog posts are in content/blog
     ['blog', {
       page: '/blog/_article',
-      permalink: '/blog/:slug',
+      permalink: '/blog/:year/:slug',
       isPost: true,
       generate: [
         'get',

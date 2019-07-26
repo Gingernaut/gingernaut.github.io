@@ -16,7 +16,7 @@
 
 export default {
   name: 'Error',
-  // props: ['error'],
+  props: ['error'],
   components: {
   },
   // props: [],

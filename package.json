@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.5.4",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-node": "^10.0.0",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-link-attributes": "^2.1.0",
     "nuxt": "npm:nuxt-edge",

@@ -18,7 +18,7 @@
     "@nuxtjs/axios": "^5.5.4",
     "eslint-plugin-node": "^9.1.0",
     "markdown-it-emoji": "^1.4.0",
-    "markdown-it-link-attributes": "^2.1.0",
+    "markdown-it-link-attributes": "^3.0.0",
     "nuxt": "npm:nuxt-edge",
     "nuxt-sass-resources-loader": "^2.0.5",
     "nuxtent": "^1.4.1",

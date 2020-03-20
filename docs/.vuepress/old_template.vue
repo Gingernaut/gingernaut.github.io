@@ -1,10 +1,19 @@
+
 <template>
   <div id="app">
-    <Content/>
+    <Content id="appContent" />
   </div>
 </template>
 
+
+
+<script>
+export default {}
+</script>
+
+
 <style lang="scss">
+
 html,body {
   margin: 0;
   padding: 0;
@@ -13,6 +22,7 @@ html,body {
   box-sizing: border-box;
   overflow-x: hidden;
 }
+
 #app {
   margin: 0;
   padding: 0;
@@ -22,13 +32,15 @@ html,body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  border: 3px solid red;
 }
+
 #appContent {
   flex-grow: 1;
 }
+
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
 }
+
 </style>

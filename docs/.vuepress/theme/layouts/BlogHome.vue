@@ -1,12 +1,13 @@
+
 <template>
   <div>
-    <p>About Me</p>
+    <Content id="blogContent" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "aboutPage",
+  name: "BlogHome",
   components: {},
   mixins: [],
   data() {

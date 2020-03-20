@@ -1,12 +1,13 @@
+
 <template>
   <div>
-    <p>About Me</p>
+    <Content id="articleContent" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "aboutPage",
+  name: "ArticleLayout",
   components: {},
   mixins: [],
   data() {
@@ -25,4 +26,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+#articleContent {
+  padding:30px;
+  padding-bottom:60px;
+  margin-left:auto;
+  margin-right:auto;
+  max-width:1000px;
+}
+
+</style>

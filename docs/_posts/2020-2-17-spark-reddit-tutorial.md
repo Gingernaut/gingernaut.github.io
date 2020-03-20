@@ -1,11 +1,11 @@
 ---
 title: Analyzing Reddit with Spark
 lang: en-US
-meta:
-  keywords:
-    - Apache Spark
-    - Data Engineering
-    - Tutorial
+tags:
+  - Apache Spark
+  - Data Engineering
+  - Tutorial
+layout: ArticleLayout
 ---
 
 

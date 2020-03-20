@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>This is a blank template for new pages and components.</p>
-
+    <h1>Blog</h1>
+    <br>
     <div class="posts" v-if="posts.length">
       <div class="post" v-for="post in posts">
         <router-link :to="post.path">
@@ -11,9 +11,8 @@
           <h2>{{post.frontmatter.title}}</h2>
           <p>{{post.frontmatter.description}}</p>
         </router-link>
-
-    <div v-if="post.frontmatter.meta && post.frontmatter.meta.keywords" class="keywords">
-        <span class="keyword" v-for="key in post.frontmatter.meta.keywords">{{key}}</span>
+        <div v-if="post.frontmatter.tags" class="keywords">
+        <span class="keyword" v-for="key in post.frontmatter.tags">{{key}}</span>
       </div>
       </div>
     </div>

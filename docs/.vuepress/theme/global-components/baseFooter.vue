@@ -45,7 +45,7 @@ export default {
   // justify-content: flex-end;
   padding-bottom: 2vh;
   height:140px;
-  background-color: #7e55f3;
+  background-color: #3eaf7c;
   color: #f9fbff;
 }
 

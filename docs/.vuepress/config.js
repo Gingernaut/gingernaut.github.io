@@ -6,7 +6,7 @@ module.exports = {
     description: 'My personal website',
     theme: '@vuepress/theme-default',
     themeConfig: {
-      // Please keep looking down to see the available options.
+      navbar: false // default vue one, instead use own component
     },
     configureWebpack: {
         resolve: {
@@ -24,7 +24,7 @@ module.exports = {
                 id: 'post',
                 // Target directory
                 dirname: '_posts',
-                // Path of the `entry page` (or `list page`)
+                // Path of the `entry page` (or `list page`)g
                 path: '/',
               },
             ],

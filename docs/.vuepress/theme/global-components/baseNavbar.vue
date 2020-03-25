@@ -2,7 +2,12 @@
   <nav id="primary-navbar">
     <div id="navcontent">
     <router-link id="site-anchor" to="/">Tyler Peterson</router-link>
-    <router-link to="/about">About</router-link>
+    <div class="navlink">
+      <router-link to="/blog">Blog</router-link>
+    </div>
+    <div class="navlink">
+      <router-link to="/about">About</router-link>
+    </div>
     <SearchBox id="searchBox" />
     </div>
   </nav>
@@ -48,6 +53,12 @@ export default {
 
     #site-anchor {
       font-size:1.75em;
+    }
+
+    .navlink {
+      font-size: 1.2em;
+      margin-left:10px;
+      margin-right:10px;
     }
 
     #searchBox {

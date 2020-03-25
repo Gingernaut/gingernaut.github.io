@@ -1,6 +1,8 @@
 ---
 title: Analyzing Reddit with Spark
-lang: en-US
+description: Doing stuff with data
+draft: false
+layout: ArticleLayout
 tags:
   - Apache Spark
   - Data Engineering
@@ -10,7 +12,7 @@ meta:
   content: hello
 - name: keywords
   content: super duper SEO
-layout: ArticleLayout
+lang: en-US
 ---
 
 

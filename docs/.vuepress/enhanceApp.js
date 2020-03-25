@@ -1,4 +1,5 @@
 // async function is also supported, too
+import "@/styles/_variables.scss"
 
 export default ({
     Vue, // the version of Vue being used in the VuePress app
@@ -8,6 +9,6 @@ export default ({
     isServer // is this enhancement applied in server-rendering or client
   }) => {
     // ...apply enhancements to the app
-    // router.addRoutes([{ path: '/about', component: import("@/components/aboutPage") }])
+    router.addRoutes([{ path: "/", redirect: "/blog" }])
   }
   

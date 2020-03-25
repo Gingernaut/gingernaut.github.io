@@ -55,8 +55,7 @@ export default {
   }
 
   #portraitMinSmile {
-      object-position: right bottom;
-
+    object-position: right bottom;
   }
 
   #skiDrop {

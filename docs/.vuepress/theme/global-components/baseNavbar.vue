@@ -2,6 +2,7 @@
   <nav id="primary-navbar">
     <div id="navcontent">
     <router-link id="site-anchor" to="/">Tyler Peterson</router-link>
+    <router-link to="/about">About</router-link>
     <SearchBox id="searchBox" />
     </div>
   </nav>
@@ -40,15 +41,19 @@ export default {
   #navcontent {
     display: flex;
     flex-direction: row;
+    align-items:center;
     width:100%;
     height:100%;
 
-    a {
+
+    #site-anchor {
       font-size:1.75em;
     }
 
     #searchBox {
-      
+      display: block;
+      margin-left:auto;
+      margin-right:10px;
     }
   }
 }

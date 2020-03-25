@@ -5,6 +5,11 @@ tags:
   - Apache Spark
   - Data Engineering
   - Tutorial
+meta:
+- name: description
+  content: hello
+- name: keywords
+  content: super duper SEO
 layout: ArticleLayout
 ---
 

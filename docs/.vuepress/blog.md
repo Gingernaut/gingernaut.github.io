@@ -1,9 +1,0 @@
-
-
----
-home: true
----
-### Blog
-
-
-<indexPage/>

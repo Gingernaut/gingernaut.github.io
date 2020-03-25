@@ -1,5 +1,6 @@
 
 const path = require("path")
+const fs = require("fs")
 
 module.exports = {
     title: 'Tyler Peterson',
@@ -11,9 +12,10 @@ module.exports = {
     configureWebpack: {
         resolve: {
           alias: {
-            '@assets': path.join(__dirname, "./docs/.vuepress/assets")
+            '@assets': path.join(__dirname, "./assets"),
+            '@': path.join(__dirname, "./")
           }
-        }
+        },
     },
     plugins: [
         '@vuepress/blog',

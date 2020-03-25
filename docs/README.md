@@ -1,7 +1,8 @@
 ---
 home: true
+
+heroText: null
+tagline: null
 ---
 
 <blogPosts/>
-
-<!-- ![Ski Pillow Drop](@assets/ski_pillow_drop.jpg) -->

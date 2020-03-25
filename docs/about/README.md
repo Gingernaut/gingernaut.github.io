@@ -1,0 +1,5 @@
+---
+layout: FullContent
+---
+
+<AboutPage/>

@@ -1,12 +1,13 @@
+
 <template>
   <div>
-    <p>About Me</p>
+    <Content/>
   </div>
 </template>
 
 <script>
 export default {
-  name: "aboutPage",
+  name: "FullContent",
   components: {},
   mixins: [],
   data() {
@@ -25,4 +26,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+
+</style>

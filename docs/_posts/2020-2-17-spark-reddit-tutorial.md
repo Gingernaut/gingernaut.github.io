@@ -1,7 +1,7 @@
 ---
 title: Analyzing Reddit with Spark
 description: Doing stuff with data
-draft: false
+draft: true
 layout: ArticleLayout
 tags:
   - Apache Spark
@@ -129,18 +129,6 @@ f.write(str(data))
 
 This script took *30* minutes to complete.
 
-How could we make this faster? Instead of using a single thread, share the work among all cores and combine the results
-
-
-```
-
-
-```
-
-
-That's a huge improvement in time
-
-
 
 
 ## Now, with Apache Spark
@@ -149,8 +137,28 @@ That's a huge improvement in time
 Instead of having to manually manage multiple processes and combine the results, we can make use of the the power of spark
 
 
-In our Jupyter Notebook
-```
+```scala
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
 
+object HelloSpark {
+    
+    def sparkConfig: SparkConf = {
+        new SparkConf()
+          .setAppName("HelloWorld")
+          .setMaster("spark://spark-master:7077")
+    }
+    
+    def main(): Unit = {   
+        val sc = SparkSession.builder.config(sparkConfig).getOrCreate()
+        
+        val data = sc.read.textFile("/data/reddit_comments_2019_04.txt")
+        println(data.count())
+        
+        sc.stop()   
+    }
+}
+
+HelloSpark.main()
 
 ```

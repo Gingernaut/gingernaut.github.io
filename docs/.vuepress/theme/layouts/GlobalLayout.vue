@@ -1,34 +1,34 @@
 <!-- themePath/layouts/GlobalLayout.vue -->
 <template>
   <div id="app">
-    <baseNavbar/>
-    <component id="appContent" :is="layout"/>
-    <baseFooter/>
+    <baseNavbar />
+    <component id="appContent" :is="layout" />
+    <baseFooter />
   </div>
 </template>
 
 <script>
 export default {
   computed: {
-    layout () {
+    layout() {
       if (this.$page.path) {
         if (this.$frontmatter.layout) {
           // You can also check whether layout exists first as the default global layout does.
-          return this.$frontmatter.layout
+          return this.$frontmatter.layout;
         }
-        return 'Layout'
+        return "Layout";
       }
-      return 'NotFound'
+      return "NotFound";
     }
   }
-}
+};
 </script>
 
 
 
 <style lang="scss">
-
-html,body {
+html,
+body {
   margin: 0;
   padding: 0;
   line-height: 1.5;
@@ -52,10 +52,11 @@ html,body {
   flex-grow: 1;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
 }
-
 </style>
 

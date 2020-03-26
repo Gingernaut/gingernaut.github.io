@@ -7,7 +7,7 @@ module.exports = {
     description: 'My personal website',
     theme: '@vuepress/theme-default',
     themeConfig: {
-      navbar: false // default vue one, instead use own component
+      navbar: false, // default vue one, instead use own component
     },
     configureWebpack: {
         resolve: {
@@ -18,20 +18,5 @@ module.exports = {
         },
     },
     permalink: '/blog/:year/:month/:day/:slug',
-    // plugins: [
-    //     '@vuepress/blog',
-    //     {
-    //         directories: [
-    //           {
-    //             // Unique ID of current classification
-    //             id: 'post',
-    //             // Target directory
-    //             dirname: '_posts',
-    //             // Path of the `entry page` (or `list page`)g
-    //             path: '/',
-    //           },
-    //         ],
-    //       },
-    //   ],
   }
   

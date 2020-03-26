@@ -2,12 +2,12 @@
   <nav id="primary-navbar">
     <div id="navcontent">
     <router-link id="site-anchor" to="/">Tyler Peterson</router-link>
-    <div class="navlink">
+    <!-- <div class="navlink">
       <router-link to="/blog">Blog</router-link>
     </div>
     <div class="navlink">
       <router-link to="/about">About</router-link>
-    </div>
+    </div> -->
     <SearchBox id="searchBox" />
     </div>
   </nav>
@@ -40,7 +40,7 @@ export default {
 <style lang="scss">
 #primary-navbar {
   height: 60px;
-  border-bottom: 1px solid #3eaf7c;
+  border-bottom: 1px solid #b5c2b7;
   padding:5px;
 
   #navcontent {

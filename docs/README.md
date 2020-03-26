@@ -1,7 +1,9 @@
 ---
+home: true
+
 heroText: null
 tagline: null
-permalink: "/blog"
+permalink: "/"
 ---
 
 <blogPosts/>

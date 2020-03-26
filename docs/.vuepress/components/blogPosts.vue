@@ -1,19 +1,19 @@
 <template>
   <div>
     <h1>Blog</h1>
-    <br>
+    <br />
     <div class="posts" v-if="posts.length">
       <div class="post" v-for="post in posts">
-        <router-link class="postLink":to="post.path">
+        <router-link class="postLink" :to="post.path">
           <div>
             <img v-if="post.frontmatter.image" :src="$withBase(post.frontmatter.image)" alt />
           </div>
           <h2>{{post.frontmatter.title}}</h2>
         </router-link>
-          <p>{{post.frontmatter.description}}</p>
+        <p>{{post.frontmatter.description}}</p>
         <div v-if="post.frontmatter.tags" class="keywords">
-        <span class="keyword" v-for="key in post.frontmatter.tags">{{key}}</span>
-      </div>
+          <span class="keyword" v-for="key in post.frontmatter.tags">{{key}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -55,17 +55,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .keyword {
-    padding: 5px;
-    margin:3px;
-    border-radius: 7px;
-    font-size: small;
-    background: #3eaf7c;
-    margin-right: 5px;
-    color: white;
-    font-weight: 500;
-  }
+  padding: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+  margin: 3px;
+  border-radius: 7px;
+  font-size: small;
+  background: #7c98b3;
+  margin-right: 5px;
+  color: white;
+  font-weight: 500;
+}
 
 .post {
   border-bottom: 1px solid #eaecef;
@@ -77,9 +78,8 @@ export default {
   }
 
   p {
-    padding-top:4px;
-    padding-bottom:4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 }
-
 </style>

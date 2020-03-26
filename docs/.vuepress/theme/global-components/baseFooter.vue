@@ -1,8 +1,8 @@
 <template>
   <div>
     <footer id="primary-footer">
-        <router-link to="/About">About</router-link>
-        <router-link to="/Contact">Contact</router-link>
+        <router-link to="/about">About</router-link>
+        <router-link to="/contact">Contact</router-link>
     </footer>
   </div>
 </template>

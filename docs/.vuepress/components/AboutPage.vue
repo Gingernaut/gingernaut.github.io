@@ -1,17 +1,26 @@
 <template>
   <div>
     <div id="aboutContent">
-      <h1>About</h1>
-      <br />
+      <div id="leftPart">
+        <h1>About</h1>
+        <br />
 
-      <p>I work at Qualtrics as a Software Engineer on stream and batch data processing with Apache Spark, Kafka, PrestoSQL.</p>
+        <p>
+          I work at Qualtrics as a Software Engineer on stream and batch data
+          processing with Apache Spark, Kafka, and PrestoSQL.
+        </p>
 
-      <p>In my free time I'm most often skiing, playing guitar, browsing Twitter, or reading books.</p>
-
-      <section id="images">
-        <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
-        <img class="profileImg top" id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
-      </section>
+        <p>
+          In my free time I'm most often skiing, playing guitar, browsing
+          Twitter, or reading books.
+        </p>
+      </div>
+      <div id="rightPart">
+        <section id="images">
+          <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
+          <img class="profileImg top" id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
+        </section>
+      </div>
     </div>
 
     <div id="socialLinks">
@@ -106,11 +115,14 @@ export default {
   min-height: 75vh;
   padding: 20px;
   padding-left: 30px;
+  display: flex;
+  flex-direction: row;
 
   #images {
     img {
-      height: 700px;
-      width: 450px;
+      width: 300px;
+      height: 500px;
+      right: 10%;
       object-fit: cover;
       position: absolute;
       right: 10vw;
@@ -118,6 +130,7 @@ export default {
       -moz-transition: opacity 1s ease-in-out;
       -o-transition: opacity 1s ease-in-out;
       transition: opacity 1s ease-in-out;
+      overflow: hidden;
     }
 
     #portraitMinSmile {
@@ -162,6 +175,30 @@ export default {
   a {
     margin-left: 15px;
     margin-right: 15px;
+  }
+}
+#leftPart {
+  width: 60%;
+}
+
+#leftPart,
+#rightPart {
+}
+
+@media only screen and (max-width: 1000px) {
+  #leftPart {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #images {
+    display: none;
+  }
+
+  #leftPart {
+    width: auto;
+    flex-grow: 1;
   }
 }
 </style>

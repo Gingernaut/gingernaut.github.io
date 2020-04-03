@@ -2,6 +2,14 @@
   <div>
     <div id="aboutContent">
       <div id="leftPart">
+        <img id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
+
+        <!-- <section id="images">
+          <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
+          <img class="profileImg top" id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
+        </section>-->
+      </div>
+      <div id="rightPart">
         <h1>About</h1>
         <br />
 
@@ -14,12 +22,6 @@
           In my free time I'm most often skiing, playing guitar, browsing
           Twitter, or reading books.
         </p>
-      </div>
-      <div id="rightPart">
-        <section id="images">
-          <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
-          <img class="profileImg top" id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
-        </section>
       </div>
     </div>
 
@@ -114,56 +116,64 @@ export default {
   height: auto;
   min-height: 75vh;
   padding: 20px;
-  padding-left: 30px;
   display: flex;
   flex-direction: row;
 
-  #images {
-    img {
-      width: 300px;
-      height: 500px;
-      right: 10%;
-      object-fit: cover;
-      position: absolute;
-      right: 10vw;
-      -webkit-transition: opacity 1s ease-in-out;
-      -moz-transition: opacity 1s ease-in-out;
-      -o-transition: opacity 1s ease-in-out;
-      transition: opacity 1s ease-in-out;
-      overflow: hidden;
-    }
-
-    #portraitMinSmile {
-      object-position: right bottom;
-    }
-
-    #skiDrop {
-      object-position: left bottom;
-    }
+  #portraitMinSmile {
+    height: auto;
+    max-height: 50vh;
+    width: auto;
+    max-width: 30vw;
+    object-fit: cover;
+    object-position: 75% bottom;
+    overflow: hidden;
   }
 
-  @keyframes imgFadeInOut {
-    0% {
-      opacity: 1;
-    }
-    45% {
-      opacity: 1;
-    }
-    55% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
+  // #images {
+  //   img {
+  //     height: 50vh;
+  //     object-fit: cover;
+  //     position: absolute;
+  //     top:10vw;
+  //     left: 30px;
+  //     -webkit-transition: opacity 1s ease-in-out;
+  //     -moz-transition: opacity 1s ease-in-out;
+  //     -o-transition: opacity 1s ease-in-out;
+  //     transition: opacity 1s ease-in-out;
+  //     overflow: hidden;
+  //   }
 
-  #images img.top {
-    animation-name: imgFadeInOut;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-duration: 12s;
-    animation-direction: alternate;
-  }
+  //   #portraitMinSmile {
+  //     object-position: right bottom;
+  //   }
+
+  //   #skiDrop {
+  //     object-position: left bottom;
+  //   }
+  // }
+
+  // @keyframes imgFadeInOut {
+  //   0% {
+  //     opacity: 1;
+  //   }
+  //   45% {
+  //     opacity: 1;
+  //   }
+  //   55% {
+  //     opacity: 0;
+  //   }
+  //   100% {
+  //     opacity: 0;
+  //   }
+  // }
+
+  // #images img.top {
+  //   animation-name: imgFadeInOut;
+  //   animation-timing-function: ease-in-out;
+  //   animation-iteration-count: infinite;
+  //   animation-duration: 12s;
+  //   animation-direction: alternate;
+  // }
 }
 
 #socialLinks {
@@ -177,28 +187,46 @@ export default {
     margin-right: 15px;
   }
 }
+
+// image
 #leftPart {
-  width: 60%;
+  display: flex;
+  flex-direction: row;
+  // align-items: center;
+  padding-top: 30px;
 }
 
-#leftPart,
+// about
 #rightPart {
+  padding: 30px;
 }
 
 @media only screen and (max-width: 1000px) {
-  #leftPart {
-    width: 50%;
+  #rightPart {
+    padding: 15px;
   }
 }
 
 @media only screen and (max-width: 800px) {
-  #images {
-    display: none;
+  #aboutContent {
+    flex-direction: column;
+    padding:5px;
   }
 
   #leftPart {
-    width: auto;
-    flex-grow: 1;
+    margin-left:auto;
+    margin-right:auto;
+    height: 40vh;
+    
+    #portraitMinSmile {
+      height:100%;
+      max-width:100vw;
+    }
+  }
+
+
+  #rightPart {
+    padding: 10px;
   }
 }
 </style>

@@ -116,16 +116,14 @@ export default {
   #friendlyMessage {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   form {
-    width: 40%;
+    width: 50vw;
     min-width: 400px;
+    max-width:1000px;
     margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 
     * {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -184,5 +182,17 @@ button {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 800px) {
+  #contact-wrapper {
+  form {
+    width:100%;
+    max-width:100vw;
+    min-width:none;
+  }
+}
 }
 </style>

@@ -36,7 +36,7 @@ export default {
   max-width:1000px;
 
 
-  p code {
+  p code, li code {
     background-color: #282C34;
     padding:3px;
     padding-left:8px;

@@ -12,6 +12,7 @@
     "vuepress": "^1.4.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "node-sass": "^4.13.1",
     "push-dir": "^0.4.1",
     "sass-loader": "^8.0.2"

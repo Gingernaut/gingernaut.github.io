@@ -1,7 +1,8 @@
 ---
-heroText: null
-tagline: null
+
 permalink: "/blog"
+layout: ArticleLayout
+
 ---
 
 <blogPosts/>

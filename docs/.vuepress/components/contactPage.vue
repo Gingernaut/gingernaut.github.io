@@ -5,22 +5,13 @@
       <form @submit.prevent="sendContact">
         <fieldset>
           <label for="nameField">Name</label>
-          <input v-model="name" type="text" placeholder="" id="nameField" />
+          <input v-model="name" type="text" placeholder id="nameField" />
 
           <label for="emailField">Email Address</label>
-          <input
-            v-model="emailAddress"
-            type="text"
-            placeholder=""
-            id="emailField"
-          />
+          <input v-model="emailAddress" type="text" placeholder id="emailField" />
 
-          <label for="commentField" id="commentLabel">Comment</label>
-          <textarea
-            v-model="bodyText"
-            placeholder="Hi Tyler …"
-            id="commentField"
-          ></textarea>
+          <label for="commentField" id="commentLabel">Message</label>
+          <textarea v-model="bodyText" placeholder="Hi Tyler …" id="commentField"></textarea>
 
           <br />
           <p v-for="err in errors" :key="err" class="error">{{ err }}</p>
@@ -40,7 +31,12 @@
 import axios from "axios";
 
 const HTTP = () => {
-  return axios.create();
+  return axios.create({
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
 };
 
 /* eslint-disable */
@@ -55,14 +51,13 @@ export default {
 
       name: null,
       emailAddress: null,
-      bodyText: null,
+      bodyText: null
     };
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
-  mounted() {
-  },
+  mounted() {},
   computed: {},
   methods: {
     sendContact() {
@@ -85,25 +80,25 @@ export default {
         .post("https://hook.integromat.com/j2sh4hut8gjuq3bw4nntu6ka0lhizxdi", {
           emailAddress: this.emailAddress,
           name: this.name,
-          bodyText: this.bodyText,
+          bodyText: this.bodyText
         })
-        .then((res) => {
+        .then(res => {
           console.log("subitted response");
           this.hasSubmitted = true;
           this.name = null;
           this.emailAddress = null;
           this.bodyText = null;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log("err");
           console.log(err);
         });
-    },
+    }
   },
   filters: {},
   beforeUpdate() {},
   updated() {},
-  beforeDestroy() {},
+  beforeDestroy() {}
 };
 </script>
 
@@ -113,16 +108,18 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  #friendlyMessage {
+  h1,
+  h2 {
     margin-left: auto;
     margin-right: auto;
+    margin:3px;
     margin-top: 40px;
   }
 
   form {
     width: 50vw;
     min-width: 400px;
-    max-width:1000px;
+    max-width: 1000px;
     margin-top: 30px;
 
     * {
@@ -184,15 +181,13 @@ button {
   cursor: pointer;
 }
 
-
-
 @media only screen and (max-width: 800px) {
   #contact-wrapper {
-  form {
-    width:100%;
-    max-width:100vw;
-    min-width:none;
+    form {
+      width: 100%;
+      max-width: 100vw;
+      min-width: none;
+    }
   }
-}
 }
 </style>

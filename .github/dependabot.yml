@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "12:00"
+  open-pull-requests-limit: 99
+  target-branch: dev
+  ignore:
+  - dependency-name: vuepress
+    versions:
+    - 1.8.0
+    - 1.8.1
+  - dependency-name: sass-loader
+    versions:
+    - 10.1.1
+    - 11.0.0

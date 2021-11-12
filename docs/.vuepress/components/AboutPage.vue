@@ -2,7 +2,7 @@
   <div>
     <div id="aboutContent">
       <div id="leftPart">
-        <img id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
+        <!-- <img id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" /> -->
 
         <!-- <section id="images">
           <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
@@ -12,16 +12,6 @@
       <div id="rightPart">
         <h1>About</h1>
         <br />
-
-        <p>
-          I work at Qualtrics as a Software Engineer on stream and batch data
-          processing with Apache Spark, Kafka, and PrestoSQL.
-        </p>
-
-        <p>
-          In my free time I'm most often skiing, playing guitar, browsing
-          Twitter, or reading books.
-        </p>
       </div>
     </div>
 

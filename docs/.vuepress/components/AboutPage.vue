@@ -104,10 +104,9 @@ export default {
 <style lang="scss" scoped>
 #aboutContent {
   height: auto;
-  min-height: 75vh;
   padding: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   #portraitMinSmile {
     height: auto;
@@ -171,6 +170,7 @@ export default {
   flex-direction: row;
   justify-content: center;
   padding: 8px;
+  padding-top:15%;
 
   a {
     margin-left: 15px;

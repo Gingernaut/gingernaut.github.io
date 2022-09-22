@@ -9,12 +9,12 @@
     "build": "vuepress build docs"
   },
   "devDependencies": {
-    "vuepress": "^1.7.1"
+    "vuepress": "^1.9.7"
   },
   "dependencies": {
-    "axios": "^0.21.0",
-    "node-sass": "^5.0.0",
+    "axios": "^0.27.2",
+    "node-sass": "^7.0.3",
     "push-dir": "^0.4.1",
-    "sass-loader": "^10.1.0"
+    "sass-loader": "^10"
   }
 }

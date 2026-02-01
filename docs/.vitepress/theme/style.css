@@ -51,6 +51,7 @@ body {
 /* Hide default Vitepress components */
 .VPNav,
 .VPFooter {
+	/* biome-ignore lint/complexity/noImportantStyles: override default theme */
 	display: none !important;
 }
 
@@ -61,6 +62,8 @@ body {
 .VPHome,
 .VPPage,
 .Layout {
+	/* biome-ignore lint/complexity/noImportantStyles: override default theme */
 	min-height: auto !important;
+	/* biome-ignore lint/complexity/noImportantStyles: override default theme */
 	height: auto !important;
 }

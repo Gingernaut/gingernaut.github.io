@@ -2,17 +2,16 @@
 
 import type { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
-import { h } from "vue";
 import "./style.css";
 
-import AboutPage from "./components/AboutPage.vue";
-import ContactPage from "./components/ContactPage.vue";
-import Layout from "./Layout.vue";
+import AboutPage from "./components/about-page.vue";
+import ContactPage from "./components/contact-page.vue";
+import Layout from "./layout.vue";
 
 export default {
 	extends: DefaultTheme,
 	Layout: Layout,
-	enhanceApp({ app, router, siteData }) {
+	enhanceApp({ app }) {
 		app.component("AboutPage", AboutPage);
 		app.component("ContactPage", ContactPage);
 	},

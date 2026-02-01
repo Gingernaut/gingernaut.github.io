@@ -1,5 +1,5 @@
 <template>
-  <div data-tf-live="01KGD5XNYGQZ32EFPGZT0GZ09M"</div>
+  <div data-tf-live="01KGD5XNYGQZ32EFPGZT0GZ09M"></div>
 </template>
 
 <script setup lang="ts">

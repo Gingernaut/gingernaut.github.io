@@ -7,23 +7,23 @@
 
 <script>
 export default {
-  name: "ArticleLayout",
-  components: {},
-  mixins: [],
-  data() {
-    return {}
-  },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  filters: {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {},
-}
+	name: "ArticleLayout",
+	components: {},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	computed: {},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
+};
 </script>
 
 <style lang="scss">

@@ -21,36 +21,36 @@
 
 <script>
 export default {
-  name: "blogPosts",
-  components: {},
-  mixins: [],
-  data() {
-    return {};
-  },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  computed: {
-    posts() {
-      let posts = this.$site.pages
-        .filter(x => {
-          return x.regularPath.match(new RegExp(`(/)(?=.*html)`));
-        })
-        .filter(x => {
-          return !x.frontmatter.draft;
-        })
-        .sort((a, b) => {
-          return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
-        });
-      return posts;
-    }
-  },
-  methods: {},
-  filters: {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {}
+	name: "blogPosts",
+	components: {},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	computed: {
+		posts() {
+			const posts = this.$site.pages
+				.filter((x) => {
+					return x.regularPath.match(/(\/)(?=.*html)/);
+				})
+				.filter((x) => {
+					return !x.frontmatter.draft;
+				})
+				.sort((a, b) => {
+					return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
+				});
+			return posts;
+		},
+	},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
 };
 </script>
 

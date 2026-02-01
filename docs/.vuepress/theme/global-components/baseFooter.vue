@@ -9,35 +9,23 @@
 
 <script>
 export default {
-  name: 'baseFooter',
-  components: {
-  },
-  mixins: [],
-  data () {
-    return {
-    }
-  },
-  beforeCreate () {
-  },
-  created () {
-  },
-  beforeMount () {
-  },
-  mounted () {
-  },
-  computed: {
-  },
-  methods: {
-  },
-  filters: {
-  },
-  beforeUpdate () {
-  },
-  updated () {
-  },
-  beforeDestroy () {
-  }
-}
+	name: "baseFooter",
+	components: {},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	computed: {},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
+};
 </script>
 
 <style lang="scss" scoped>

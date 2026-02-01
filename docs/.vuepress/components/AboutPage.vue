@@ -64,22 +64,22 @@
 
 <script>
 export default {
-  name: "AboutPage",
-  components: {},
-  mixins: [],
-  data() {
-    return {};
-  },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  filters: {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {}
+	name: "AboutPage",
+	components: {},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	computed: {},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
 };
 </script>
 

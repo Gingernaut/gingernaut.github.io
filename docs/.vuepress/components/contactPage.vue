@@ -14,43 +14,43 @@
 <script>
 /* eslint-disable */
 export default {
-  name: 'contactPage',
-  components: {},
-  mixins: [],
-  data () {
-    return {}
-  },
-  beforeCreate () {},
-  created () {},
-  beforeMount () {},
-  mounted () {
-    (function () {
-      let qs
-      let js
-      let q
-      let s
-      const d = document
-      const gi = d.getElementById
-      const ce = d.createElement
-      const gt = d.getElementsByTagName
-      const id = 'typef_orm'
-      const b = 'https://embed.typeform.com/'
-      if (!gi.call(d, id)) {
-        js = ce.call(d, 'script')
-        js.id = id
-        js.src = b + 'embed.js'
-        q = gt.call(d, 'script')[0]
-        q.parentNode.insertBefore(js, q)
-      }
-    })()
-  },
-  computed: {},
-  methods: {},
-  filters: {},
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {}
-}
+	name: "contactPage",
+	components: {},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {
+		(() => {
+			let qs;
+			let js;
+			let q;
+			let s;
+			const d = document;
+			const gi = d.getElementById;
+			const ce = d.createElement;
+			const gt = d.getElementsByTagName;
+			const id = "typef_orm";
+			const b = "https://embed.typeform.com/";
+			if (!gi.call(d, id)) {
+				js = ce.call(d, "script");
+				js.id = id;
+				js.src = b + "embed.js";
+				q = gt.call(d, "script")[0];
+				q.parentNode.insertBefore(js, q);
+			}
+		})();
+	},
+	computed: {},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
+};
 </script>
 
 <style lang="scss" scoped>

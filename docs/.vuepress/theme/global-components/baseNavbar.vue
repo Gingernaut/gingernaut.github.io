@@ -16,24 +16,24 @@
 <script>
 import SearchBox from "@SearchBox";
 export default {
-  name: "baseNavbar",
-  components: {
-    SearchBox
-  },
-  mixins: [],
-  data() {
-    return {};
-  },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  filters: {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {}
+	name: "baseNavbar",
+	components: {
+		SearchBox,
+	},
+	mixins: [],
+	data() {
+		return {};
+	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	computed: {},
+	methods: {},
+	filters: {},
+	beforeUpdate() {},
+	updated() {},
+	beforeDestroy() {},
 };
 </script>
 

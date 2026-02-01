@@ -4,7 +4,7 @@
       <a class="logo text-[1.75em] text-[var(--vp-c-brand-1)] no-underline" href="/">Tyler Peterson</a>
 
       <div class="flex items-center gap-12">
-        <a class="nav-link px-8" href="/blog/" :class="{ active: isActive('/blog/') }">Blog</a>
+        <!-- <a class="nav-link px-8" href="/blog/" :class="{ active: isActive('/blog/') }">Blog</a> -->
         <a class="nav-link px-8" href="/about/" :class="{ active: isActive('/about/') }">About</a>
         <a class="nav-link px-8" href="/contact/" :class="{ active: isActive('/contact/') }">Contact</a>
       </div>

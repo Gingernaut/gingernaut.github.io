@@ -4,7 +4,7 @@
     <div id="appContent">
       <component :is="layoutComponent" />
     </div>
-    <BaseFooter />
+    <!-- <BaseFooter /> -->
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import { useData } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import { computed } from "vue";
 import AboutPage from "./components/about-page.vue";
-import BaseFooter from "./components/base-footer.vue";
+// import BaseFooter from "./components/base-footer.vue";
 // biome-ignore lint/correctness/noUnusedImports: used in template
 import BaseNavbar from "./components/base-navbar.vue";
 import BlogIndex from "./components/blog-index.vue";

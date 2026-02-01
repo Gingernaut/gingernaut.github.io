@@ -16,14 +16,14 @@
 </template>
 
 <script setup lang="ts">
-import { data as posts } from '../posts.data.ts'
+import { data as posts } from "../posts.data.ts";
 
 function formatDate(raw: string | number | Date) {
-  const date = new Date(raw)
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+	const date = new Date(raw);
+	return date.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
 }
 </script>

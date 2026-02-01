@@ -9,38 +9,38 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useData } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
-import baseNavbar from './components/baseNavbar.vue'
-import baseFooter from './components/baseFooter.vue'
-import ArticleLayout from './layouts/ArticleLayout.vue'
-import FullContent from './layouts/FullContent.vue'
-import HomePage from './components/HomePage.vue'
-import AboutPage from './components/AboutPage.vue'
-import ContactPage from './components/ContactPage.vue'
-import BlogIndex from './components/BlogIndex.vue'
+import { useData } from "vitepress";
+import DefaultTheme from "vitepress/theme";
+import { computed } from "vue";
+import AboutPage from "./components/AboutPage.vue";
+import BlogIndex from "./components/BlogIndex.vue";
+import baseFooter from "./components/baseFooter.vue";
+import baseNavbar from "./components/baseNavbar.vue";
+import ContactPage from "./components/ContactPage.vue";
+import HomePage from "./components/HomePage.vue";
+import ArticleLayout from "./layouts/ArticleLayout.vue";
+import FullContent from "./layouts/FullContent.vue";
 
-const { frontmatter } = useData()
+const { frontmatter } = useData();
 
 const layoutComponent = computed(() => {
-  const layout = frontmatter.value.layout
-  
-  if (layout === 'home') return HomePage
-  if (layout === 'about') return AboutPage
-  if (layout === 'contact') return ContactPage
-  if (layout === 'blog-index') return BlogIndex
-  
-  if (layout === 'ArticleLayout') {
-    return ArticleLayout
-  }
-  if (layout === 'FullContent' || layout === 'full') { 
-      return FullContent
-  }
-  
-  // Default fallback
-  return DefaultTheme.Layout
-})
+	const layout = frontmatter.value.layout;
+
+	if (layout === "home") return HomePage;
+	if (layout === "about") return AboutPage;
+	if (layout === "contact") return ContactPage;
+	if (layout === "blog-index") return BlogIndex;
+
+	if (layout === "ArticleLayout") {
+		return ArticleLayout;
+	}
+	if (layout === "FullContent" || layout === "full") {
+		return FullContent;
+	}
+
+	// Default fallback
+	return DefaultTheme.Layout;
+});
 </script>
 
 <style scoped>

@@ -5,9 +5,9 @@ import DefaultTheme from "vitepress/theme";
 import { h } from "vue";
 import "./style.css";
 
-import Layout from "./Layout.vue";
 import AboutPage from "./components/AboutPage.vue";
 import ContactPage from "./components/ContactPage.vue";
+import Layout from "./Layout.vue";
 
 export default {
 	extends: DefaultTheme,

@@ -2,27 +2,11 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+	appearance: false,
 	title: "Tyler Peterson",
-	description: "A VitePress Site",
+	description: "My personal website",
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
-		nav: [
-			{ text: "Home", link: "/" },
-			{ text: "Examples", link: "/markdown-examples" },
-		],
-
-		sidebar: [
-			{
-				text: "Examples",
-				items: [
-					{ text: "Markdown Examples", link: "/markdown-examples" },
-					{ text: "Runtime API Examples", link: "/api-examples" },
-				],
-			},
-		],
-
-		socialLinks: [
-			{ icon: "github", link: "https://github.com/vuejs/vitepress" },
-		],
+		// Leaving empty for now as we are using custom layout
 	},
 });

@@ -2,21 +2,16 @@
   <div>
     <div id="aboutContent">
       <div id="leftPart">
-        <!-- <img id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" /> -->
-
-        <!-- <section id="images">
-          <img class="profileImg bottom" id="skiDrop" src="~@assets/ski_pillow_drop.jpg" />
-          <img class="profileImg top" id="portraitMinSmile" src="~@assets/portrait_min_smile.jpg" />
-        </section>-->
+        <!-- Image placeholders -->
       </div>
       <div id="rightPart">
         <h1>About</h1>
         <br />
+        <p>This is the About page content.</p>
       </div>
     </div>
 
     <div id="socialLinks">
-      <!-- Note: fix padding/margin for hover -->
       <a href="https://github.com/gingernaut" target="_blank" rel="noopener noreferrer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -64,87 +59,26 @@
 
 <script>
 export default {
-	name: "AboutPage",
-	components: {},
-	mixins: [],
-	data() {
-		return {};
-	},
-	beforeCreate() {},
-	created() {},
-	beforeMount() {},
-	mounted() {},
-	computed: {},
-	methods: {},
-	filters: {},
-	beforeUpdate() {},
-	updated() {},
-	beforeDestroy() {},
+  name: "AboutPage"
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #aboutContent {
   height: auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
+}
 
-  #portraitMinSmile {
-    height: auto;
-    max-height: 50vh;
-    width: auto;
-    max-width: 30vw;
-    object-fit: cover;
-    object-position: 75% bottom;
-    overflow: hidden;
-  }
-
-  // #images {
-  //   img {
-  //     height: 50vh;
-  //     object-fit: cover;
-  //     position: absolute;
-  //     top:10vw;
-  //     left: 30px;
-  //     -webkit-transition: opacity 1s ease-in-out;
-  //     -moz-transition: opacity 1s ease-in-out;
-  //     -o-transition: opacity 1s ease-in-out;
-  //     transition: opacity 1s ease-in-out;
-  //     overflow: hidden;
-  //   }
-
-  //   #portraitMinSmile {
-  //     object-position: right bottom;
-  //   }
-
-  //   #skiDrop {
-  //     object-position: left bottom;
-  //   }
-  // }
-
-  // @keyframes imgFadeInOut {
-  //   0% {
-  //     opacity: 1;
-  //   }
-  //   45% {
-  //     opacity: 1;
-  //   }
-  //   55% {
-  //     opacity: 0;
-  //   }
-  //   100% {
-  //     opacity: 0;
-  //   }
-  // }
-
-  // #images img.top {
-  //   animation-name: imgFadeInOut;
-  //   animation-timing-function: ease-in-out;
-  //   animation-iteration-count: infinite;
-  //   animation-duration: 12s;
-  //   animation-direction: alternate;
-  // }
+#aboutContent #portraitMinSmile {
+  height: auto;
+  max-height: 50vh;
+  width: auto;
+  max-width: 30vw;
+  object-fit: cover;
+  object-position: 75% bottom;
+  overflow: hidden;
 }
 
 #socialLinks {
@@ -152,23 +86,22 @@ export default {
   flex-direction: row;
   justify-content: center;
   padding: 8px;
-  padding-top:15%;
-
-  a {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
+  padding-top: 15%;
 }
 
-// image
+#socialLinks a {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+/* image */
 #leftPart {
   display: flex;
   flex-direction: row;
-  // align-items: center;
   padding-top: 30px;
 }
 
-// about
+/* about */
 #rightPart {
   padding: 30px;
 }
@@ -182,20 +115,19 @@ export default {
 @media only screen and (max-width: 800px) {
   #aboutContent {
     flex-direction: column;
-    padding:5px;
+    padding: 5px;
   }
 
   #leftPart {
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     height: 40vh;
-    
-    #portraitMinSmile {
-      height:100%;
-      max-width:100vw;
-    }
   }
 
+  #leftPart #portraitMinSmile {
+    height: 100%;
+    max-width: 100vw;
+  }
 
   #rightPart {
     padding: 10px;

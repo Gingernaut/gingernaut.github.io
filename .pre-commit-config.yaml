@@ -1,5 +1,24 @@
 repos:
-  - repo: https://github.com/biomejs/pre-commit
-    rev: v2.3.10 # Use the sha / tag you want to point at
-    hooks:
-      - id: biome-check
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: check-merge-conflict
+  - id: check-added-large-files
+  - id: fix-byte-order-marker
+  - id: detect-private-key
+  - id: trailing-whitespace
+  - id: check-ast
+  - id: check-case-conflict
+  - id: check-executables-have-shebangs
+  - id: detect-private-key
+  - id: check-yaml
+    exclude: k8s/
+  - id: check-json
+  - id: check-xml
+  - id: destroyed-symlinks
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+- repo: https://github.com/biomejs/pre-commit
+  rev: v2.3.10 # Use the sha / tag you want to point at
+  hooks:
+    - id: biome-check

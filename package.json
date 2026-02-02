@@ -19,6 +19,7 @@
 		"vitepress": "2.0.0-alpha.16"
 	},
 	"dependencies": {
-		"@headlessui/vue": "^1.7.23"
+		"@headlessui/vue": "^1.7.23",
+		"posthog-js": "^1.336.4"
 	}
 }

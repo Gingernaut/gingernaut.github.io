@@ -25,9 +25,9 @@ const images = [
 	"/images/larches_hiking.jpg",
 	"/images/mexico_scuba.jpg",
 	"/images/snowbike.JPG",
+	"/images/hiking.jpg",
 	"/images/olympic_np_walking.jpg",
 	"/images/waterski.jpg",
-	"/images/hiking.jpg",
 	"/images/rainier_np_hiking.jpg",
 ];
 

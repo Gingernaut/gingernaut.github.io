@@ -6,6 +6,7 @@ import "./style.css";
 
 import AboutPage from "./components/about-page.vue";
 import ContactPage from "./components/contact-page.vue";
+import ScubaTools from "./components/scuba-tools.vue";
 import { usePostHog } from "./composables/usePostHog";
 import Layout from "./layout.vue";
 
@@ -18,5 +19,6 @@ export default {
 		}
 		app.component("AboutPage", AboutPage);
 		app.component("ContactPage", ContactPage);
+		app.component("ScubaTools", ScubaTools);
 	},
 } satisfies Theme;

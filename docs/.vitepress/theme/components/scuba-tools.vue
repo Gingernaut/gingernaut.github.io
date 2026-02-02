@@ -4,20 +4,25 @@ import { computed, ref, watch } from "vue";
 // --- Types & Constants ---
 type Tank = {
 	name: string;
-	capacity: number; // cu ft
+	capacity: number; // cu ft (nominal)
 	pressure: number; // psi
+	factor: number; // GUE Tank Factor
 };
 
 const tanks: readonly Tank[] = [
-	{ name: "AL80", capacity: 77, pressure: 3000 },
-	{ name: "HP100", capacity: 100, pressure: 3442 },
-	{ name: "Double AL80", capacity: 154, pressure: 3000 },
-	{ name: "Double HP100", capacity: 200, pressure: 3442 },
+	{ name: "AL80", capacity: 77, pressure: 3000, factor: 2.5 },
+	{ name: "HP100", capacity: 100, pressure: 3442, factor: 3.0 },
+	{ name: "LP85", capacity: 85, pressure: 2640, factor: 3.0 },
+	{ name: "LP95", capacity: 95, pressure: 2640, factor: 3.5 },
+	{ name: "LP104", capacity: 104, pressure: 2640, factor: 4.0 },
+	{ name: "HP120", capacity: 120, pressure: 3442, factor: 3.5 },
+	{ name: "Double AL80", capacity: 154, pressure: 3000, factor: 5.0 },
+	{ name: "Double HP100", capacity: 200, pressure: 3442, factor: 6.0 },
+	{ name: "Double LP85", capacity: 170, pressure: 2640, factor: 6.0 },
 ];
 
 const standardGases = [
 	{ name: "Air", fO2: 21, fHe: 0 },
-	{ name: "Oxygen", fO2: 100, fHe: 0 },
 	{ name: "Nitrox 32", fO2: 32, fHe: 0 },
 	{ name: "TriMix 21/35", fO2: 21, fHe: 35 },
 	{ name: "TriMix 18/45", fO2: 18, fHe: 45 },
@@ -26,18 +31,20 @@ const standardGases = [
 	{ name: "TriMix 10/70", fO2: 10, fHe: 70 },
 ] as const;
 
+const standardPPO2 = 1.4;
+
 // --- State: SCR Calculator ---
 const scrStartPsi = ref<number | null>(null);
 const scrEndPsi = ref<number | null>(null);
 const scrTime = ref<number | null>(null);
 const scrDepth = ref<number | null>(null); // Average depth
-const scrTank = ref<Tank>(tanks[3]);
+const scrTank = ref<Tank>(tanks[7]); // Default to Double HP100 (index 7 now)
 
 // --- State: Gas Planning ---
 const planScr = ref<number>(0.75); // Default Conservative SCR
 const planDepth = ref<number>(100);
 const planStartPsi = ref<number>(tanks[3].pressure);
-const planTank = ref<Tank>(tanks[3]); // Double HP100 default
+const planTank = ref<Tank>(tanks[7]); // Double HP100 default
 const gasStrategy = ref<"all" | "half" | "third">("all");
 
 watch(planTank, (newTank) => {
@@ -46,22 +53,22 @@ watch(planTank, (newTank) => {
 
 // --- Calculations: Helpers ---
 const calcAta = (depthFt: number): number => depthFt / 33 + 1;
-const getTankFactor = (tank: Tank): number => tank.capacity / tank.pressure;
+const getTankFactor = (tank: Tank): number => tank.factor;
 
 // --- Calculations: SCR ---
 const scrResult = computed<number | null>(() => {
 	if (
-		!scrStartPsi.value ||
-		!scrEndPsi.value ||
+		scrStartPsi.value === null ||
+		scrEndPsi.value === null ||
 		!scrTime.value ||
-		!scrDepth.value
+		scrDepth.value === null
 	)
 		return null;
 
 	const psiConsumed = scrStartPsi.value - scrEndPsi.value;
 	const tankFactor = getTankFactor(scrTank.value);
-	const volConsumed = (psiConsumed / 100) * (tankFactor * 100); // matches script logic: psi / 100 * tank_factor (where tank_factor is cap/press * 100)
-	// Simplified: (psi / pressure) * capacity
+	// Formula: (PSI / 100) * TankFactor
+	const volConsumed = (psiConsumed / 100) * tankFactor;
 
 	const ata = calcAta(scrDepth.value);
 	// SCR (RMV) = Vol / (Time * ATA)
@@ -97,11 +104,8 @@ const planResult = computed<PlanResult>(() => {
 	const minGasVol = twoDiverScr * avgAta * timeToSurface;
 
 	// Convert Vol to PSI
-	// PSI = (Vol / Capacity) * Pressure
-	// Script uses: int(cubic_ft / TANK_FACTOR * 100) where TANK_FACTOR = (CAP/PRESS)*100
-	// effectively: Vol / (CAP/PRESS)
-
-	let minGasPsi = Math.ceil(minGasVol / (tank.capacity / tank.pressure));
+	// Formula: (Vol / TankFactor) * 100
+	let minGasPsi = Math.ceil((minGasVol / tank.factor) * 100);
 
 	// Pad to nearest 100 (script logic)
 	minGasPsi = Math.ceil(minGasPsi / 100) * 100;
@@ -149,20 +153,6 @@ const getMod = (fO2: number, pO2: number): number => {
 	if (fO2 === 0) return 0;
 	const ata = pO2 / (fO2 / 100);
 	return Math.floor((ata - 1) * 33);
-};
-
-const getEnd = (depth: number, fHe: number): number => {
-	// END = (Depth + 33) * (1 - fHe) - 33
-	// Equivalent Narcotic Depth assuming O2 is narcotic? GUE treats O2 as narcotic in END calc usually?
-	// GUE Standards: END <= 100ft (30m).
-	// Formula: ATA_end = ATA_abs * (1 - fHe) => Depth_end = (ATA_end - 1) * 33
-	const ataAbs = calcAta(depth);
-	const ataEnd = ataAbs * (1 - fHe / 100);
-	return Math.max(0, Math.round((ataEnd - 1) * 33));
-};
-
-const copyToClipboard = (text: string) => {
-	navigator.clipboard.writeText(text);
 };
 </script>
 
@@ -393,8 +383,7 @@ const copyToClipboard = (text: string) => {
                             <th class="px-5 py-3 font-semibold">Gas Name</th>
                             <th class="px-5 py-3 font-semibold text-center">Oxygen (O<sub>2</sub>)</th>
                             <th class="px-5 py-3 font-semibold text-center">Helium (He)</th>
-                            <th class="px-5 py-3 font-semibold text-center">MOD (ft)</th>
-                            <th class="px-5 py-3 font-semibold text-center">END (ft)</th>
+                            <th class="px-5 py-3 font-semibold text-center">MOD (ft) <span class="text-[9px] opacity-70 block font-normal">@ {{ standardPPO2 }} PPO<sub>2</sub></span></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50 text-sm">
@@ -403,10 +392,7 @@ const copyToClipboard = (text: string) => {
                             <td class="px-5 py-3 text-center text-gray-600">{{ gas.fO2 }}%</td>
                             <td class="px-5 py-3 text-center text-gray-400">{{ gas.fHe }}%</td>
                             <td class="px-5 py-3 text-center font-mono text-purple-600 font-bold bg-purple-50/50 group-hover:bg-purple-100/50 transition-colors">
-                                {{ getMod(gas.fO2, 1.4) }}'
-                            </td>
-                            <td class="px-5 py-3 text-center font-mono text-gray-600">
-                                {{ getEnd(getMod(gas.fO2, 1.4), gas.fHe) }}'
+                                {{ getMod(gas.fO2, standardPPO2) }}'
                             </td>
                         </tr>
                     </tbody>

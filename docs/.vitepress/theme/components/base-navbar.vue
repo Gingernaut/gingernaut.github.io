@@ -7,6 +7,7 @@
       <div class="hidden md:flex items-center gap-12">
         <!-- <a class="nav-link px-8" href="/blog/" :class="{ active: isActive('/blog/') }">Blog</a> -->
         <a class="nav-link px-8" href="/about/" :class="{ active: isActive('/about/') }">About</a>
+        <a class="nav-link px-8" href="/scuba-tools/" :class="{ active: isActive('/scuba-tools/') }">Scuba Tools</a>
         <a class="nav-link px-8" href="/contact/" :class="{ active: isActive('/contact/') }">Contact</a>
       </div>
 
@@ -57,6 +58,19 @@
                     About
                   </a>
                 </MenuItem>
+
+                <MenuItem v-slot="{ active }">
+                  <a
+                    href="/scuba-tools/"
+                    :class="[
+                      active ? 'bg-emerald-500 text-white' : 'text-gray-900 dark:text-gray-100',
+                      'group flex w-full items-center rounded-md px-2 py-2.5 text-lg',
+                    ]"
+                  >
+                    Scuba Tools
+                  </a>
+                </MenuItem>
+
                 <MenuItem v-slot="{ active }">
                   <a
                     href="/contact/"

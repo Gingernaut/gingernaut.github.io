@@ -1,1 +1,0 @@
-import{_ as t,o as e,c as a}from"./chunks/framework.BIAOfYCz.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{"layout":"contact"},"headers":[],"relativePath":"contact/index.md","filePath":"contact/index.md"}'),c={name:"contact/index.md"};function n(o,r,s,d,i,p){return e(),a("div")}const f=t(c,[["render",n]]);export{m as __pageData,f as default};

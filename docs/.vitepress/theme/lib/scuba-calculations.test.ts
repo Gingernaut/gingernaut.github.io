@@ -253,41 +253,39 @@ describe("Gas Planning", () => {
 
 		it('should use all usable gas for "all" strategy', () => {
 			const result = calcGasPlan({ ...baseInput, gasStrategy: "all" });
-			// Usable = Start - MinGas
-			expect(result.usablePsi).toBe(
-				result.strategyUsablePsi + (result.turnPressure - result.minGasPsi),
-			);
+			// For "all" strategy, turn at min gas — use everything above it
+			// minGas=1700, usable=1300, turn=1700
+			expect(result.minGasPsi).toBe(1700);
+			expect(result.usablePsi).toBe(1300);
+			expect(result.strategyUsablePsi).toBe(1300);
+			expect(result.turnPressure).toBe(result.minGasPsi);
 		});
 
 		it('should use half for "half" strategy', () => {
-			const allResult = calcGasPlan({ ...baseInput, gasStrategy: "all" });
 			const halfResult = calcGasPlan({ ...baseInput, gasStrategy: "half" });
-
-			// Half strategy uses ~half the usable gas
-			expect(halfResult.strategyUsablePsi).toBeLessThan(
-				allResult.strategyUsablePsi,
-			);
+			// usable=1300, half=floor(1300/2)=650
+			// turnExact=3000-650=2350, rounded=2400, strategyUsable=3000-2400=600
+			expect(halfResult.strategyUsablePsi).toBe(600);
+			expect(halfResult.turnPressure).toBe(2400);
 		});
 
 		it('should use one-third for "third" strategy', () => {
-			const allResult = calcGasPlan({ ...baseInput, gasStrategy: "all" });
 			const thirdResult = calcGasPlan({ ...baseInput, gasStrategy: "third" });
-
-			// Third strategy uses ~1/3 of the usable gas
-			expect(thirdResult.strategyUsablePsi).toBeLessThan(
-				allResult.strategyUsablePsi,
-			);
+			// usable=1300, third=floor(1300/3)=433
+			// turnExact=3000-433=2567, rounded=2600, strategyUsable=3000-2600=400
+			expect(thirdResult.strategyUsablePsi).toBe(400);
+			expect(thirdResult.turnPressure).toBe(2600);
 		});
 
 		it('should apply modified 1/3 calculation for "modified" strategy', () => {
 			const result = calcGasPlan({ ...baseInput, gasStrategy: "modified" });
-
-			// Modified: reserveBase = floor(3000/300)*300 = 3000
-			// reserveGas = 3000/3 = 1000
-			// usablePool = 3000 - 1000 = 2000
+			// reserveBase = floor(3000/300)*300 = 3000
+			// reserveGas = 3000/3 = 1000, usablePool = 3000-1000 = 2000
 			// penetration = floor(2000/3) = 666
-			expect(result).toBeDefined();
-			expect(result.turnPressure).toBeGreaterThan(result.minGasPsi);
+			// turnExact = 3000-666 = 2334, rounded = 2400, strategyUsable = 600
+			expect(result.turnPressureExact).toBe(2334);
+			expect(result.turnPressure).toBe(2400);
+			expect(result.strategyUsablePsi).toBe(600);
 		});
 	});
 
@@ -335,7 +333,9 @@ describe("Gas Planning", () => {
 				unitSystem: "imperial",
 			});
 
-			expect(result.expectedTimeMax).toBeGreaterThan(0);
+			// usedVol = (2700/100)*6 = 162 cu ft, maxATA = 4.03
+			// time = 162 / (0.75 × 4.03) = 53.6 min
+			expect(result.expectedTimeMax).toBeCloseTo(53.6, 0);
 			expect(result.expectedTimeMax).toBeLessThan(result.expectedTimeAvg);
 		});
 
@@ -349,24 +349,29 @@ describe("Gas Planning", () => {
 				unitSystem: "imperial",
 			});
 
+			// usedVol = 162 cu ft, avgATA = 2.52
+			// time = 162 / (0.75 × 2.52) = 85.9 min
+			expect(result.expectedTimeAvg).toBeCloseTo(85.9, 0);
 			expect(result.expectedTimeAvg).toBeGreaterThan(result.expectedTimeMax);
 		});
 	});
 
 	describe("Metric Mode", () => {
 		it("should handle metric inputs correctly", () => {
-			// 30m depth, 21 L/min SCR, 230 bar start
+			// 30m ≈ 98.4 ft, 21 L/min ≈ 0.74 cu ft/min, 230 bar ≈ 3336 PSI
 			const result = calcGasPlan({
 				depth: 30,
-				scr: 21, // ~0.74 cu ft/min
-				startPressure: 230, // ~3340 PSI
+				scr: 21,
+				startPressure: 230,
 				tank: doublehp100,
 				gasStrategy: "all",
 				unitSystem: "metric",
 			});
 
-			expect(result.minGasPsi).toBeGreaterThan(0);
-			expect(result.turnPressure).toBeGreaterThanOrEqual(result.minGasPsi);
+			// For "all" strategy, turn pressure equals min gas
+			expect(result.minGasPsi).toBe(700);
+			expect(result.turnPressure).toBe(700);
+			expect(result.turnPressure).toBe(result.minGasPsi);
 		});
 	});
 });
@@ -379,8 +384,10 @@ describe("MOD Calculation", () => {
 	describe("Imperial Mode", () => {
 		it("should calculate MOD for Air (21%)", () => {
 			const mod = getMod(21, ppo2, "imperial");
-			// ATA = 1.4 / 0.21 ≈ 6.667
-			// MOD = floor((6.667 - 1) * 33) = floor(186.67) = 186 ft
+			// Exact: ATA = 1.4 / 0.21 = 20/3, MOD = (17/3) × 33 = 187 ft
+			// Code produces 186 due to IEEE 754: 1.4 / 0.21 ≈ 6.666...6
+			// causing (result - 1) * 33 ≈ 186.999... → floor = 186
+			// TODO: Fix floating-point precision in getMod
 			expect(mod).toBe(186);
 		});
 
@@ -497,9 +504,11 @@ describe("GUE Slide Examples", () => {
 			expect(result!).toBeCloseTo(0.66, 1);
 		});
 
-		it("METRIC: Double 11s, 100 bar consumed = SCR in reasonable range", () => {
-			// From slide: 100 bar x 22 L = 2200 liters, SCR = 14.66 L/min
-			// Our implementation uses tank factor approach which differs slightly
+		it("METRIC: Double 11s, 100 bar consumed = SCR ~16.4 L/min", () => {
+			// GUE slide (native metric): 100 bar × 22L = 2200L, SCR = 2200/(50×3) = 14.67 L/min
+			// Code converts bar→PSI via tank factor, giving ~16.4 L/min (12% higher)
+			// because imperial tank factors don't translate cleanly to metric water volumes.
+			// TODO: Consider native metric SCR path to match GUE slide values
 			const result = calcScr({
 				startPsi: 200, // 200 bar start
 				endPsi: 100, // 100 bar end
@@ -511,8 +520,7 @@ describe("GUE Slide Examples", () => {
 
 			expect(result).not.toBeNull();
 			const scrLitersPerMin = result! * CONVERSION.cuFtToLiters;
-			expect(scrLitersPerMin).toBeGreaterThan(10);
-			expect(scrLitersPerMin).toBeLessThan(25);
+			expect(scrLitersPerMin).toBeCloseTo(16.4, 0);
 		});
 	});
 
@@ -553,9 +561,14 @@ describe("GUE Slide Examples", () => {
 			expect(result.turnPressure).toBe(2400);
 		});
 
-		it("METRIC: 210 bar → turn ~170 bar (GUE slide example)", () => {
-			// From GUE slide: turn = 170 bar
-			// Our implementation converts to PSI internally
+		it("METRIC: 210 bar → turn ~165 bar (imperial conversion)", () => {
+			// GUE slide (native metric) gives turn = 170 bar.
+			// Code converts to PSI internally: 210 bar → 3046 PSI,
+			// floor(3046/300)*300 = 3000, reserve = 1000, usable = 2046,
+			// pen = floor(2046/3) = 681, turnExact = 3046-681 = 2365,
+			// rounded = 2400 PSI ≈ 165.5 bar.
+			// The 5 bar gap comes from PSI-based 300 rounding vs native metric.
+			// TODO: Consider native metric rounding for modified 1/3
 			const result = calcGasPlan({
 				depth: 20,
 				scr: 15,
@@ -566,7 +579,7 @@ describe("GUE Slide Examples", () => {
 			});
 
 			const turnBar = toDisplayPressure(result.turnPressure, "metric");
-			expect(turnBar).toBeCloseTo(170, -1); // Within 10 bar
+			expect(turnBar).toBeCloseTo(165.5, 0);
 		});
 	});
 
@@ -581,8 +594,12 @@ describe("GUE Slide Examples", () => {
 				unitSystem: "imperial",
 			});
 
-			expect(result.strategyUsablePsi).toBeLessThan(result.usablePsi);
-			expect(result.strategyUsablePsi).toBeGreaterThan(0);
+			// minGas=600, usable=2400, third=floor(2400/3)=800
+			// turnExact=2200, rounded=2200, strategyUsable=800
+			expect(result.minGasPsi).toBe(600);
+			expect(result.usablePsi).toBe(2400);
+			expect(result.strategyUsablePsi).toBe(800);
+			expect(result.turnPressure).toBe(2200);
 		});
 	});
 
@@ -601,7 +618,7 @@ describe("GUE Slide Examples", () => {
 			expect(result.expectedTimeMax).toBeCloseTo(40, -1);
 		});
 
-		it("METRIC: 210 bar @ 20 m → reasonable duration", () => {
+		it("METRIC: 210 bar @ 20 m → ~41 min", () => {
 			const result = calcGasPlan({
 				depth: 20,
 				scr: 15,
@@ -611,8 +628,7 @@ describe("GUE Slide Examples", () => {
 				unitSystem: "metric",
 			});
 
-			expect(result.expectedTimeMax).toBeGreaterThan(20);
-			expect(result.expectedTimeMax).toBeLessThan(60);
+			expect(result.expectedTimeMax).toBeCloseTo(41, 0);
 		});
 	});
 

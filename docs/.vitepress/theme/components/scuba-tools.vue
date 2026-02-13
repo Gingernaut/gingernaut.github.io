@@ -21,6 +21,12 @@ import {
 	// Types
 	type UnitSystem,
 } from "../lib/scuba-calculations";
+import type {
+	TankInfo,
+	TooltipInfo,
+	TooltipStep,
+} from "./CalculationBreakdown.vue";
+import CalculationBreakdown from "./CalculationBreakdown.vue";
 
 // --- Unit System State ---
 const unitSystem = ref<UnitSystem>("imperial");
@@ -166,9 +172,21 @@ const getMod = (fO2: number, pO2: number): number | undefined => {
 	return libGetMod(fO2, pO2, unitSystem.value);
 };
 
-// --- Tooltips: Calculation Explanations ---
-// Now uses display-unit math directly, matching the actual library calculations
-const tooltips = computed(() => {
+// --- Modal State ---
+const showCalcModal = ref(false);
+
+const calcTankInfo = computed<TankInfo>(() => {
+	const tank = planTank.value;
+	const startVol = pressureToVolume(planStartPressure.value, tank);
+	return {
+		name: tank.name,
+		capacity: `${Math.round(toDisplayVolume(tank.capacity))} ${units.value.volume}`,
+		startPressure: `${Math.round(planStartPressure.value)} ${units.value.pressure}`,
+		startVolume: `${startVol.toFixed(1)} ${units.value.volume}`,
+	};
+});
+
+const tooltipData = computed<TooltipInfo[]>(() => {
 	const depth = planDepth.value;
 	const scr = planScr.value;
 	const tank = planTank.value;
@@ -197,23 +215,126 @@ const tooltips = computed(() => {
 					? "Rule of Thirds (÷3)"
 					: "Modified 1/3";
 
-	// Usable volume for duration calculations
 	const usedPressure =
 		planResult.value.strategyUsablePressure *
 		(gasStrategy.value === "all" ? 1 : 2);
 	const usedVol = pressureToVolume(usedPressure, tank);
 
-	return {
-		minGas: `Min Gas (CAT Formula)\nC = 2 divers × ${scr} = ${twoDiverScr.toFixed(2)} ${units.value.volume}/min\nA = Avg ATA = (${maxAta.toFixed(2)} + 1) / 2 = ${avgAta.toFixed(2)}\nT = Time to surface @ ${ascentRateStr}\n  = ${depth}${units.value.depth} ÷ ${ascentRate} + 1 min = ${timeToSurface.toFixed(1)} min\n\nMin Vol = ${twoDiverScr.toFixed(2)} × ${avgAta.toFixed(2)} × ${timeToSurface.toFixed(1)} = ${planResult.value.minGasVol.toFixed(1)} ${units.value.volume}\nMin Pressure = ${minGasDisp} ${units.value.pressure} (rounded up)`,
-
-		usableGas: `Usable Gas (${strategyLabel})\n\nTotal Usable = Start - Min Gas\n= ${startDisp} - ${minGasDisp} = ${usableDisp} ${units.value.pressure}\n\n${gasStrategy.value === "all" ? `Strategy: Use all usable gas\n= ${stratUsableDisp} ${units.value.pressure}` : `Strategy: ${strategyLabel}\n= ${usableDisp} × factor = ${stratUsableDisp} ${units.value.pressure}`}`,
-
-		turnPressure: `Turn Pressure\n\nTurn = Start - Usable Gas (After Strategy)\n= ${startDisp} - ${stratUsableDisp}\n= ${turnDisp} ${units.value.pressure} (rounded up to ${roundStep})`,
-
-		timeMax: `Dive Time (Max Depth)\n\nUsable Vol = ${usedVol.toFixed(1)} ${units.value.volume}\nATA at ${depth}${units.value.depth} = ${maxAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × ATA)\n= ${planResult.value.expectedTimeMax.toFixed(1)} min`,
-
-		timeAvg: `Dive Time (Avg Depth)\n\nUsable Vol = ${usedVol.toFixed(1)} ${units.value.volume}\nAvg ATA = ${avgAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × Avg ATA)\n= ${planResult.value.expectedTimeAvg.toFixed(1)} min`,
-	};
+	return [
+		{
+			title: "Min Gas",
+			subtitle: "CAT Formula",
+			theme: "red",
+			steps: [
+				{
+					label: "C - Consumption",
+					value: `${twoDiverScr.toFixed(2)} ${units.value.volume}/min`,
+					formula: `2 divers × ${scr}`,
+				},
+				{
+					label: "A - Avg ATA",
+					value: avgAta.toFixed(2),
+					formula: `(${maxAta.toFixed(2)} + 1) / 2`,
+				},
+				{
+					label: "T - Time to Surface",
+					value: `${timeToSurface.toFixed(1)} min`,
+					formula: `${depth}${units.value.depth} ÷ ${ascentRate} + 1 min (@ ${ascentRateStr})`,
+				},
+				{
+					label: "Min Volume",
+					value: `${planResult.value.minGasVol.toFixed(1)} ${units.value.volume}`,
+					formula: `${twoDiverScr.toFixed(2)} × ${avgAta.toFixed(2)} × ${timeToSurface.toFixed(1)}`,
+				},
+				{
+					label: "Min Gas Pressure",
+					value: `${minGasDisp} ${units.value.pressure}`,
+					formula: "Rounded up",
+					isFinal: true,
+				},
+			],
+		},
+		{
+			title: "Usable Gas & Turn Pressure",
+			subtitle: strategyLabel,
+			theme: "green",
+			steps: [
+				{
+					label: "Min Gas",
+					value: `${minGasDisp} ${units.value.pressure}`,
+				},
+				{
+					label: "Total Usable",
+					value: `${usableDisp} ${units.value.pressure}`,
+					formula: `${startDisp} - ${minGasDisp}`,
+				},
+				{
+					label: `Strategy: ${strategyLabel}`,
+					value: `${stratUsableDisp} ${units.value.pressure}`,
+					formula:
+						gasStrategy.value === "all"
+							? "Use all usable gas"
+							: `${usableDisp} × factor`,
+				},
+				{
+					label: "Turn Pressure",
+					value: `${turnDisp} ${units.value.pressure}`,
+					formula: `${startDisp} - ${stratUsableDisp} (rounded up to ${roundStep})`,
+					isFinal: true,
+				},
+			],
+		},
+		{
+			title: "Dive Time",
+			subtitle: "At Max Depth",
+			theme: "indigo",
+			steps: [
+				{
+					label: "Usable Volume",
+					value: `${usedVol.toFixed(1)} ${units.value.volume}`,
+				},
+				{
+					label: `ATA at ${depth}${units.value.depth}`,
+					value: maxAta.toFixed(2),
+				},
+				{
+					label: "SCR",
+					value: `${scr} ${units.value.volume}/min`,
+				},
+				{
+					label: "Expected Time",
+					value: `${planResult.value.expectedTimeMax.toFixed(1)} min`,
+					formula: "Vol ÷ (SCR × ATA)",
+					isFinal: true,
+				},
+			],
+		},
+		{
+			title: "Dive Time",
+			subtitle: "At Avg Depth",
+			theme: "indigo",
+			steps: [
+				{
+					label: "Usable Volume",
+					value: `${usedVol.toFixed(1)} ${units.value.volume}`,
+				},
+				{
+					label: "Avg ATA",
+					value: avgAta.toFixed(2),
+				},
+				{
+					label: "SCR",
+					value: `${scr} ${units.value.volume}/min`,
+				},
+				{
+					label: "Expected Time",
+					value: `${planResult.value.expectedTimeAvg.toFixed(1)} min`,
+					formula: "Vol ÷ (SCR × Avg ATA)",
+					isFinal: true,
+				},
+			],
+		},
+	];
 });
 </script>
 
@@ -394,25 +515,21 @@ const tooltips = computed(() => {
                      <!-- Stats Grid -->
                     <div class="flex-1 w-full grid grid-cols-2 gap-2">
                          <!-- Min Gas -->
-                        <div class="p-2.5 bg-red-50 rounded-lg border border-red-100 cursor-help tooltip-cell">
-                             <div class="tooltip-content">{{ tooltips.minGas }}</div>
-                             <div class="text-[9px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Min Gas <span class="opacity-50"></span></div>
+                        <div class="p-2.5 bg-red-50 rounded-lg border border-red-100">
+                             <div class="text-[9px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Min Gas</div>
                              <div class="text-lg font-black text-red-600 font-mono leading-none">{{ Math.round(planResult.minGasPressure) }} <span class="text-[10px] font-normal text-red-400">{{ units.pressure }}</span></div>
                              <div class="text-[10px] text-red-400 font-medium mt-0.5">{{ planResult.minGasVol.toFixed(1) }} {{ units.volume }}</div>
                         </div>
 
                          <!-- Usable Gas (Strategy) -->
-                        <div class="p-2.5 bg-green-50 rounded-lg border border-green-100 cursor-help tooltip-cell">
-                             <div class="tooltip-content">{{ tooltips.usableGas }}</div>
+                        <div class="p-2.5 bg-green-50 rounded-lg border border-green-100">
                              <div class="text-[9px] font-bold text-green-600 uppercase tracking-wider mb-0.5">Usable Gas <span class="opacity-50">({{ gasStrategy }})</span></div>
                              <div class="text-lg font-black text-green-700 font-mono leading-none">{{ Math.round(planResult.strategyUsablePressure) }} <span class="text-[10px] font-normal text-green-500">{{ units.pressure }}</span></div>
-                            <div class="text-[10px] text-green-400 font-medium mt-0.5">{{ planResult.strategyUsableVol.toFixed(1) }} {{ units.volume }}</div>
-
+                             <div class="text-[10px] text-green-400 font-medium mt-0.5">{{ planResult.strategyUsableVol.toFixed(1) }} {{ units.volume }}</div>
                         </div>
 
                          <!-- Turn Pressure -->
-                        <div class="p-2.5 bg-white rounded-lg border border-gray-100 shadow-sm relative col-span-2 cursor-help tooltip-cell">
-                             <div class="tooltip-content">{{ tooltips.turnPressure }}</div>
+                        <div class="p-2.5 bg-white rounded-lg border border-gray-100 shadow-sm col-span-2">
                              <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Turn Pressure</div>
                              <div class="text-2xl font-black text-gray-800 font-mono leading-none">
                                 {{ Math.round(planResult.turnPressure) }}
@@ -423,21 +540,24 @@ const tooltips = computed(() => {
 
                          <!-- Duration Estimate -->
                         <div class="col-span-2 grid grid-cols-2 gap-2">
-                             <div class="p-2.5 bg-indigo-50 rounded-lg border border-indigo-100 cursor-help tooltip-cell">
-                                 <div class="tooltip-content">{{ tooltips.timeMax }}</div>
+                             <div class="p-2.5 bg-indigo-50 rounded-lg border border-indigo-100">
                                  <div class="text-[9px] font-bold text-indigo-500 uppercase tracking-wider mb-0.5">Time (Max Depth)</div>
                                  <div class="text-xl font-black text-indigo-700 font-mono leading-none">
                                     {{ Math.floor(planResult.expectedTimeMax) }} <span class="text-[10px] font-normal text-indigo-500">min</span>
                                  </div>
                              </div>
-                             <div class="p-2.5 bg-indigo-50 rounded-lg border border-indigo-100 cursor-help tooltip-cell">
-                                 <div class="tooltip-content">{{ tooltips.timeAvg }}</div>
+                             <div class="p-2.5 bg-indigo-50 rounded-lg border border-indigo-100">
                                  <div class="text-[9px] font-bold text-indigo-500 uppercase tracking-wider mb-0.5">Time (Avg Depth)</div>
                                  <div class="text-xl font-black text-indigo-700 font-mono leading-none">
                                     {{ Math.floor(planResult.expectedTimeAvg) }} <span class="text-[10px] font-normal text-indigo-500">min</span>
                                  </div>
                              </div>
                         </div>
+
+                        <!-- Show Calculations Button -->
+                        <button @click="showCalcModal = true" class="col-span-2 py-1.5 text-xs font-medium text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-100 transition-colors">
+                          Show Calculations
+                        </button>
                     </div>
 
                     <!-- Tank Graphic -->
@@ -448,8 +568,19 @@ const tooltips = computed(() => {
                         </div>
 
                         <!-- Min Gas Zone -->
-                         <div class="absolute bottom-0 w-full bg-red-500/80 border-t-2 border-red-400 transition-all duration-700 pattern-diagonal-lines pattern-white/10 pattern-size-2 pattern-bg-transparent"
+                         <div class="absolute bottom-0 w-full bg-red-500/80 border-t-2 border-red-400 transition-all duration-700"
                              :style="{ height: `${Math.min(100, (planResult.minGasPressure / toDisplayPressure(planTank.pressure)) * 100)}%` }">
+                        </div>
+
+                        <!-- Reserved Zone (between min gas and turn pressure) -->
+                         <div class="absolute w-full transition-all duration-700"
+                             :style="{
+                               bottom: `${Math.min(100, (planResult.minGasPressure / toDisplayPressure(planTank.pressure)) * 100)}%`,
+                               height: `${Math.max(0, (planResult.turnPressure - planResult.minGasPressure) / toDisplayPressure(planTank.pressure) * 100)}%`,
+                               backgroundImage: 'repeating-linear-gradient(-45deg, transparent, transparent 10px, rgb(250,204,21) 10px, rgb(250,204,21) 12px)',
+                               backgroundSize: '100% 100%',
+                               backgroundAttachment: 'fixed',
+                             }">
                         </div>
 
                          <!-- Turn Pressure Line -->
@@ -506,6 +637,9 @@ const tooltips = computed(() => {
         </section>
 
     </div>
+
+    <!-- Calculation Breakdown Modal -->
+    <CalculationBreakdown :open="showCalcModal" :sections="tooltipData" :tank-info="calcTankInfo" @close="showCalcModal = false" />
   </div>
 </template>
 
@@ -517,48 +651,4 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* Custom tooltip styles */
-.tooltip-cell {
-  position: relative;
-}
-
-.tooltip-cell .tooltip-content {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  background: rgba(17, 24, 39, 0.95);
-  color: #f3f4f6;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  white-space: pre-line;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
-  min-width: 280px;
-  max-width: 360px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
-  z-index: 100;
-  pointer-events: none;
-}
-
-.tooltip-cell .tooltip-content::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: rgba(17, 24, 39, 0.95);
-}
-
-.tooltip-cell:hover .tooltip-content {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(-12px);
-}
 </style>

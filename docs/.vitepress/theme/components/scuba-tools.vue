@@ -3,19 +3,14 @@ import { computed, ref, watch } from "vue";
 import {
 	// Constants
 	CONVERSION,
-	// ATA calculations
-	calcAtaImperial,
-	calcAtaMetric,
 	type GasStrategy,
+	// ATA calculations
 	calcAta as libCalcAta,
 	calcGasPlan as libCalcGasPlan,
 	// Main calculations
 	calcScr as libCalcScr,
-	fromDisplayDepth as libFromDisplayDepth,
-	fromDisplayPressure as libFromDisplayPressure,
-	fromDisplayVolume as libFromDisplayVolume,
 	getMod as libGetMod,
-	toDisplayDepth as libToDisplayDepth,
+	pressureToVolume as libPressureToVolume,
 	// Conversion functions
 	toDisplayPressure as libToDisplayPressure,
 	toDisplayVolume as libToDisplayVolume,
@@ -40,28 +35,15 @@ const units = computed(() =>
 );
 
 // --- Conversion Utilities (wrap library functions with reactive unitSystem) ---
+// Still needed for converting tank specs (defined in imperial) for display
 const toDisplayPressure = (psi: number): number =>
 	libToDisplayPressure(psi, unitSystem.value);
-
-const fromDisplayPressure = (val: number): number =>
-	libFromDisplayPressure(val, unitSystem.value);
-
-const toDisplayDepth = (ft: number): number =>
-	libToDisplayDepth(ft, unitSystem.value);
-
-const fromDisplayDepth = (val: number): number =>
-	libFromDisplayDepth(val, unitSystem.value);
 
 const toDisplayVolume = (cuFt: number): number =>
 	libToDisplayVolume(cuFt, unitSystem.value);
 
-const fromDisplayVolume = (val: number): number =>
-	libFromDisplayVolume(val, unitSystem.value);
-
-// SCR is volume/min - same conversion as volume
-const toDisplayScr = (cuFtPerMin: number): number =>
-	toDisplayVolume(cuFtPerMin);
-const fromDisplayScr = (val: number): number => fromDisplayVolume(val);
+const pressureToVolume = (pressure: number, tank: Tank): number =>
+	libPressureToVolume(pressure, tank, unitSystem.value);
 
 // --- Use tanks from library ---
 const tanks = TANKS;
@@ -70,39 +52,71 @@ const standardPPO2 = ref<number>(1.4);
 const ppo2Options = [1.2, 1.3, 1.4, 1.5, 1.6];
 
 // --- State: SCR Calculator ---
-const scrStartPsi = ref<number | null>(null);
-const scrEndPsi = ref<number | null>(null);
+const scrStartPressure = ref<number | null>(null);
+const scrEndPressure = ref<number | null>(null);
 const scrTime = ref<number | null>(null);
 const scrDepth = ref<number | null>(null); // Average depth (display units)
 const scrTank = ref<Tank>(tanks[7]); // Default to Double HP100
 
 // --- State: Gas Planning ---
-const planScr = ref<number>(0.6); // Default SCR
+const planScr = ref<number>(0.6); // Default SCR (display units)
 const planDepth = ref<number>(100); // Display units (ft or m)
-const planStartPsi = ref<number>(tanks[7].pressure); // Internal PSI
+const planStartPressure = ref<number>(tanks[7].pressure); // Display units
 const planTank = ref<Tank>(tanks[7]); // Double HP100 default
 const gasStrategy = ref<GasStrategy>("all");
 
 watch(planTank, (newTank: Tank) => {
-	planStartPsi.value = toDisplayPressure(newTank.pressure);
+	planStartPressure.value = toDisplayPressure(newTank.pressure);
 });
 
 // Convert existing values when unit system changes
 watch(unitSystem, (newSystem: UnitSystem, oldSystem: UnitSystem) => {
 	if (oldSystem === "imperial" && newSystem === "metric") {
-		// Converting from Imperial to Metric
+		// Gas Planner inputs
 		planDepth.value = Math.round(planDepth.value * CONVERSION.feetToMeters);
-		planStartPsi.value = Math.round(planStartPsi.value * CONVERSION.psiToBar);
+		planStartPressure.value = Math.round(
+			planStartPressure.value * CONVERSION.psiToBar,
+		);
 		planScr.value = parseFloat(
 			(planScr.value * CONVERSION.cuFtToLiters).toFixed(2),
 		);
+		// SCR Calculator inputs
+		if (scrStartPressure.value !== null) {
+			scrStartPressure.value = Math.round(
+				scrStartPressure.value * CONVERSION.psiToBar,
+			);
+		}
+		if (scrEndPressure.value !== null) {
+			scrEndPressure.value = Math.round(
+				scrEndPressure.value * CONVERSION.psiToBar,
+			);
+		}
+		if (scrDepth.value !== null) {
+			scrDepth.value = Math.round(scrDepth.value * CONVERSION.feetToMeters);
+		}
 	} else if (oldSystem === "metric" && newSystem === "imperial") {
-		// Converting from Metric to Imperial
+		// Gas Planner inputs
 		planDepth.value = Math.round(planDepth.value * CONVERSION.metersToFeet);
-		planStartPsi.value = Math.round(planStartPsi.value * CONVERSION.barToPsi);
+		planStartPressure.value = Math.round(
+			planStartPressure.value * CONVERSION.barToPsi,
+		);
 		planScr.value = parseFloat(
 			(planScr.value * CONVERSION.litersToCuFt).toFixed(2),
 		);
+		// SCR Calculator inputs
+		if (scrStartPressure.value !== null) {
+			scrStartPressure.value = Math.round(
+				scrStartPressure.value * CONVERSION.barToPsi,
+			);
+		}
+		if (scrEndPressure.value !== null) {
+			scrEndPressure.value = Math.round(
+				scrEndPressure.value * CONVERSION.barToPsi,
+			);
+		}
+		if (scrDepth.value !== null) {
+			scrDepth.value = Math.round(scrDepth.value * CONVERSION.metersToFeet);
+		}
 	}
 });
 
@@ -114,31 +128,33 @@ const stepSizes = computed(() => ({
 }));
 
 // --- Calculations: SCR (using library) ---
+// Result is now in display units (cu ft/min or L/min)
 const scrResult = computed<number | null>(() => {
 	if (
-		scrStartPsi.value === null ||
-		scrEndPsi.value === null ||
+		scrStartPressure.value === null ||
+		scrEndPressure.value === null ||
 		!scrTime.value ||
 		scrDepth.value === null
 	)
 		return null;
 
 	return libCalcScr({
-		startPsi: scrStartPsi.value,
-		endPsi: scrEndPsi.value,
+		startPressure: scrStartPressure.value,
+		endPressure: scrEndPressure.value,
 		time: scrTime.value,
 		depth: scrDepth.value,
-		tankFactor: scrTank.value.factor,
+		tank: scrTank.value,
 		unitSystem: unitSystem.value,
 	});
 });
 
 // --- Calculations: Gas Planning (using library) ---
+// All result values are in display units
 const planResult = computed<PlanResult>(() => {
 	return libCalcGasPlan({
 		depth: planDepth.value,
 		scr: planScr.value,
-		startPressure: planStartPsi.value,
+		startPressure: planStartPressure.value,
 		tank: planTank.value,
 		gasStrategy: gasStrategy.value,
 		unitSystem: unitSystem.value,
@@ -151,30 +167,26 @@ const getMod = (fO2: number, pO2: number): number | undefined => {
 };
 
 // --- Tooltips: Calculation Explanations ---
+// Now uses display-unit math directly, matching the actual library calculations
 const tooltips = computed(() => {
-	const depth = fromDisplayDepth(planDepth.value);
-	const scr = fromDisplayScr(planScr.value);
+	const depth = planDepth.value;
+	const scr = planScr.value;
 	const tank = planTank.value;
 
-	const timeToSurface = depth / 10 + 1;
-	const maxAta = calcAtaImperial(depth);
+	const ascentRate = unitSystem.value === "metric" ? 3 : 10;
+	const timeToSurface = depth / ascentRate + 1;
+	const maxAta = libCalcAta(depth, unitSystem.value);
 	const avgAta = (maxAta + 1) / 2;
 
-	// Display-appropriate ascent rate explanation
-	const ascentRate = unitSystem.value === "metric" ? "3 m/min" : "10 ft/min";
-	const ascentDivisor = unitSystem.value === "metric" ? 3 : 10;
+	const ascentRateStr = unitSystem.value === "metric" ? "3 m/min" : "10 ft/min";
 	const twoDiverScr = scr * 2;
-	const scrDisplay = planScr.value; // Already in display units
 
-	// Display values
-	const depthDisp = planDepth.value;
-	const startDisp = planStartPsi.value;
-	const minGasDisp = Math.round(toDisplayPressure(planResult.value.minGasPsi));
-	const usableDisp = Math.round(toDisplayPressure(planResult.value.usablePsi));
-	const stratUsableDisp = Math.round(
-		toDisplayPressure(planResult.value.strategyUsablePsi),
-	);
-	const turnDisp = Math.round(toDisplayPressure(planResult.value.turnPressure));
+	const startDisp = planStartPressure.value;
+	const minGasDisp = Math.round(planResult.value.minGasPressure);
+	const usableDisp = Math.round(planResult.value.usablePressure);
+	const stratUsableDisp = Math.round(planResult.value.strategyUsablePressure);
+	const turnDisp = Math.round(planResult.value.turnPressure);
+	const roundStep = unitSystem.value === "metric" ? "10 bar" : "100 PSI";
 
 	const strategyLabel =
 		gasStrategy.value === "all"
@@ -185,16 +197,22 @@ const tooltips = computed(() => {
 					? "Rule of Thirds (÷3)"
 					: "Modified 1/3";
 
+	// Usable volume for duration calculations
+	const usedPressure =
+		planResult.value.strategyUsablePressure *
+		(gasStrategy.value === "all" ? 1 : 2);
+	const usedVol = pressureToVolume(usedPressure, tank);
+
 	return {
-		minGas: `Min Gas (CAT Formula)\nC = 2 divers × ${scrDisplay} = ${toDisplayScr(twoDiverScr).toFixed(2)} ${units.value.volume}/min\nA = Avg ATA = (${maxAta.toFixed(2)} + 1) / 2 = ${avgAta.toFixed(2)}\nT = Time to surface @ ${ascentRate}\n  = ${depthDisp}${units.value.depth} ÷ ${ascentDivisor} + 1 min = ${timeToSurface.toFixed(1)} min\n\nMin Vol = ${toDisplayScr(twoDiverScr).toFixed(2)} × ${avgAta.toFixed(2)} × ${timeToSurface.toFixed(1)} = ${toDisplayVolume(planResult.value.minGasVol).toFixed(1)} ${units.value.volume}\nMin Pressure = ${minGasDisp} ${units.value.pressure} (rounded up)`,
+		minGas: `Min Gas (CAT Formula)\nC = 2 divers × ${scr} = ${twoDiverScr.toFixed(2)} ${units.value.volume}/min\nA = Avg ATA = (${maxAta.toFixed(2)} + 1) / 2 = ${avgAta.toFixed(2)}\nT = Time to surface @ ${ascentRateStr}\n  = ${depth}${units.value.depth} ÷ ${ascentRate} + 1 min = ${timeToSurface.toFixed(1)} min\n\nMin Vol = ${twoDiverScr.toFixed(2)} × ${avgAta.toFixed(2)} × ${timeToSurface.toFixed(1)} = ${planResult.value.minGasVol.toFixed(1)} ${units.value.volume}\nMin Pressure = ${minGasDisp} ${units.value.pressure} (rounded up)`,
 
 		usableGas: `Usable Gas (${strategyLabel})\n\nTotal Usable = Start - Min Gas\n= ${startDisp} - ${minGasDisp} = ${usableDisp} ${units.value.pressure}\n\n${gasStrategy.value === "all" ? `Strategy: Use all usable gas\n= ${stratUsableDisp} ${units.value.pressure}` : `Strategy: ${strategyLabel}\n= ${usableDisp} × factor = ${stratUsableDisp} ${units.value.pressure}`}`,
 
-		turnPressure: `Turn Pressure\n\nTurn = Start - Usable Gas (After Strategy)\n= ${startDisp} - ${stratUsableDisp}\n= ${turnDisp} ${units.value.pressure} (rounded up to 100)`,
+		turnPressure: `Turn Pressure\n\nTurn = Start - Usable Gas (After Strategy)\n= ${startDisp} - ${stratUsableDisp}\n= ${turnDisp} ${units.value.pressure} (rounded up to ${roundStep})`,
 
-		timeMax: `Dive Time (Max Depth)\n\nUsable Vol = ${toDisplayVolume(((planResult.value.strategyUsablePsi * (gasStrategy.value === "all" ? 1 : 2)) / 100) * tank.factor).toFixed(1)} ${units.value.volume}\nATA at ${depthDisp}${units.value.depth} = ${maxAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × ATA)\n= ${planResult.value.expectedTimeMax.toFixed(1)} min`,
+		timeMax: `Dive Time (Max Depth)\n\nUsable Vol = ${usedVol.toFixed(1)} ${units.value.volume}\nATA at ${depth}${units.value.depth} = ${maxAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × ATA)\n= ${planResult.value.expectedTimeMax.toFixed(1)} min`,
 
-		timeAvg: `Dive Time (Avg Depth)\n\nUsable Vol = ${toDisplayVolume(((planResult.value.strategyUsablePsi * (gasStrategy.value === "all" ? 1 : 2)) / 100) * tank.factor).toFixed(1)} ${units.value.volume}\nAvg ATA = ${avgAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × Avg ATA)\n= ${planResult.value.expectedTimeAvg.toFixed(1)} min`,
+		timeAvg: `Dive Time (Avg Depth)\n\nUsable Vol = ${usedVol.toFixed(1)} ${units.value.volume}\nAvg ATA = ${avgAta.toFixed(2)}\n\nTime = Vol ÷ (SCR × Avg ATA)\n= ${planResult.value.expectedTimeAvg.toFixed(1)} min`,
 	};
 });
 </script>
@@ -253,7 +271,7 @@ const tooltips = computed(() => {
                     <div class="space-y-1">
                          <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Start Pressure</label>
                          <div class="relative group">
-                            <input v-model.number="scrStartPsi" type="number" :step="stepSizes.pressure" placeholder="0" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-blue-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100 placeholder-gray-300">
+                            <input v-model.number="scrStartPressure" type="number" :step="stepSizes.pressure" placeholder="0" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-blue-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100 placeholder-gray-300">
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 font-bold pointer-events-none">{{ units.pressure }}</span>
                          </div>
                     </div>
@@ -261,7 +279,7 @@ const tooltips = computed(() => {
                     <div class="space-y-1">
                          <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">End Pressure</label>
                          <div class="relative group">
-                            <input v-model.number="scrEndPsi" type="number" :step="stepSizes.pressure" placeholder="0" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-blue-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100 placeholder-gray-300">
+                            <input v-model.number="scrEndPressure" type="number" :step="stepSizes.pressure" placeholder="0" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-blue-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100 placeholder-gray-300">
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 font-bold pointer-events-none">{{ units.pressure }}</span>
                          </div>
                     </div>
@@ -291,12 +309,12 @@ const tooltips = computed(() => {
             <div class="p-4 bg-blue-50/50 border-t border-blue-100 text-center mt-auto">
                  <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Calculated SCR</div>
                  <div class="flex items-center justify-center gap-2 items-baseline text-blue-600">
-                    <span class="text-4xl font-black tracking-tighter shadow-sm drop-shadow-sm">{{ scrResult ? toDisplayVolume(scrResult).toFixed(2) : '--' }}</span>
+                    <span class="text-4xl font-black tracking-tighter shadow-sm drop-shadow-sm">{{ scrResult ? scrResult.toFixed(2) : '--' }}</span>
                     <span class="text-xs font-bold text-blue-400">{{ units.volume }}/min</span>
                  </div>
                   <button
                   v-if="scrResult"
-                  @click="() => { planScr = parseFloat(toDisplayScr(scrResult).toFixed(2)); planTank = scrTank; }"
+                  @click="() => { planScr = parseFloat(scrResult!.toFixed(2)); planTank = scrTank; }"
                   class="mt-3 w-full py-1.5 px-4 bg-white hover:bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-bold uppercase tracking-wide transition-all shadow-sm hover:shadow"
                 >
                   Apply to Plan ↓
@@ -365,7 +383,7 @@ const tooltips = computed(() => {
                     <div class="space-y-1">
                          <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Start Pressure</label>
                          <div class="relative group">
-                            <input v-model.number="planStartPsi" type="number" :step="stepSizes.pressure" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-green-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100">
+                            <input v-model.number="planStartPressure" type="number" :step="stepSizes.pressure" class="w-full pl-3 pr-8 py-2 rounded-lg bg-gray-50 border-transparent focus:border-green-500 focus:bg-white focus:ring-0 transition-all font-mono text-sm font-medium text-gray-800 group-hover:bg-gray-100">
                              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 font-bold pointer-events-none">{{ units.pressure }}</span>
                          </div>
                     </div>
@@ -379,16 +397,16 @@ const tooltips = computed(() => {
                         <div class="p-2.5 bg-red-50 rounded-lg border border-red-100 cursor-help tooltip-cell">
                              <div class="tooltip-content">{{ tooltips.minGas }}</div>
                              <div class="text-[9px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Min Gas <span class="opacity-50"></span></div>
-                             <div class="text-lg font-black text-red-600 font-mono leading-none">{{ Math.round(toDisplayPressure(planResult.minGasPsi)) }} <span class="text-[10px] font-normal text-red-400">{{ units.pressure }}</span></div>
-                             <div class="text-[10px] text-red-400 font-medium mt-0.5">{{ toDisplayVolume(planResult.minGasVol).toFixed(1) }} {{ units.volume }}</div>
+                             <div class="text-lg font-black text-red-600 font-mono leading-none">{{ Math.round(planResult.minGasPressure) }} <span class="text-[10px] font-normal text-red-400">{{ units.pressure }}</span></div>
+                             <div class="text-[10px] text-red-400 font-medium mt-0.5">{{ planResult.minGasVol.toFixed(1) }} {{ units.volume }}</div>
                         </div>
 
                          <!-- Usable Gas (Strategy) -->
                         <div class="p-2.5 bg-green-50 rounded-lg border border-green-100 cursor-help tooltip-cell">
                              <div class="tooltip-content">{{ tooltips.usableGas }}</div>
                              <div class="text-[9px] font-bold text-green-600 uppercase tracking-wider mb-0.5">Usable Gas <span class="opacity-50">({{ gasStrategy }})</span></div>
-                             <div class="text-lg font-black text-green-700 font-mono leading-none">{{ Math.round(toDisplayPressure(planResult.strategyUsablePsi)) }} <span class="text-[10px] font-normal text-green-500">{{ units.pressure }}</span></div>
-                            <div class="text-[10px] text-green-400 font-medium mt-0.5">{{ toDisplayVolume(planResult.strategyUsableVol).toFixed(1) }} {{ units.volume }}</div>
+                             <div class="text-lg font-black text-green-700 font-mono leading-none">{{ Math.round(planResult.strategyUsablePressure) }} <span class="text-[10px] font-normal text-green-500">{{ units.pressure }}</span></div>
+                            <div class="text-[10px] text-green-400 font-medium mt-0.5">{{ planResult.strategyUsableVol.toFixed(1) }} {{ units.volume }}</div>
 
                         </div>
 
@@ -397,8 +415,8 @@ const tooltips = computed(() => {
                              <div class="tooltip-content">{{ tooltips.turnPressure }}</div>
                              <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Turn Pressure</div>
                              <div class="text-2xl font-black text-gray-800 font-mono leading-none">
-                                {{ Math.round(toDisplayPressure(planResult.turnPressure)) }}
-                                <span class="text-lg text-gray-400 font-normal">({{ Math.round(toDisplayPressure(planResult.turnPressureExact)) }})</span>
+                                {{ Math.round(planResult.turnPressure) }}
+                                <span class="text-lg text-gray-400 font-normal">({{ Math.round(planResult.turnPressureExact) }})</span>
                                 <span class="text-xs font-bold text-gray-400 ml-1">{{ units.pressure }}</span>
                              </div>
                         </div>
@@ -426,17 +444,17 @@ const tooltips = computed(() => {
                     <div class="relative w-20 h-56 shrink-0 bg-gray-200 rounded-2xl border-4 border-gray-300 overflow-hidden shadow-inner hidden sm:block">
                         <!-- Gas Fill -->
                         <div class="absolute bottom-0 w-full bg-gradient-to-t from-blue-600 to-blue-400 transition-all duration-700 ease-out"
-                             :style="{ height: `${Math.min(100, (fromDisplayPressure(planStartPsi) / planTank.pressure) * 100)}%` }">
+                             :style="{ height: `${Math.min(100, (planStartPressure / toDisplayPressure(planTank.pressure)) * 100)}%` }">
                         </div>
 
                         <!-- Min Gas Zone -->
                          <div class="absolute bottom-0 w-full bg-red-500/80 border-t-2 border-red-400 transition-all duration-700 pattern-diagonal-lines pattern-white/10 pattern-size-2 pattern-bg-transparent"
-                             :style="{ height: `${Math.min(100, (planResult.minGasPsi / planTank.pressure) * 100)}%` }">
+                             :style="{ height: `${Math.min(100, (planResult.minGasPressure / toDisplayPressure(planTank.pressure)) * 100)}%` }">
                         </div>
 
                          <!-- Turn Pressure Line -->
                          <div class="absolute w-full border-t-2 border-yellow-400 border-dashed transition-all duration-700 z-20"
-                             :style="{ bottom: `${(planResult.turnPressure / planTank.pressure) * 100}%` }">
+                             :style="{ bottom: `${(planResult.turnPressure / toDisplayPressure(planTank.pressure)) * 100}%` }">
                               <div class="absolute right-1 -translate-y-1/2 text-[8px] font-bold text-yellow-600 bg-white/90 px-1 rounded shadow-sm">
                                 Turn
                               </div>
@@ -506,17 +524,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 .tooltip-cell .tooltip-content {
   position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%) translateX(8px);
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
   background: rgba(17, 24, 39, 0.95);
   color: #f3f4f6;
   padding: 12px 16px;
   border-radius: 8px;
-  font-size: 11px;
-  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   white-space: pre-line;
-  line-height: 1.5;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   min-width: 280px;
   max-width: 360px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
@@ -530,16 +549,16 @@ input[type=number]::-webkit-outer-spin-button {
 .tooltip-cell .tooltip-content::after {
   content: '';
   position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   border: 6px solid transparent;
-  border-right-color: rgba(17, 24, 39, 0.95);
+  border-top-color: rgba(17, 24, 39, 0.95);
 }
 
 .tooltip-cell:hover .tooltip-content {
   opacity: 1;
   visibility: visible;
-  transform: translateY(-50%) translateX(12px);
+  transform: translateX(-50%) translateY(-12px);
 }
 </style>

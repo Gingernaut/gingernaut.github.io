@@ -2,6 +2,10 @@
  * Scuba Calculations Library
  * Pure functions for scuba diving gas management calculations.
  * Based on GUE (Global Underwater Explorers) standards.
+ *
+ * Architecture: All public calculation functions (calcScr, calcGasPlan, getMod)
+ * accept and return values in "display units" — the user's chosen unit system.
+ * Imperial uses PSI, feet, and cubic feet. Metric uses bar, meters, and liters.
  */
 
 // --- Types ---
@@ -10,31 +14,32 @@ export type UnitSystem = "imperial" | "metric";
 
 export type Tank = {
 	name: string;
-	capacity: number; // cu ft (nominal) - internal Imperial
-	pressure: number; // psi - internal Imperial
-	factor: number; // GUE Tank Factor
+	capacity: number; // cu ft (nominal) - Imperial
+	pressure: number; // psi - Imperial rated pressure
+	factor: number; // GUE Imperial Tank Factor (cu ft per 100 PSI)
+	waterVolumeLiters: number; // Internal (water) volume in liters (metric tank factor)
 };
 
 export type GasStrategy = "all" | "half" | "third" | "modified";
 
 export type PlanResult = {
-	minGasPsi: number;
-	usablePsi: number;
-	strategyUsablePsi: number;
-	strategyUsableVol: number;
-	turnPressure: number;
-	turnPressureExact: number;
-	minGasVol: number;
-	expectedTimeMax: number;
-	expectedTimeAvg: number;
+	minGasPressure: number; // Display units (PSI or bar)
+	usablePressure: number; // Display units
+	strategyUsablePressure: number; // Display units
+	strategyUsableVol: number; // Display units (cu ft or L)
+	turnPressure: number; // Display units (rounded)
+	turnPressureExact: number; // Display units (unrounded)
+	minGasVol: number; // Display units (cu ft or L)
+	expectedTimeMax: number; // minutes
+	expectedTimeAvg: number; // minutes
 };
 
 export type ScrInput = {
-	startPsi: number;
-	endPsi: number;
-	time: number;
-	depth: number;
-	tankFactor: number;
+	startPressure: number; // Display units (PSI or bar)
+	endPressure: number; // Display units
+	time: number; // minutes
+	depth: number; // Display units (ft or m)
+	tank: Tank;
 	unitSystem: UnitSystem;
 };
 
@@ -59,15 +64,69 @@ export const CONVERSION = {
 } as const;
 
 export const TANKS: readonly Tank[] = [
-	{ name: "AL80", capacity: 77, pressure: 3000, factor: 2.5 },
-	{ name: "HP100", capacity: 100, pressure: 3442, factor: 3.0 },
-	{ name: "LP85", capacity: 85, pressure: 2640, factor: 3.0 },
-	{ name: "LP95", capacity: 95, pressure: 2640, factor: 3.5 },
-	{ name: "LP104", capacity: 104, pressure: 2640, factor: 4.0 },
-	{ name: "HP120", capacity: 120, pressure: 3442, factor: 3.5 },
-	{ name: "Double AL80", capacity: 154, pressure: 3000, factor: 5.0 },
-	{ name: "Double HP100", capacity: 200, pressure: 3442, factor: 6.0 },
-	{ name: "Double LP85", capacity: 170, pressure: 2640, factor: 6.0 },
+	{
+		name: "AL80",
+		capacity: 77,
+		pressure: 3000,
+		factor: 2.5,
+		waterVolumeLiters: 11.1,
+	},
+	{
+		name: "HP100",
+		capacity: 100,
+		pressure: 3442,
+		factor: 3.0,
+		waterVolumeLiters: 13.2,
+	},
+	{
+		name: "LP85",
+		capacity: 85,
+		pressure: 2640,
+		factor: 3.0,
+		waterVolumeLiters: 14.0,
+	},
+	{
+		name: "LP95",
+		capacity: 95,
+		pressure: 2640,
+		factor: 3.5,
+		waterVolumeLiters: 15.1,
+	},
+	{
+		name: "LP104",
+		capacity: 104,
+		pressure: 2640,
+		factor: 4.0,
+		waterVolumeLiters: 16.4,
+	},
+	{
+		name: "HP120",
+		capacity: 120,
+		pressure: 3442,
+		factor: 3.5,
+		waterVolumeLiters: 15.1,
+	},
+	{
+		name: "Double AL80",
+		capacity: 154,
+		pressure: 3000,
+		factor: 5.0,
+		waterVolumeLiters: 22.2,
+	},
+	{
+		name: "Double HP100",
+		capacity: 200,
+		pressure: 3442,
+		factor: 6.0,
+		waterVolumeLiters: 26.4,
+	},
+	{
+		name: "Double LP85",
+		capacity: 170,
+		pressure: 2640,
+		factor: 6.0,
+		waterVolumeLiters: 28.0,
+	},
 ];
 
 export const STANDARD_GASES = [
@@ -110,6 +169,32 @@ export const fromDisplayVolume = (
 	unitSystem: UnitSystem,
 ): number => (unitSystem === "metric" ? val * CONVERSION.litersToCuFt : val);
 
+// --- Volume/Pressure Conversion (unit-aware, using native tank factors) ---
+
+/** Convert a pressure delta to gas volume using the native tank factor for the unit system */
+export const pressureToVolume = (
+	pressure: number,
+	tank: Tank,
+	unitSystem: UnitSystem,
+): number => {
+	if (unitSystem === "metric") {
+		return pressure * tank.waterVolumeLiters; // bar * L = L
+	}
+	return (pressure / 100) * tank.factor; // (PSI / 100) * TF = cu ft
+};
+
+/** Convert a gas volume to pressure using the native tank factor for the unit system */
+export const volumeToPressure = (
+	volume: number,
+	tank: Tank,
+	unitSystem: UnitSystem,
+): number => {
+	if (unitSystem === "metric") {
+		return volume / tank.waterVolumeLiters; // L / L = bar
+	}
+	return (volume / tank.factor) * 100; // (cu ft / TF) * 100 = PSI
+};
+
 // --- ATA Calculations ---
 
 /** Calculate ATA using Imperial units (33 feet of seawater per ATM) */
@@ -125,27 +210,26 @@ export const calcAta = (depth: number, unitSystem: UnitSystem): number =>
 // --- SCR Calculation ---
 
 /**
- * Calculate Surface Consumption Rate (SCR/RMV)
- * Formula: SCR = Volume Consumed / (Time × ATA)
- * Returns SCR in cu ft/min (internal Imperial units)
+ * Calculate Surface Consumption Rate (SCR/RMV).
+ * All inputs and return value are in display units.
+ * Imperial: returns cu ft/min. Metric: returns L/min.
  */
 export const calcScr = (input: ScrInput): number | null => {
-	const { startPsi, endPsi, time, depth, tankFactor, unitSystem } = input;
+	const { startPressure, endPressure, time, depth, tank, unitSystem } = input;
 
-	if (startPsi === null || endPsi === null || !time || depth === null) {
+	if (
+		startPressure === null ||
+		endPressure === null ||
+		!time ||
+		depth === null
+	) {
 		return null;
 	}
 
-	// Convert display pressure to internal PSI for calculation
-	const startPsiInternal = fromDisplayPressure(startPsi, unitSystem);
-	const endPsiInternal = fromDisplayPressure(endPsi, unitSystem);
-	const psiConsumed = startPsiInternal - endPsiInternal;
-
-	// Formula: (PSI / 100) * TankFactor
-	const volConsumed = (psiConsumed / 100) * tankFactor;
-
+	const pressureConsumed = startPressure - endPressure;
+	const volConsumed = pressureToVolume(pressureConsumed, tank, unitSystem);
 	const ata = calcAta(depth, unitSystem);
-	// SCR (RMV) = Vol / (Time * ATA)
+
 	return volConsumed / (time * ata);
 };
 
@@ -154,74 +238,78 @@ export const calcScr = (input: ScrInput): number | null => {
 /**
  * Calculate comprehensive gas plan including min gas, turn pressure, and duration estimates.
  * Based on GUE standards and CAT formula for minimum gas.
+ * All inputs and outputs are in display units (PSI/ft/cuft or bar/m/L).
  */
 export const calcGasPlan = (input: GasPlanInput): PlanResult => {
 	const { depth, scr, startPressure, tank, gasStrategy, unitSystem } = input;
 
-	// Convert display units to internal Imperial for calculation
-	const depthFt = fromDisplayDepth(depth, unitSystem);
-	const scrCuFt = fromDisplayVolume(scr, unitSystem);
-	const startPsi = fromDisplayPressure(startPressure, unitSystem);
+	// Ascent rate: 10 ft/min (imperial) or 3 m/min (metric)
+	const ascentRate = unitSystem === "metric" ? 3 : 10;
+	const timeToSurface = depth / ascentRate + 1;
+
+	const maxAta = calcAta(depth, unitSystem);
+	const avgAta = (maxAta + 1) / 2;
 
 	// 1. Min Gas (CAT Formula)
 	// C = consumption for 2 divers = SCR * 2
-	// A = Avg ATA = (ATA_max + ATA_surf) / 2 = (ATA_max + 1) / 2
-	// T = Time to surface = depth / 10 + 1 (10 ft/min ascent)
-	const timeToSurface = depthFt / 10 + 1;
-	const maxAta = calcAtaImperial(depthFt);
-	const avgAta = (maxAta + 1) / 2;
-	const twoDiverScr = scrCuFt * 2;
-
+	// A = Avg ATA = (ATA_max + 1) / 2
+	// T = Time to surface at ascent rate + 1 min safety stop
+	const twoDiverScr = scr * 2;
 	const minGasVol = twoDiverScr * avgAta * timeToSurface;
 
-	// Convert Vol to PSI: (Vol / TankFactor) * 100
-	let minGasPsi = Math.ceil((minGasVol / tank.factor) * 100);
+	let minGasPressure = Math.ceil(volumeToPressure(minGasVol, tank, unitSystem));
 
-	// Round up to nearest 100 psi
-	minGasPsi = Math.ceil(minGasPsi / 100) * 100;
-	// Minimum 500 psi
-	minGasPsi = Math.max(minGasPsi, 500);
-
-	const usablePsi = Math.max(0, startPsi - minGasPsi);
-
-	// 2. Apply Gas Strategy
-	let strategyUsablePsi = usablePsi;
-	if (gasStrategy === "half") {
-		strategyUsablePsi = Math.floor(usablePsi / 2);
-	} else if (gasStrategy === "third") {
-		strategyUsablePsi = Math.floor(usablePsi / 3);
-	} else if (gasStrategy === "modified") {
-		// Modified Rule of 1/3 (Intro to Cave)
-		const reserveBase = Math.floor(startPsi / 300) * 300;
-		const reserveGas = reserveBase / 3;
-		const usablePool = startPsi - reserveGas;
-		strategyUsablePsi = Math.floor(usablePool / 3);
+	// Unit-aware rounding and minimum
+	if (unitSystem === "metric") {
+		// Round up to nearest 5 bar, minimum 35 bar
+		minGasPressure = Math.max(Math.ceil(minGasPressure / 5) * 5, 35);
+	} else {
+		// Round up to nearest 100 PSI, minimum 500 PSI
+		minGasPressure = Math.max(Math.ceil(minGasPressure / 100) * 100, 500);
 	}
 
-	// 3. Calculate Turn Pressure
-	const unroundedUsable = strategyUsablePsi;
-	const turnPressureExact = startPsi - unroundedUsable;
+	const usablePressure = Math.max(0, startPressure - minGasPressure);
 
-	// Round UP to nearest 100 psi (conservative)
-	const turnPressure = Math.ceil(turnPressureExact / 100) * 100;
+	// 2. Apply Gas Strategy
+	let strategyUsablePressure = usablePressure;
+	if (gasStrategy === "half") {
+		strategyUsablePressure = Math.floor(usablePressure / 2);
+	} else if (gasStrategy === "third") {
+		strategyUsablePressure = Math.floor(usablePressure / 3);
+	} else if (gasStrategy === "modified") {
+		// Modified 1/3: round base to 300 PSI (imperial) or 20 bar (metric)
+		const roundBase = unitSystem === "metric" ? 20 : 300;
+		const reserveBase = Math.floor(startPressure / roundBase) * roundBase;
+		const reserveGas = reserveBase / 3;
+		const usablePool = startPressure - reserveGas;
+		strategyUsablePressure = Math.floor(usablePool / 3);
+	}
 
-	// Recalculate Usable Gas based on the rounded Turn Pressure
-	strategyUsablePsi = startPsi - turnPressure;
+	// 3. Turn Pressure (round UP to nearest 100 PSI or 10 bar)
+	const turnPressureExact = startPressure - strategyUsablePressure;
+	const turnStep = unitSystem === "metric" ? 10 : 100;
+	const turnPressure = Math.ceil(turnPressureExact / turnStep) * turnStep;
+
+	// Recalculate usable gas based on rounded turn pressure
+	strategyUsablePressure = startPressure - turnPressure;
 
 	// 4. Duration Planning
-	const usedPsi =
-		gasStrategy === "all" ? strategyUsablePsi : strategyUsablePsi * 2;
-	const usedVol = (usedPsi / 100) * tank.factor;
-	const expectedTimeMax = usedVol / (scrCuFt * maxAta);
-	const expectedTimeAvg = usedVol / (scrCuFt * avgAta);
+	const usedPressure =
+		gasStrategy === "all" ? strategyUsablePressure : strategyUsablePressure * 2;
+	const usedVol = pressureToVolume(usedPressure, tank, unitSystem);
+	const expectedTimeMax = usedVol / (scr * maxAta);
+	const expectedTimeAvg = usedVol / (scr * avgAta);
 
-	// Calculate strategy usable volume
-	const strategyUsableVol = (strategyUsablePsi / 100) * tank.factor;
+	const strategyUsableVol = pressureToVolume(
+		strategyUsablePressure,
+		tank,
+		unitSystem,
+	);
 
 	return {
-		minGasPsi,
-		usablePsi,
-		strategyUsablePsi,
+		minGasPressure,
+		usablePressure,
+		strategyUsablePressure,
 		strategyUsableVol,
 		turnPressure,
 		turnPressureExact,
@@ -236,6 +324,7 @@ export const calcGasPlan = (input: GasPlanInput): PlanResult => {
 /**
  * Calculate Maximum Operating Depth for a given O2 percentage and PPO2 limit.
  * Returns depth in display units (ft or m).
+ * Uses native unit calculation to avoid double-floor conversion errors.
  */
 export const getMod = (
 	fO2: number,
@@ -244,11 +333,15 @@ export const getMod = (
 ): number | undefined => {
 	if (fO2 === 0) return undefined;
 
-	const ata = pO2 / (fO2 / 100);
-	// Imperial: (ata - 1) * 33 feet
-	const modFt = Math.floor((ata - 1) * 33);
+	// Compute ATA as (pO2 * 100) / fO2 to avoid IEEE 754 precision loss
+	// from the intermediate division pO2 / (fO2 / 100)
+	const ata = (pO2 * 100) / fO2;
 
-	return unitSystem === "metric"
-		? Math.floor(modFt * CONVERSION.feetToMeters)
-		: modFt;
+	if (unitSystem === "metric") {
+		// Native metric: MOD = floor((ata - 1) * 10) meters
+		return Math.floor((ata - 1) * 10);
+	}
+
+	// Imperial: MOD = floor((ata - 1) * 33) feet
+	return Math.floor((ata - 1) * 33);
 };

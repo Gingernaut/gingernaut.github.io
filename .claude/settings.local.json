@@ -1,0 +1,13 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(npx vitest:*)",
+			"Bash(npx vue-tsc:*)",
+			"Bash(npx tsc:*)",
+			"Bash(npx:*)",
+			"Bash(bash:*)",
+			"Bash(./run_test.sh:*)",
+			"Bash(pre-commit run:*)"
+		]
+	}
+}

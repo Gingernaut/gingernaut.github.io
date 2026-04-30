@@ -12,17 +12,17 @@
 		"test:watch": "vitest"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "^4.2.2",
-		"@tailwindcss/vite": "^4.2.2",
+		"@tailwindcss/postcss": "^4.2.4",
+		"@tailwindcss/vite": "^4.2.4",
 		"autoprefixer": "^10.5.0",
-		"postcss": "^8.5.10",
+		"postcss": "^8.5.12",
 		"sass": "^1.99.0",
-		"tailwindcss": "^4.2.2",
+		"tailwindcss": "^4.2.4",
 		"vitepress": "2.0.0-alpha.16",
-		"vitest": "^4.1.4"
+		"vitest": "^4.1.5"
 	},
 	"dependencies": {
 		"@headlessui/vue": "^1.7.23",
-		"posthog-js": "^1.369.1"
+		"posthog-js": "^1.372.5"
 	}
 }

@@ -15,7 +15,7 @@
 		"@tailwindcss/postcss": "^4.3.0",
 		"@tailwindcss/vite": "^4.3.0",
 		"autoprefixer": "^10.5.0",
-		"postcss": "^8.5.15",
+		"postcss": "^8.5.23",
 		"sass": "^1.100.0",
 		"tailwindcss": "^4.3.0",
 		"vitepress": "2.0.0-alpha.16",

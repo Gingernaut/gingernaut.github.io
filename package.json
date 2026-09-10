@@ -19,7 +19,7 @@
 		"sass": "^1.100.0",
 		"tailwindcss": "^4.3.0",
 		"vitepress": "2.0.0-alpha.16",
-		"vitest": "^4.1.7"
+		"vitest": "^4.1.11"
 	},
 	"dependencies": {
 		"@headlessui/vue": "^1.7.23",

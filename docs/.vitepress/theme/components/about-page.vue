@@ -68,9 +68,6 @@
               <li class="relative pl-6 before:absolute before:left-0 before:top-2.5 before:w-1.5 before:h-1.5 before:rounded-full before:bg-[var(--vp-c-brand-1)]">
                 DIY electronic, automotive, and house projects
               </li>
-              <li class="relative pl-6 before:absolute before:left-0 before:top-2.5 before:w-1.5 before:h-1.5 before:rounded-full before:bg-[var(--vp-c-brand-1)]">
-                Reading and playing guitar
-              </li>
             </ul>
           </div>
         </div>
